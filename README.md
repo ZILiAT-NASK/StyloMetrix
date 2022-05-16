@@ -2,7 +2,7 @@
 
 # StyloMetrix
 
-<img alt="NASK" src="resources/sm.png" width="200"/><img alt="NASK" src="resources/nask.png" width="200"/>
+<a href="https://github.com/ZILiAT-NASK/StyloMetrix"><img alt="StyloMetrix" src="resources/sm.png" width="200"/></a><a href="https://www.nask.pl/"><img alt="NASK" src="resources/nask.png" width="200"/></a>
 
 Zakład Inżynierii Lingwistycznej i Anailzy Tekstu, NASK PIB 
 
@@ -42,7 +42,7 @@ Currently StyloMetrix is available for **Polish language** :poland:, an **Englis
 ## :loudspeaker: Release
 Our most recent release is:
 
-<code>v0.0.1</code> 
+<code>v0.0.2</code> 
 - Add StyloMetrix structure
 - Add [tutorial](resources/Quick%20Tutorial.ipynb)
 - Add 6 built-in metrics categories: `Grammatical Forms`, `Inflection`, `Lexical`, `Psycholinguistic`, `Syntactic`, `Word Formation`
@@ -183,16 +183,14 @@ A_VERBS(nlp("Aneta często angażowała się w absorbujące aktywności, ale nie
 ```
 
 ## :book: We use
-- [spaCy](https://spacy.io/)
+- [spaCy (MIT license)](https://spacy.io/)
 - [spacy-syllables (MIT license)](https://spacy.io/universe/project/spacy_syllables)
-- data from [Imbir, K. K. (2016). Affective Norms for 4900 Polish Words Reload (ANPW_R): Assessments for valence, arousal, dominance, origin, significance, concreteness, imageability and, age of acquisition. Frontiers in Psychology, 7, Article 1081. https://doi.org/10.3389/fpsyg.2016.01081](https://www.frontiersin.org/articles/10.3389/fpsyg.2016.01081/full)
+- experimental data from [Imbir, K. K. (2016). Affective Norms for 4900 Polish Words Reload (ANPW_R): Assessments for valence, arousal, dominance, origin, significance, concreteness, imageability and, age of acquisition. Frontiers in Psychology, 7, Article 1081. https://doi.org/10.3389/fpsyg.2016.01081](https://www.frontiersin.org/articles/10.3389/fpsyg.2016.01081/full)
  
 
 ## :mailbox_closed: Contact
 Zakład Inżynierii Lingwistycznej i Anailzy Tekstu, Naukowa i Akademicka Sieć Komputerowa – Państwowy Instytut Badawczy 
 
-**Anna Zawadzka** anna.zawadzka@nask.pl
-
-**Inez Okulska** inez.okulska@nask.pl
+**Anna Zawadzka** anna.zawadzka@nask.pl | **Inez Okulska** inez.okulska@nask.pl
 
 Copyright (C) 2022  NASK PIB
