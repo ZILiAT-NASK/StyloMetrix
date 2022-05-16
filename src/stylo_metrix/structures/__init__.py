@@ -14,6 +14,5 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-[build-system]
-requires = ["setuptools>=49"]
-build-backend = "setuptools.build_meta"
+from stylo_metrix.structures.metric import Metric, CustomMetric
+from stylo_metrix.structures.metrics_group import MetricsGroup

@@ -14,6 +14,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-[build-system]
-requires = ["setuptools>=49"]
-build-backend = "setuptools.build_meta"
+from spacy_syllables import SpacySyllables
+
+COMPONENTS_EN = [
+    SpacySyllables,
+]

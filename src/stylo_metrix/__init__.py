@@ -14,6 +14,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-[build-system]
-requires = ["setuptools>=49"]
-build-backend = "setuptools.build_meta"
+from stylo_metrix.functions import analyze_dir, analyze_text, save_csv, save_npy
+from stylo_metrix.pipeline.stylo_metrix_pipe import StyloMetrixPipe
+from stylo_metrix.structures import CustomMetric, Metric, MetricsGroup
+from stylo_metrix.utils import incidence, ratio, mean, median, stdev
