@@ -1,6 +1,0 @@
-setuptools>=49.2.0
-numpy>=1.17.0
-pandas>=1.0.5
-spacy>=3.2.3
-spacy-syllables==3.0.1
-morfeusz2
