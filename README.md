@@ -2,7 +2,7 @@
 
 # StyloMetrix
 
-<img alt="NASK" src="resources/toolkit.png" width="100"/><img alt="NASK" src="resources/nask.png" width="100"/>
+<img alt="NASK" src="resources/sm.png" width="200"/><img alt="NASK" src="resources/nask.png" width="200"/>
 
 Zakład Inżynierii Lingwistycznej i Anailzy Tekstu, NASK PIB 
 
