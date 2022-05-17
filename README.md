@@ -2,25 +2,25 @@
 
 # StyloMetrix
 
-<a href="https://github.com/ZILiAT-NASK/StyloMetrix"><img alt="StyloMetrix" src="resources/sm.png" width="200"/></a><a href="https://www.nask.pl/"><img alt="NASK" src="resources/nask.png" width="200"/></a>
+<a href="https://github.com/ZILiAT-NASK/StyloMetrix"><img alt="StyloMetrix" src="https://github.com/ZILiAT-NASK/StyloMetrix/blob/v0.0.0/resources/sm.png?raw=true" width="200"/></a><a href="https://www.nask.pl/"><img alt="NASK" src="https://github.com/ZILiAT-NASK/StyloMetrix/blob/v0.0.0/resources/nask.png?raw=true" width="200"/></a>
 
 Zakład Inżynierii Lingwistycznej i Anailzy Tekstu, NASK PIB 
 
-## :high_brightness: Quick
-💡 [Tutorial notebook](resources/Quick%20Tutorial.ipynb)
+## 📌 Quick
+💡 [Tutorial notebook](examples/Quick%20Tutorial.ipynb)
 
 💡 [List of built-in metrics](resources/metrics_list.md)
 
 💡 [Helper functions and extensions](resources/helpers_list.md)
 
-## :black_nib: Citation
+## 🔖 Citation
 Please cite [this article](https://wydawnictwo.umg.edu.pl/pp-rai2022/pdfs/41_pp-rai-2022-121.pdf) when referring to StyloMetrix: 
 <pre>
 Okulska, I., & Zawadzka, A. Styles with Benefits. The StyloMetrix Vectors for Stylistic and Semantic Text Classification of Small-Scale Datasets and Different Sample Length.
 </pre>
 
 
-## :bell: About
+## 🔔 About
 StyloMetrix is a tool for creating **text representations** as **StyloMetrix vectors**. Each metric in vector quantifies a linguistic feature in text. Therefore a detailed information of the style of text can be translated to numeric values and used for - whatever you want!
 
 The metrics are:
@@ -35,30 +35,32 @@ A StyloMetrix vector can be used as:
 - values for **statistical analyses in science**
 - set of linguistic data for manual reference
 
-The tool offers **customization of vectors** by selecting from built-in metrics or **creating new metrics** according to user's needs. We provide a user-friendly interface to support these tasks. See instructions below! :arrow_down:
+The tool offers **customization of vectors** by selecting from built-in metrics or **creating new metrics** according to user's needs. We provide a user-friendly interface to support these tasks. See instructions below! ⬇
 
-Currently StyloMetrix is available for **Polish language** :poland:, an **English Stylometrix** :england: is on its way! 
+Currently StyloMetrix is available for **Polish language** 🇵🇱, an **English Stylometrix** 🇬🇧 is on its way! 
 
-## :loudspeaker: Release
+## 📢 Release
 Our most recent release is:
 
-<code>v0.0.2</code> 
+<code>v0.0</code> 
 - Add StyloMetrix structure
-- Add [tutorial](resources/Quick%20Tutorial.ipynb)
+- Add [tutorial](examples/Quick%20Tutorial.ipynb)
 - Add 6 built-in metrics categories: `Grammatical Forms`, `Inflection`, `Lexical`, `Psycholinguistic`, `Syntactic`, `Word Formation`
 - Specify license & citation
 
-## :hammer: Installation
+## 🔨 Installation
 1. [Download model](http://mozart.ipipan.waw.pl/~rtuora/spacy/) `pl_nask`
+
+📍 `pl_nask` is the new [HerBERT](https://github.com/allegro/HerBERT) based model from IPI PAN
 ```bash
-pip install <PATH_TO_MODEL/pl_nask-0.0.4.tar.gz> 
+pip install <PATH_TO_MODEL/pl_nask-0.0.x.tar.gz> 
 ```
 2. Install StyloMetrix
 ```bash
 pip install stylo_metrix
 ```
 
-## :rocket: How to use
+## 🪁 How to use
 1. Add StyloMetrix pipe to spaCy pipeline:
 ```python
 import spacy
@@ -73,10 +75,10 @@ doc._.stylo_metrix_vector
 ```
 3. Find your results in `doc._.stylo_metrix_vector` extension, or `doc._.smv` for conveninece.
 
-That's it! Find out about more usages and customization options in [extended use section](#extended_use) or [notebook tutorial](resources/Quick%20Tutorial.ipynb).
+That's it! Find out about more usages and customization options in [extended use section](#extended_use) or [notebook tutorial](examples/Quick%20Tutorial.ipynb).
 
-## :chart_with_upwards_trend: Metrics
-We have put care into creating a set of powerful built-in metrics. See the list below :arrow_down:. However, since flexibility is strength, we provide an esy way to [create new metrics](#1-create-custom-metrics) and [mix existing groups](#3-create-groups). See the [extended use section](#extended_use)!
+## 📈 Metrics
+We have put care into creating a set of powerful built-in metrics. See the list below ⬇. However, since flexibility is strength, we provide an esy way to [create new metrics](#1-create-custom-metrics) and [mix existing groups](#3-create-groups). See the [extended use section](#extended_use)!
 
 | Group | Import |
 |---|---|
@@ -90,8 +92,8 @@ We have put care into creating a set of powerful built-in metrics. See the list 
 | All ⬆ | original_group |
 
 <a name="extended_use"></a>
-## :airplane: Extended use
-See our [notebook tutorial](resources/Quick%20Tutorial.ipynb) for complete instructions! [emot]
+## 🚀 Extended use
+See our [notebook tutorial](examples/Quick%20Tutorial.ipynb) for complete instructions! [emot]
 
 
 Imports that you will use:
@@ -182,13 +184,14 @@ A_VERBS(nlp("Aneta często angażowała się w absorbujące aktywności, ale nie
 #  'debug': {'verbs': [angażowała, absorbujące]}}
 ```
 
-## :book: We use
-- [spaCy (MIT license)](https://spacy.io/)
-- [spacy-syllables (MIT license)](https://spacy.io/universe/project/spacy_syllables)
+## 📚 We use
+- [spaCy](https://spacy.io/) (MIT License)
+- [spacy-syllables](https://spacy.io/universe/project/spacy_syllables) (MIT License)
+- [pl_nask model](http://mozart.ipipan.waw.pl/~rtuora/spacy/) (GNU GPL 3.0 License), Ryszard Tuora and Łukasz Kobyliński, "Integrating Polish Language Tools and Resources in spaCy". In: Proceedings of PP-RAI'2019 Conference, 16-18.10.2019, Wrocław, Poland.
 - experimental data from [Imbir, K. K. (2016). Affective Norms for 4900 Polish Words Reload (ANPW_R): Assessments for valence, arousal, dominance, origin, significance, concreteness, imageability and, age of acquisition. Frontiers in Psychology, 7, Article 1081. https://doi.org/10.3389/fpsyg.2016.01081](https://www.frontiersin.org/articles/10.3389/fpsyg.2016.01081/full)
  
 
-## :mailbox_closed: Contact
+## 📪 Contact
 Zakład Inżynierii Lingwistycznej i Anailzy Tekstu, Naukowa i Akademicka Sieć Komputerowa – Państwowy Instytut Badawczy 
 
 **Anna Zawadzka** anna.zawadzka@nask.pl | **Inez Okulska** inez.okulska@nask.pl
