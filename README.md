@@ -93,7 +93,7 @@ We have put care into creating a set of powerful built-in metrics. See the list 
 
 <a name="extended_use"></a>
 ## 🚀 Extended use
-See our [notebook tutorial](examples/Quick%20Tutorial.ipynb) for complete instructions! [emot]
+See our [notebook tutorial](examples/Quick%20Tutorial.ipynb) for complete instructions!
 
 
 Imports that you will use:
