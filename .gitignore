@@ -1,0 +1,16 @@
+__pycache__/
+.ipynb_checkpoints/
+.idea/
+.pytest_cache/
+.run/
+build/
+dist/
+helpers/
+log/
+out/
+stylo_metrix.egg-info/
+tests/
+texts/
+venv/
+stylometrix.py
+run.py
