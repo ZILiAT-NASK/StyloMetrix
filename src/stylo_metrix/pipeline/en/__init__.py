@@ -17,11 +17,11 @@
 from spacy_syllables import SpacySyllables
 from stylo_metrix.pipeline.en.pos_tagger import POSTagger
 from stylo_metrix.pipeline.en.params import Params
-from stylo_metrix.pipeline.en.metrics import Metrics
+# from stylo_metrix.pipeline.en.metrics import Metrics
 
-COMPONENTS = [
+en_components = [
     SpacySyllables,
     POSTagger,
     Params,
-    Metrics,
+    # Metrics,
 ]

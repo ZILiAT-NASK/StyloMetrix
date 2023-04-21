@@ -14,168 +14,186 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-from abc import ABC
 from collections import Counter
 
-from stylo_metrix.structures import Metric, MetricsGroup
+from stylo_metrix.structures import Metric, Category
+
 from stylo_metrix.utils import incidence, ratio
 
 
-class Lexical(Metric, ABC):
-    category_local = "Lexical"
-    category_en = "Leksykalne"
+class Lexical(Category):
+    lang = 'pl'
+    name_en = "Lexical"
+    name_local = "Leksykalne"
 
 
-class L_TTR_LA(Lexical):
+class L_TTR_LA(Metric):
+    category = Lexical
     name_en = "Type-token ratio for words lemmas"
     name_local = "Type-token ratio dla lemm wyrazów"
 
-    def count(self, doc):
+    def count(doc):
         types = set(token.lemma_ for token in doc._.words)
         result = incidence(doc, types)
-        return result, {}
+        debug = {'TOKENS': types}
+        return result, debug
 
 
-class L_TTR_IA(Lexical):
+class L_TTR_IA(Metric):
+    category = Lexical
     name_en = "Type-token ratio for inflected words"
     name_local = "Type-token ratio dla wyrazów w odmianach"
 
-    def count(self, doc):
+    def count(doc):
         types = set(token.norm_ for token in doc._.words)
         result = incidence(doc, types)
-        return result, {}
+        debug = {'TOKENS': types}
+        return result, debug
 
 
-class L_CONT_A(Lexical):
-    name_en = "Content words incidence"
-    name_local = "Występowanie wyrazów samodzielnych"
+class L_CONT_A(Metric):
+    category = Lexical
+    name_en = "Content words"
+    name_local = "Wyrazy samodzielne"
 
-    def count(self, doc):
+    def count(doc):
         search = [token.text for token in doc._.words if token._.content_word == "cont"]
         result = incidence(doc, search)
-        return result, {}
+        debug = {'TOKENS': search}
+        return result, debug
 
 
-class L_NCONT_A(Lexical):
-    name_en = "Non-content words incidence"
-    name_local = "Występowanie wyrazów niesamodzielnych"
+class L_NCONT_A(Metric):
+    category = Lexical
+    name_en = "Non-content words"
+    name_local = "Wyrazy niesamodzielne"
 
-    def count(self, doc):
+    def count(doc):
         search = [token.text for token in doc._.words if token._.content_word == "noncont"]
         result = incidence(doc, search)
-        return result, {'search': search}
+        debug = {'TOKENS': search}
+        return result, debug
 
 
-class L_CONT_T(Lexical):
-    name_en = "Content words types incidence"
-    name_local = "Występowanie typów wyrazów samodzielnych"
+class L_CONT_T(Metric):
+    category = Lexical
+    name_en = "Content words types"
+    name_local = "Typy wyrazów samodzielnych"
 
-    def count(self, doc):
+    def count(doc):
         search = set(token.text for token in doc._.words if token._.content_word == "cont")
         result = incidence(doc, search)
-        return result, {}
+        debug = {'TOKENS': search}
+        return result, debug
 
 
-class L_NCONT_T(Lexical):
-    name_en = "Non-content words types incidence"
-    name_local = "Występowanie typów wyrazów niesamodzielnych"
+class L_NCONT_T(Metric):
+    category = Lexical
+    name_en = "Non-content words types"
+    name_local = "Typy wyrazów niesamodzielnych"
 
-    def count(self, doc):
+    def count(doc):
         search = set(token.text for token in doc._.words if token._.content_word == "noncont")
         result = incidence(doc, search)
-        return result, {}
+        debug = {'TOKENS': search}
+        return result, debug
 
 
-class L_CONT_L(Lexical):
-    name_en = "Lemmas of content words incidence"
-    name_local = "Występowanie lemm wyrazów samodzielnych"
+class L_CONT_L(Metric):
+    category = Lexical
+    name_en = "Lemmas of content words types"
+    name_local = "Typy lemm wyrazów samodzielnych"
 
-    def count(self, doc):
+    def count(doc):
         search = set(token.lemma_ for token in doc._.words if token._.content_word == "cont")
         result = incidence(doc, search)
-        return result, {}
+        debug = {'TOKENS': search}
+        return result, debug
 
 
-class L_NAME(Lexical):
-    name_en = "Incidence of proper names (all words)"
-    name_local = "Występowanie nazw własnych (wszystkie wyrazy)"
+class L_NAME(Metric):
+    category = Lexical
+    name_en = "Proper names"
+    name_local = "Nazwy własne"
 
-    def count(self, doc):
+    def count(doc):
         ents = [list(ent) for ent in doc.ents]
         sum_ents = sum(ents, [])
-        result = incidence(doc, sum_ents)
-        return result, {}
+        filtered_ents = [tok for tok in sum_ents if tok in doc._.tokens]
+        result = incidence(doc, filtered_ents)
+        debug = {'TOKENS': filtered_ents}
+        return result, debug
 
 
-class L_PERSN(Lexical):
-    name_en = "Incidence of personal names (all words)"
-    name_local = "Występowanie nazw osób (wszystkie wyrazy)"
+class L_PERSN(Metric):
+    category = Lexical
+    name_en = "Personal names"
+    name_local = "Nazwy osób"
 
-    def count(self, doc):
-        ents = [list(ent) for ent in doc.ents if ent.label_ == 'persName']
+    def count(doc):
+        ents = [list(ent) for ent in doc.ents if ent.label_ == 'PERSNAME']
         sum_ents = sum(ents, [])
-        result = incidence(doc, sum_ents)
-        return result, {}
+        filtered_ents = [tok for tok in sum_ents if tok in doc._.tokens]
+        result = incidence(doc, filtered_ents)
+        debug = {'TOKENS': filtered_ents}
+        return result, debug
 
 
-class L_TCCT1(Lexical):
-    name_en = "Percentage of tokens covering 1% of most common types"
-    name_local = "Występowanie wyrazów wchodzących w skład 1% najczęstszych typów (min. 1 typ)"
+class L_PLACEN(Metric):
+    category = Lexical
+    name_en = "Place names"
+    name_local = "Nazwy miejsc"
 
-    def count(self, doc):
-        counter = Counter([token.lemma_ for token in doc])
-        ile_typow = len(counter)
-        proc_typow = round(ile_typow * 0.01)
-        if proc_typow == 0:
-            proc_typow = 1
-        suma_wystapien = sum([n for word, n in counter.most_common(proc_typow)])
-        result = ratio(suma_wystapien, doc._.n_tokens)
-        return result, {
-            "[MOST COMMON TYPES]": counter.most_common(proc_typow)
-        }
+    def count(doc):
+        ents = [list(ent) for ent in doc.ents if ent.label_ == 'PLACENAME']
+        sum_ents = sum(ents, [])
+        filtered_ents = [tok for tok in sum_ents if tok in doc._.tokens]
+        result = incidence(doc, filtered_ents)
+        debug = {'TOKENS': filtered_ents}
+        return result, debug
 
 
-class L_TCCT5(Lexical):
-    name_en = "Percentage of tokens covering 5% of most common types"
-    name_local = "Występowanie wyrazów wchodzących w skład 5% najczęstszych typów (min. 1 typ)"
+class L_TCCT1(Metric):
+    category = Lexical
+    name_en = "Tokens covering 1% of most common types"
+    name_local = "Wyrazy wchodzące w skład 1% najczęstszych typów"
 
-    def count(self, doc):
-        counter = Counter([token.lemma_ for token in doc])
-        ile_typow = len(counter)
-        proc_typow = round(ile_typow * 0.05)
-        if proc_typow == 0:
-            proc_typow = 1
-        suma_wystapien = sum([n for word, n in counter.most_common(proc_typow)])
-        result = ratio(suma_wystapien, doc._.n_tokens)
-        return result, {
-            "[MOST COMMON TYPES]": counter.most_common(proc_typow)
-        }
+    def count(doc):
+        counter = Counter([token.lemma_ for token in doc._.tokens])
+        avail_types = len(counter)
+        n_types = round(avail_types * 0.01)
+        if n_types == 0:
+            n_types = 1
+        inc = sum([n for word, n in counter.most_common(n_types)])
+        result = ratio(inc, doc._.n_tokens)
+        debug = {'TOKENS': counter.most_common(n_types)}
+        return result, debug
 
 
-class L_SYL_G3(Lexical):
-    name_en = "Words formed of more than 3 syllables incidence"
-    name_local = "Występowanie wyrazów o liczbie sylab większej niż 3"
+class L_TCCT5(Metric):
+    category = Lexical
+    name_en = "Tokens covering 5% of most common types"
+    name_local = "Wyrazy wchodzące w skład 5% najczęstszych typów"
 
-    def count(self, doc):
-        lengths = [token._.syllables_count for token in doc if token._.syllables_count is not None]
-        selected = [length for length in lengths if length > 3]
+    def count(doc):
+        counter = Counter([token.lemma_ for token in doc._.tokens])
+        avail_types = len(counter)
+        n_types = round(avail_types * 0.05)
+        if n_types == 0:
+            n_types = 1
+        inc = sum([n for word, n in counter.most_common(n_types)])
+        result = ratio(inc, doc._.n_tokens)
+        debug = {'TOKENS': counter.most_common(n_types)}
+        return result, debug
+
+
+class L_SYL_G3(Metric):
+    category = Lexical
+    name_en = "Words formed of more than 3 syllables"
+    name_local = "Wyrazy o liczbie sylab większej niż 3"
+
+    def count(doc):
+        selected = [token for token in doc if token._.syllables_count is not None and token._.syllables_count > 3]
         result = incidence(doc, selected)
-        return result, {}
-
-
-LEXICAL = [
-    L_TTR_LA,
-    L_TTR_IA,
-    L_CONT_A,
-    L_NCONT_A,
-    L_CONT_T,
-    L_NCONT_T,
-    L_CONT_L,
-    L_NAME,
-    L_PERSN,
-    L_TCCT1,
-    L_TCCT5,
-    L_SYL_G3,
-]
-
-lexical_group = MetricsGroup([m() for m in LEXICAL])
+        debug = {'TOKENS': selected}
+        return result, debug

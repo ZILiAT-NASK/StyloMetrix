@@ -13,97 +13,83 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import json
 
-from abc import ABC, abstractmethod
-from collections.abc import Callable
+class MetricMeta(type):
+    def __str__(cls) -> str:
+        return cls.code
 
-from spacy.tokens import Doc
+    def __repr__(cls) -> str:
+        return str(cls)
+
+    def __call__(cls, doc):
+        if cls is Metric:
+            return cls
+        else:
+            return cls.count(doc)
 
 
-class Metric(ABC):
-    name_local: str
-    name_en: str
-    category_local: str
-    category_en: str
+class Metric(metaclass=MetricMeta):
+    _all_metrics = dict()
+    
+    def __init_subclass__(cls):
+        cls.id = Metric._get_new_id()
+        cls.code = cls.__name__
+        cls._register_to_category(cls.category)
+        Metric._all_metrics[cls.id] = cls
 
-    def __init__(self):
-        self.code = self.__class__.__name__
-        try:
-            self.name = self.name_local
-        except AttributeError:
-            self.name = self.name_en
-        try:
-            self.category = self.category_local
-        except AttributeError:
-            self.category = self.category_en
+    def get_by_id(id):
+        return Metric._all_metrics[id]
 
-    def __call__(self, doc):
-        value, debug = self.count(doc)
-        return {
-            "value": value,
-            "code": self.code,
-            "name": self.name,
-            "category": self.category,
-            "filename": doc._.name,
-            "debug": debug,
+    def _get_new_id():
+        if Metric._all_metrics:
+            return max(Metric._all_metrics)+1
+        else:
+            return 0
+
+    @classmethod
+    def details(cls):
+        return f'{cls.category}  |  {cls}  |  {cls.name_en}'
+
+    @classmethod
+    def set_category(cls, category):
+        old_category = cls.category
+
+        if category is not old_category:
+            old_category.unregister_metric(cls)
+            cls._register_to_category(category)
+            cls.category = category
+
+    @classmethod
+    def set_code(cls, new_code):
+        old_metric = cls.category.contains_metric_name(code=new_code)
+
+        if old_metric:
+            cls.category.unregister_metric(old_metric)
+            if old_metric is not cls:
+                Metric._all_metrics.pop(old_metric.id)
+
+        cls.__name__ = new_code
+        cls.code = new_code
+
+    @classmethod
+    def _register_to_category(cls, category):
+        old_metric = category.contains_metric_name(cls)
+
+        if old_metric:
+            category.unregister_metric(old_metric)
+            if old_metric is not cls:
+                Metric._all_metrics.pop(old_metric.id)
+
+        category.register_metric(cls)
+
+    @classmethod
+    def to_json(cls):
+        json_dict = {
+            'id': cls.id,
+            'code': cls.code,
+            'name_en': cls.name_en,
+            'name_local': cls.name_local
         }
 
-    def __repr__(self):
-        return f"<Metric {self.code}>"
-
-    @abstractmethod
-    def count(self, doc):
-        pass
-
-    def __lt__(self, other):
-        pass
-
-    def __gt__(self, other):
-        pass
-
-    def __eq__(self, other):
-        pass
-
-    def set_category(self, category_pl=None, category_en=None):
-        if category_pl:
-            self.category_local = category_pl
-        if category_en:
-            self.category_en = category_en
-
-
-class CustomMetric(Metric):
-    """Decorator class"""
-
-    def __init__(self, name_pl=None, name_en=None):
-        self.name_pl = name_pl
-        self.name_en = name_en
-        self.category_pl = "Dodane metryki"
-        self.category_en = "Custom metrics"
-        try:
-            self.name = self.name_local
-        except AttributeError:
-            self.name = self.name_en
-        try:
-            self.category = self.category_local
-        except AttributeError:
-            self.category = self.category_en
-
-    def __call__(self, arg):
-        if isinstance(arg, Callable):
-            self._count_method = arg
-            self.code = arg.__name__
-            if not self.name_pl:
-                self.name_pl = f"Metryka {self.code}"
-            if not self.name_en:
-                self.name_pl = f"Metric {self.code}"
-            return self
-        elif isinstance(arg, Doc):
-            return super().__call__(arg)
-        else:
-            return TypeError()
-
-    def count(self, doc):
-        result = self._count_method(doc)
-        if isinstance(result, tuple):
-            return result
-        return result, {}
+        return json.dumps(json_dict)

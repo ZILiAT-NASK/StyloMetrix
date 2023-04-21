@@ -14,78 +14,160 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-from abc import ABC
+from stylo_metrix.structures import Metric, Category
 
-from stylo_metrix.structures import Metric, MetricsGroup
-from stylo_metrix.utils import incidence, select
-
-
-class GrammaticalForms(Metric, ABC):
-    category_local = "Grammatical Forms"
-    category_en = "Formy gramatyczne"
+from stylo_metrix.utils import incidence, select, ratio
 
 
-class G_V(GrammaticalForms):
-    name_en = "Verb incidence"
-    name_local = "Występowanie czasowników"
-
-    def count(self, doc):
-        result = incidence(doc, select(doc, {'pos': 'v'}))
-        return result, {}
+class GrammaticalForms(Category):
+    lang = 'pl'
+    name_en = "Grammatical Forms"
+    name_local = "Formy gramatyczne"
 
 
-class G_N(GrammaticalForms):
-    name_en = "Noun incidence"
-    name_local = "Występowanie rzeczowników"
+class G_V(Metric):
+    category = GrammaticalForms
+    name_en = "Verb"
+    name_local = "Czasowniki"
 
-    def count(self, doc):
-        result = incidence(doc, select(doc, {'pos': 'n'}))
-        return result, {}
-
-
-class G_ADJ(GrammaticalForms):
-    name_en = "Adjective incidence"
-    name_local = "Występowanie przymiotników"
-
-    def count(self, doc):
-        result = incidence(doc, select(doc, {'pos': 'adj'}))
-        return result, {}
+    def count(doc):
+        selection = select(doc, {'pos': 'v'})
+        result = incidence(doc, selection)
+        debug = {'VALUES': selection}
+        return result, debug
 
 
-class G_ADV(GrammaticalForms):
-    name_en = "Adverb incidence"
-    name_local = "Występowanie przysłówków"
+class G_N(Metric):
+    category = GrammaticalForms
+    name_en = "Nouns"
+    name_local = "Rzeczowniki"
 
-    def count(self, doc):
-        result = incidence(doc, select(doc, {'pos': 'adv'}))
-        return result, {}
-
-
-class G_PRO(GrammaticalForms):
-    name_en = "Pronoun incidence"
-    name_local = "Występowanie zaimków"
-
-    def count(self, doc):
-        result = incidence(doc, select(doc, {'pos': 'pro'}))
-        return result, {}
+    def count(doc):
+        selection = select(doc, {'pos': 'n'})
+        result = incidence(doc, selection)
+        debug = {'VALUES': selection}
+        return result, debug
 
 
-class G_PRO_DEM(GrammaticalForms):
-    name_en = "Demonstrative pronouns incidence"
-    name_local = "Występowanie zaimków wskazujących"
+class G_ADJ(Metric):
+    category = GrammaticalForms
+    name_en = "Adjectives"
+    name_local = "Przymiotniki"
 
-    def count(self, doc):
-        result = incidence(doc, select(doc, {'pos': 'pro', 'pronoun_type': 'dem'}))
-        return result, {}
+    def count(doc):
+        selection = select(doc, {'pos': 'adj'})
+        result = incidence(doc, selection)
+        debug = {'VALUES': selection}
+        return result, debug
 
 
-GRAMMATICAL_FORMS = [
-    G_V,
-    G_N,
-    G_ADJ,
-    G_ADV,
-    G_PRO,
-    G_PRO_DEM,
-]
+class G_ADV(Metric):
+    category = GrammaticalForms
+    name_en = "Adverbs"
+    name_local = "Przysłówki"
 
-grammatical_forms_group = MetricsGroup([m() for m in GRAMMATICAL_FORMS])
+    def count(doc):
+        selection = select(doc, {'pos': 'adv'})
+        result = incidence(doc, selection)
+        debug = {'VALUES': selection}
+        return result, debug
+
+
+class G_PRO(Metric):
+    category = GrammaticalForms
+    name_en = "Pronouns"
+    name_local = "Zaimki"
+
+    def count(doc):
+        selection = select(doc, {'pos': 'pro'})
+        result = incidence(doc, selection)
+        debug = {'VALUES': selection}
+        return result, debug
+
+
+class G_PRO_DEM(Metric):
+    category = GrammaticalForms
+    name_en = "Demonstrative pronouns"
+    name_local = "Zaimki wskazujące"
+
+    def count(doc):
+        selection = select(doc, {'pos': 'pro', 'pronoun_type': 'dem'})
+        result = incidence(doc, selection)
+        debug = {'VALUES': selection}
+        return result, debug
+    
+
+class APOSTROFA_ADJ(Metric):
+    category = GrammaticalForms
+    name_en = "Descriptive apostrophe"
+    name_local = "Apostrofa opisowa"
+
+    def count(doc):
+        c = 0
+        results = []
+        dets = ["det", "amod"]
+        for sent in doc.sents:
+            inn7w = list(
+                token.text
+                for token in sent
+                if token.pos_ == "NOUN" and str(token.morph.get("Case")) == "['Voc']"
+            )
+            pron = [
+                token.text
+                for token in sent
+                if token.dep_ in dets and token.head.text in inn7w
+            ]
+            if inn7w and pron:
+                results.append(sent)
+                c = c + len(inn7w) + len(pron)
+        debug = {"FOUND": results}
+        return ratio(c, doc._.n_tokens), debug
+    
+
+class APOSTROFA_VERB(Metric):
+    category = GrammaticalForms
+    name_en = "Apostrophe together with a verb"
+    name_local = "Apostrofa wraz z czasownikiem"
+
+    def count(doc):
+        c = 0
+        results = []
+        dets = ["det", "amod"]
+        for sent in doc.sents:
+            inn7w = list(
+                token.text
+                for token in sent
+                if token.pos_ == "NOUN" and str(token.morph.get("Case")) == "['Voc']"
+            )
+            pron = [
+                token.text
+                for token in sent
+                if token.pos_ == "VERB" and str(token.morph.get("Person")) == "['2']"
+            ]
+            if inn7w and pron:
+                results.append(sent)
+                c = c + len(inn7w) + len(pron)
+        debug = {"FOUND": results}
+        return ratio(c, doc._.n_tokens), debug
+    
+
+class VOC_CONTENT(Metric):
+    category = GrammaticalForms
+    name_en = "Apostrophe and amount of content words"
+    name_local = "Apostrofa i ilość content words"
+
+    def count(doc):
+        c = 0
+        results = []
+        for sent in doc.sents:
+            inn7w = list(
+                token.text
+                for token in sent
+                if token.pos_ == "NOUN" and str(token.morph.get("Case")) == "['Voc']"
+            )
+            pron = [token.text for token in sent if token._.content_word == "cont"]
+            if inn7w and pron:
+                results.append(sent)
+                c = c + len(inn7w) + len(pron)
+        debug = {"FOUND": results}
+        return ratio(c, doc._.n_tokens), debug

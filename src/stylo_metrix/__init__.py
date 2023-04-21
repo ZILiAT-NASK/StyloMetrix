@@ -13,8 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-
-from stylo_metrix.functions import analyze_dir, analyze_text, save_csv, save_npy, remove_empty_columns
-from stylo_metrix.pipeline.stylo_metrix_pipe import StyloMetrixPipe
-from stylo_metrix.structures import CustomMetric, Metric, MetricsGroup
-from stylo_metrix.utils import incidence, ratio, mean, median, stdev
+from .stylo_metrix import StyloMetrix
+from .tools.metric_tools import get_all_categories, get_all_metrics, custom_metric
+from .structures import Metric, Category

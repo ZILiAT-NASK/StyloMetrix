@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+
 from spacy.tokens import Doc
 
 
@@ -23,6 +24,7 @@ class Params:
         # Doc.set_extension("content_words", default=None, force=True)
         # Doc.set_extension("punctuation", default=None, force=True)
         Doc.set_extension("n_tokens", default=None, force=True)
+        Doc.set_extension("n_sents", default=None, force=True)
         # Doc.set_extension("n_words", default=None, force=True)
         # Doc.set_extension("n_content_words", default=None, force=True)
         # Doc.set_extension("n_punctuation", default=None, force=True)
@@ -32,6 +34,7 @@ class Params:
         # doc._.set("content_words", [token for token in doc if token._.content_word == 'cont'])
         # doc._.set("punctuation", [token for token in doc if token._.is_punctuation])
         doc._.set("n_tokens", len([token for token in doc]))
+        doc._.set("n_sents", len([sent for sent in doc.sents]))
         # doc._.set("n_words", len(doc._.words))
         # doc._.set("n_content_words", len(doc._.content_words))
         # doc._.set("n_punctuation", len(doc._.punctuation))

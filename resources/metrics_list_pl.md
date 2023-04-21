@@ -1,108 +1,129 @@
 # StyloMetrix PL
-Metrics list for Polish language in version `v0.0.6`
+Metrics list for Polish language in version `v0.1.0`
 
-Copyright (C) 2022  NASK PIB
+Copyright (C) 2023  NASK PIB
 
 
-| Category | Code | Name |
-|---|---|---|
-| Grammatical Forms | G_V | Występowanie czasowników |
-| Grammatical Forms | G_N | Występowanie rzeczowników |
-| Grammatical Forms | G_ADJ | Występowanie przymiotników |
-| Grammatical Forms | G_ADV | Występowanie przysłówków |
-| Grammatical Forms | G_PRO | Występowanie zaimków |
-| Grammatical Forms | G_PRO_DEM | Występowanie zaimków wskazujących |
-| Inflection | IN_V_INF | Występowanie czasowników w bezokoliczniku |
-| Inflection | IN_V_INFL | Występowanie czasowników w formie osobowej |
-| Inflection | IN_V_1S | Występowanie czasowników w 1. os. l. poj. |
-| Inflection | IN_V_1P | Występowanie czasowników w 1. os. l. mn. |
-| Inflection | IN_V_2S | Występowanie czasowników w 2. os. l. poj. |
-| Inflection | IN_V_2P | Występowanie czasowników w 2. os. l. mn. |
-| Inflection | IN_V_3S | Występowanie czasowników w 3. os. l. poj. |
-| Inflection | IN_V_3P | Występowanie czasowników w 3. os. l. mn. |
-| Inflection | IN_V_PAST | Występowanie czasowników w czasie przeszłym |
-| Inflection | IN_V_PRES | Występowanie czasowników w czasie teraźniejszym |
-| Inflection | IN_V_FUT | Występowanie czasowników w czasie przyszłym |
-| Inflection | IN_V_FUTS | Występowanie czasowników w czasie przyszłym prostym |
-| Inflection | IN_V_FUTC | Występowanie czasowników w czasie przyszłym złożonym |
-| Inflection | IN_V_PERF | Występowanie czasowników w aspekcie dokonanym |
-| Inflection | IN_V_IMPERF | Występowanie czasowników w aspekcie niedokonanym |
-| Inflection | IN_V_IMP | Występowanie czasowników w trybie rozkazującym |
-| Inflection | IN_V_COND | Występowanie czasowników w trybie przypuszczającym |
-| Inflection | IN_V_PCON | Występowanie imiesłowów przysłówkowych współczesnych |
-| Inflection | IN_V_PANT | Występowanie imiesłowów przysłówkowych uprzednich |
-| Inflection | IN_V_PACT | Występowanie imiesłowów przymiotnikowych czynnych |
-| Inflection | IN_V_PPAS | Występowanie imiesłowów przymiotnikowych biernych (przeszłych) |
-| Inflection | IN_V_GER | Występowanie rzeczowników odczasownikowych |
-| Inflection | IN_N_1M | Występowanie rzeczowników w mianowniku |
-| Inflection | IN_N_2D | Występowanie rzeczowników w dopełniaczu |
-| Inflection | IN_N_3C | Występowanie rzeczowników w celowniku |
-| Inflection | IN_N_4B | Występowanie rzeczowników w bierniku |
-| Inflection | IN_N_5MSC | Występowanie rzeczowników w narzędniku |
-| Inflection | IN_N_6N | Występowanie rzeczowników w miejscowniku |
-| Inflection | IN_N_7W | Występowanie rzeczowników w wołaczu |
-| Inflection | IN_PRO_1M | Występowanie zaimków w mianowniku |
-| Inflection | IN_PRO_2D | Występowanie zaimków w dopełniaczu |
-| Inflection | IN_PRO_3C | Występowanie zaimków w celowniku |
-| Inflection | IN_PRO_4B | Występowanie zaimków w bierniku |
-| Inflection | IN_PRO_5MSC | Występowanie zaimków w narzędniku |
-| Inflection | IN_PRO_6N | Występowanie zaimków w miejscowniku |
-| Inflection | IN_PRO_7W | Występowanie zaimków w wołaczu |
-| Inflection | IN_PRO_1S | Występowanie zaimków w 1 os. l. poj. |
-| Inflection | IN_PRO_1P | Występowanie zaimków w 1 os. l. mn. |
-| Inflection | IN_PRO_2S | Występowanie zaimków w 2 os. l. poj. |
-| Inflection | IN_PRO_2P | Występowanie zaimków w 2 os. l. mn. |
-| Inflection | IN_PRO_3S | Występowanie zaimków w 3 os. l. poj. |
-| Inflection | IN_PRO_3P | Występowanie zaimków w 3 os. l. mn. |
-| Inflection | IN_ADJ_POS | Występowanie przymiotników w stopniu równym |
-| Inflection | IN_ADJ_COM | Występowanie przymiotników w stopniu wyższym |
-| Inflection | IN_ADJ_SUP | Występowanie przymiotników w stopniu najwyższym |
-| Inflection | IN_ADV_POS | Występowanie przysłówków w stopniu równym |
-| Inflection | IN_ADV_COM | Występowanie przysłówków w stopniu wyższym |
-| Inflection | IN_ADV_SUP | Występowanie przysłówków w stopniu najwyższym |
-| Lexical | L_TTR_LA | Type-token ratio dla lemm wyrazów |
-| Lexical | L_TTR_IA | Type-token ratio dla wyrazów w odmianach |
-| Lexical | L_CONT_A | Występowanie wyrazów samodzielnych |
-| Lexical | L_NCONT_A | Występowanie wyrazów niesamodzielnych |
-| Lexical | L_CONT_T | Występowanie typów wyrazów samodzielnych |
-| Lexical | L_NCONT_T | Występowanie typów wyrazów niesamodzielnych |
-| Lexical | L_CONT_L | Występowanie lemm wyrazów samodzielnych |
-| Lexical | L_NAME | Występowanie nazw własnych (wszystkie wyrazy) |
-| Lexical | L_PERSN | Występowanie nazw osób (wszystkie wyrazy) |
-| Lexical | L_TCCT1 | Występowanie wyrazów wchodzących w skład 1% najczęstszych typów (min. 1 typ) |
-| Lexical | L_TCCT5 | Występowanie wyrazów wchodzących w skład 5% najczęstszych typów (min. 1 typ) |
-| Lexical | L_SYL_G3 | Występowanie wyrazów o liczbie sylab większej niż 3 |
-| Psycholinguistic | PS_M_VALa | Występowanie wyrazów posiadających więcej niż średni znak emocji (valence) |
-| Psycholinguistic | PS_M_AROa | Występowanie wyrazów posiadających więcej niż średnie pobudzenie (arousal) |
-| Psycholinguistic | PS_M_DOMa | Występowanie wyrazów posiadających więcej niż średnie opanowanie (dominance) |
-| Psycholinguistic | PS_M_ORIa | Występowanie wyrazów posiadających więcej niż średnie pochodzenie (origin) |
-| Psycholinguistic | PS_M_SIGa | Występowanie wyrazów posiadających więcej niż średnie znaczenie (significance) |
-| Psycholinguistic | PS_M_CONa | Występowanie wyrazów posiadających więcej niż średnią konkretność (concreteness) |
-| Psycholinguistic | PS_M_IMGa | Występowanie wyrazów posiadających więcej niż średnia wyobrażalność (imageability) |
-| Psycholinguistic | PS_M_AGEa | Występowanie wyrazów posiadających więcej niż średni wiek akwizycji (age of acquisition) |
-| Psycholinguistic | PS_M_VALb | Występowanie wyrazów posiadających mniej niż średni znak emocji (valence) |
-| Psycholinguistic | PS_M_AROb | Występowanie wyrazów posiadających mniej niż średnie pobudzenie (arousal) |
-| Psycholinguistic | PS_M_DOMb | Występowanie wyrazów posiadających mniej niż średnie opanowanie (dominance) |
-| Psycholinguistic | PS_M_ORIb | Występowanie wyrazów posiadających mniej niż średnie pochodzenie (origin) |
-| Psycholinguistic | PS_M_SIGb | Występowanie wyrazów posiadających mniej niż średnie znaczenie (significance) |
-| Psycholinguistic | PS_M_CONb | Występowanie wyrazów posiadających mniej niż średnią konkretność (concreteness) |
-| Psycholinguistic | PS_M_IMGb | Występowanie wyrazów posiadających mniej niż średnia wyobrażalność (imageability) |
-| Psycholinguistic | PS_M_AGEb | Występowanie wyrazów posiadających mniej niż średni wiek akwizycji (age of acquisition) |
-| Syntactic | SY_S_DE | Występowanie wyrazów należących do zdań oznajmujących |
-| Syntactic | SY_S_IN | Występowanie wyrazów należących do zdań pytających |
-| Syntactic | SY_S_EX | Występowanie wyrazów należących do zdań rozkazujących |
-| Syntactic | SY_S_INIT | Występowanie wyrazów będących pierwszym wyrazem zdania |
-| Syntactic | SY_NPHR | Występowanie wyrazów wchodzących w skład fraz nominalnych |
-| Syntactic | SY_MOD | Występowanie wyrazów wchodzących w skład przydawek |
-| Word Formation | WF_NE_OSC | Występowanie rzeczowników zakończonych na ość |
-| Word Formation | WF_NE_IK | Występowanie rzeczowników zakończonych na ik |
-| Word Formation | WF_NE_EK | Występowanie rzeczowników zakończonych na ek |
-| Word Formation | WF_NE_KA | Występowanie rzeczowników zakończonych na ka |
-| Word Formation | WF_NE_KO | Występowanie rzeczowników zakończonych na ko |
-| Word Formation | WF_NE_IYCIEL | Występowanie rzeczowników zakończonych na iciel, yciel |
-| Word Formation | WF_NE_OWIEC | Występowanie rzeczowników zakończonych na owiec |
-| Word Formation | WF_NE_ARZ | Występowanie rzeczowników zakończonych na arz |
-| Word Formation | WF_NE_OWICZ | Występowanie rzeczowników zakończonych na owicz |
-| Word Formation | WF_ADJE_OWY | Występowanie przymiotników zakończonych na owy |
-| Word Formation | WF_ADJE_SKI | Występowanie przymiotników zakończonych na ski |
-| Word Formation | WF_ADJE_LIWY | Występowanie przymiotników zakończonych na liwy |
+Id | Category | Code | Name |
+|---|---|---|---|
+0  |  Destriptive  |  DESC_ADJ  |  Adjectival description of qualities
+1  |  Destriptive  |  DESC_ADV  |  Adverbial description of qualities 
+2  |  Destriptive  |  DESC_NVA  |  
+3  |  Destriptive  |  DESC_NVN  |  
+4  |  GrammaticalForms  |  APOSTROFA_ADJ  |  Descriptive apostrophe
+5  |  GrammaticalForms  |  APOSTROFA_VERB  |  Apostrophe together with a verb
+6  |  GrammaticalForms  |  G_ADJ  |  Adjectives
+7  |  GrammaticalForms  |  G_ADV  |  Adverbs
+8  |  GrammaticalForms  |  G_N  |  Nouns
+9  |  GrammaticalForms  |  G_PRO  |  Pronouns
+10  |  GrammaticalForms  |  G_PRO_DEM  |  Demonstrative pronouns
+11  |  GrammaticalForms  |  G_V  |  Verb
+12  |  GrammaticalForms  |  VOC_CONTENT  |  Apostrophe and amount of content words
+13  |  Graphical  |  GR_UPPER  |  Capital letters
+14  |  Inflection  |  IN_ADJ_COM  |  Adjectives in comparative degree
+15  |  Inflection  |  IN_ADJ_POS  |  Adjectives in positive degree
+16  |  Inflection  |  IN_ADJ_SUP  |  Adjectives in superlative degree
+17  |  Inflection  |  IN_ADV_COM  |  Adverbs in comparative degree
+18  |  Inflection  |  IN_ADV_POS  |  Adverbs in positive degree
+19  |  Inflection  |  IN_ADV_SUP  |  Adverbs in superlative degree
+20  |  Inflection  |  IN_N_1M  |  Nouns in nominative case
+21  |  Inflection  |  IN_N_2D  |  Nouns in genitive case
+22  |  Inflection  |  IN_N_3C  |  Nouns in dative case
+23  |  Inflection  |  IN_N_4B  |  Nouns in accusative case
+24  |  Inflection  |  IN_N_5MSC  |  Nouns in instrumental case
+25  |  Inflection  |  IN_N_6N  |  Nouns in locative case
+26  |  Inflection  |  IN_N_7W  |  Nouns in vocative case
+27  |  Inflection  |  IN_PRO_1M  |  Pronouns in nominative case
+28  |  Inflection  |  IN_PRO_1P  |  First person plural pronouns
+29  |  Inflection  |  IN_PRO_1S  |  First person singular pronouns
+30  |  Inflection  |  IN_PRO_2D  |  Pronouns in genitive case
+31  |  Inflection  |  IN_PRO_2P  |  Second person plural pronouns
+32  |  Inflection  |  IN_PRO_2S  |  Second person singular pronouns
+33  |  Inflection  |  IN_PRO_3C  |  Pronouns in dative case
+34  |  Inflection  |  IN_PRO_3P  |  Third person plural pronouns
+35  |  Inflection  |  IN_PRO_3S  |  Third person singular pronouns
+36  |  Inflection  |  IN_PRO_4B  |  Pronouns in accusative case
+37  |  Inflection  |  IN_PRO_5MSC  |  Pronouns in instrumental case
+38  |  Inflection  |  IN_PRO_6N  |  Pronouns in locative case
+39  |  Inflection  |  IN_PRO_7W  |  Pronouns in vocative case
+40  |  Inflection  |  IN_V_1P  |  First person plural verbs
+41  |  Inflection  |  IN_V_1S  |  First person singular verbs
+42  |  Inflection  |  IN_V_2P  |  Second person plural verbs
+43  |  Inflection  |  IN_V_2S  |  Second person singular verbs
+44  |  Inflection  |  IN_V_3P  |  Third person plural verbs
+45  |  Inflection  |  IN_V_3S  |  Third person singular verbs
+46  |  Inflection  |  IN_V_ACT  |  Verbs in active voice
+47  |  Inflection  |  IN_V_COND  |  Verbs in conditional mood
+48  |  Inflection  |  IN_V_FUT  |  Verbs in future tense
+49  |  Inflection  |  IN_V_FUTC  |  Verbs in future complex tense
+50  |  Inflection  |  IN_V_FUTS  |  Verbs in future simple tense
+51  |  Inflection  |  IN_V_GER  |  Gerunds
+52  |  Inflection  |  IN_V_IMP  |  Verbs in imperative mood
+53  |  Inflection  |  IN_V_IMPERF  |  Verbs in imperfective aspect
+54  |  Inflection  |  IN_V_INF  |  Infinitives
+55  |  Inflection  |  IN_V_INFL  |  Inflected verbs
+56  |  Inflection  |  IN_V_PACT  |  Active adjectival participles
+57  |  Inflection  |  IN_V_PANT  |  Perfect adverbial participles
+58  |  Inflection  |  IN_V_PASS  |  Verbs in passive voice
+59  |  Inflection  |  IN_V_PAST  |  Verbs in past tense
+60  |  Inflection  |  IN_V_PCON  |  Present adverbial participles
+61  |  Inflection  |  IN_V_PERF  |  Verbs in perfective aspect
+62  |  Inflection  |  IN_V_PPAS  |  Passive adjectival participles
+63  |  Inflection  |  IN_V_PRES  |  Verbs in present tense
+64  |  Inflection  |  IN_V_QUASI  |  Quasi-verbs
+65  |  Lexical  |  L_CONT_A  |  Content words
+66  |  Lexical  |  L_CONT_L  |  Lemmas of content words types
+67  |  Lexical  |  L_CONT_T  |  Content words types
+68  |  Lexical  |  L_NAME  |  Proper names
+69  |  Lexical  |  L_NCONT_A  |  Non-content words
+70  |  Lexical  |  L_NCONT_T  |  Non-content words types
+71  |  Lexical  |  L_PERSN  |  Personal names
+72  |  Lexical  |  L_PLACEN  |  Place names
+73  |  Lexical  |  L_SYL_G3  |  Words formed of more than 3 syllables
+74  |  Lexical  |  L_TCCT1  |  Tokens covering 1% of most common types
+75  |  Lexical  |  L_TCCT5  |  Tokens covering 5% of most common types
+76  |  Lexical  |  L_TTR_IA  |  Type-token ratio for inflected words
+77  |  Lexical  |  L_TTR_LA  |  Type-token ratio for words lemmas
+78  |  Psycholinguistic  |  PS_M_AGEa  |  Words having more than mean age of acquisition
+79  |  Psycholinguistic  |  PS_M_AGEb  |  Words having less than mean age of acquisition
+80  |  Psycholinguistic  |  PS_M_AROa  |  Words having more than mean arousal
+81  |  Psycholinguistic  |  PS_M_AROb  |  Words having less than mean arousal
+82  |  Psycholinguistic  |  PS_M_CONa  |  Words having more than mean concreteness
+83  |  Psycholinguistic  |  PS_M_CONb  |  Words having less than mean concreteness
+84  |  Psycholinguistic  |  PS_M_DOMa  |  Words having more than mean dominance
+85  |  Psycholinguistic  |  PS_M_DOMb  |  Words having less than mean dominance
+86  |  Psycholinguistic  |  PS_M_IMGa  |  Words having more than mean imageability
+87  |  Psycholinguistic  |  PS_M_IMGb  |  Words having less than mean imageability
+88  |  Psycholinguistic  |  PS_M_ORIa  |  Words having more than mean origin
+89  |  Psycholinguistic  |  PS_M_ORIb  |  Words having less than mean origin
+90  |  Psycholinguistic  |  PS_M_SIGa  |  Words having more than mean significance
+91  |  Psycholinguistic  |  PS_M_SIGb  |  Words having less than mean significance
+92  |  Psycholinguistic  |  PS_M_VALa  |  Words having more than mean valence
+93  |  Psycholinguistic  |  PS_M_VALb  |  Words having less than mean valence
+94  |  Punctuation  |  PUNCT_BI_NOUN  |  Punctuation following a verb
+95  |  Punctuation  |  PUNCT_BI_VERB  |  Punctuation following a noun
+96  |  Punctuation  |  PUNCT_TOTAL  |  Punctuation
+97  |  Syntactic  |  SY_COND  |  Conditional conjunctions
+98  |  Syntactic  |  SY_COORD  |  Coordinating conjunctions
+99  |  Syntactic  |  SY_INV_EP  |  Epithet inversion
+100  |  Syntactic  |  SY_INV_OBJ  |  Inversion - object as sentence start
+101  |  Syntactic  |  SY_MOD  |  Words in modifiers incidence
+102  |  Syntactic  |  SY_NOM_SENT  |  Nominal phrases
+103  |  Syntactic  |  SY_NPHR  |  Words in nominal phrases incidence
+104  |  Syntactic  |  SY_SUBORD  |  Subordinating conjunctions
+105  |  Syntactic  |  SY_S_DE  |  Words in declarative sentences incidence
+106  |  Syntactic  |  SY_S_EX  |  Words in exclamative sentences incidence
+107  |  Syntactic  |  SY_S_IN  |  Words in interrogative sentences incidence
+108  |  Syntactic  |  SY_S_INIT  |  Words being initial word in sentence incidence
+109  |  WordFormation  |  WF_ADJE_LIWY  |  Incidence od adjectives ending with liwy
+110  |  WordFormation  |  WF_ADJE_OWY  |  Incidence od adjectives ending with owy
+111  |  WordFormation  |  WF_ADJE_SKI  |  Incidence od adjectives ending with ski
+112  |  WordFormation  |  WF_NE_ARZ  |  Incidence od nouns ending with arz
+113  |  WordFormation  |  WF_NE_EK  |  Incidence od nouns ending with ek
+114  |  WordFormation  |  WF_NE_IK  |  Incidence od nouns ending with ik
+115  |  WordFormation  |  WF_NE_IYCIEL  |  Incidence od nouns ending with iciel, yciel
+116  |  WordFormation  |  WF_NE_KA  |  Incidence od nouns ending with ka
+117  |  WordFormation  |  WF_NE_KO  |  Incidence od nouns ending with ko
+118  |  WordFormation  |  WF_NE_OSC  |  Incidence od nouns ending with ość
+119  |  WordFormation  |  WF_NE_OWICZ  |  Incidence od nouns ending with owicz
+120  |  WordFormation  |  WF_NE_OWIEC  |  Incidence od nouns ending with owiec

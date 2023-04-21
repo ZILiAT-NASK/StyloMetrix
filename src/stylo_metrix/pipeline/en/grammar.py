@@ -15,9 +15,7 @@
 
 
 from stylo_metrix.pipeline.en.dictionary_en import TAGS_DICT, WORDS_POS, FUNCTION_WORDS
-
-""" METRICS FOR THE PRESENT TENSES [PASSIVE & ACTIVE VOICE]"""
-
+import itertools
 
 def classify_pos(token):
     for custom_pos, pos in TAGS_DICT.items():
@@ -39,614 +37,320 @@ def is_content_word(token):
         return True
 
 
+"""GRAMMATICAL TENSES"""
+
+""" METRICS FOR THE PRESENT TENSES [PASSIVE & ACTIVE VOICE]"""
+
+
 def present_simple(doc):
-    present_simple = {}
+    label = "present_simple"
+    ext = "verb_tense"
 
-    for token in doc:
-        if token.tag_ == "VBP" and [child.pos_ != "AUX" for child in token.children]:
-            present_simple[token] = "present_simple"
-
-    for token in doc:
-        if token.lemma_ == "do" and (token.tag_ == "VBZ" or token.tag_ == "VBP") and token.head.tag_ == "VB":
-            head = token.head
-            present_simple[head] = "present_simple"
-            present_simple[token] = "present_simple"
-
-            for t in head.subtree:
-                if t.tag_ == "VB" and t.dep_ == "conj":
-                    present_simple[t] = "present_simple"
-    return present_simple
-
-
-def present_ind_3p(doc):
-    present_ind_3p = {}
-
-    for token in doc:
-        if token.tag_ == "VBZ" and [child.pos_ != "AUX" for child in token.children]:
-            present_ind_3p[token] = "present_ind_3p"
-
-    return present_ind_3p
+    negative = list(itertools.chain.from_iterable([[token, token.head] for token in doc if token.dep_ == "aux" and token.lemma_ == "do" and "Tense=Pres" in token.morph
+                                                   and "VerbForm=Inf" in token.head.morph]))
+    tokens = [token for token in doc if (token.tag_ == "VBZ" or token.tag_ == "VBP") and "Tense=Pres" in token.morph and "VerbForm=Fin" and token.dep_ != "aux" and token.dep_ != "auxpass"]
+    general = tokens + negative
+    return general, ext, label
 
 
 def present_cont(doc):
-    present_cont = {}
 
-    for token in doc:
-
-        if token.lemma_ == "be" and (
-                token.tag_ == "VBZ" or token.tag_ == "VBP") and token.dep_ == "aux" and token.head.tag_ == "VBG":
-            head = token.head
-            present_cont[head] = "present_cont"
-            present_cont[token] = "present_cont"
-
-            for t in head.subtree:
-                if t.tag_ == "VBG" and t.dep_ == "conj":
-                    present_cont[t] = "present_cont"
-
-    return present_cont
+    label = "present_cont"
+    ext = "verb_tense"
+    tokens = list(itertools.chain.from_iterable([[token, token.head] for token in doc if token.dep_ == "aux" and token.lemma_ == "be" and "Tense=Pres" in token.morph and
+              token.head.tag_ == "VBG" and not [child for child in token.head.children if child.text == "have"]]))
+    conj = [token for token in doc if token.dep_ == "conj" and token.tag_ == "VBG" and token.head in tokens]
+    general = tokens + conj
+    return general, ext, label
 
 
 def present_perfect_cont(doc):
-    present_perfect_cont = {}
+    label = "present_perfect_cont"
+    ext = "verb_tense"
+    aux_have = ["have", "'s", "'ve", "’s", "’ve"]
+    aux_been = []
+    tokens = list(itertools.chain.from_iterable([[token, token.head] for token in doc if token.dep_ == "aux" and token.lemma_ in aux_have and "Tense=Pres" in token.morph and 
+              token.head.tag_ == "VBG" and [aux_been.append(child) for child in token.head.lefts if child.text == "been" and child.dep_ == "aux"]]))
+    conj = [token for token in doc if token.dep_ == "conj" and token.head in tokens]
+    general = tokens + aux_been + conj
 
-    for token in doc:
-        if token.dep_ == "auxpass" and (token.text == "'s" or token.text == "’s") and token.head.tag_ == "VBG":
-            head = token.head
-
-            for t in head.subtree:
-                if t.text == "been" and t.dep_ == "aux":
-                    present_perfect_cont[head] = "present_perfect_cont"
-                    present_perfect_cont[token] = "present_perfect_cont"
-                    present_perfect_cont[t] = "present_perfect_cont"
-
-                for i in head.subtree:
-                    if i.tag_ == "VBG" and i.dep_ == "conj":
-                        present_perfect_cont[i] = "present_perfect_cont"
-
-        if token.dep_ == "aux" and token.lemma_ == "'ve" and token.head.tag_ == "VBG":
-            head = token.head
-
-            for tok in head.subtree:
-                if tok.text == "been" and tok.dep_ == "aux":
-                    present_perfect_cont[head] = "present_perfect_cont"
-                    present_perfect_cont[token] = "present_perfect_cont"
-                    present_perfect_cont[tok] = "present_perfect_cont"
-
-            for j in head.subtree:
-                if j.tag_ == "VBG" and j.dep_ == "conj":
-                    present_perfect_cont[j] = "present_perfect_cont"
-
-        if token.lemma_ == "have" and (token.tag_ == "VBZ" or token.tag_ == "VBP") and token.head.tag_ == "VBG":
-            head = token.head
-
-            for tkn in head.subtree:
-                if tkn.text == "been" and tkn.dep_ == "aux":
-                    present_perfect_cont[head] = "present_perfect_cont"
-                    present_perfect_cont[token] = "present_perfect_cont"
-                    present_perfect_cont[tkn] = "present_perfect_cont"
-
-            for l in head.subtree:
-                if l.tag_ == "VBG" and l.dep_ == "conj":
-                    present_perfect_cont[l] = "present_perfect_cont"
-
-    return present_perfect_cont
+    return general, ext, label
 
 
-def present_ind_pas(doc):
-    present_ind_pas = {}
+def present_simple_passive(doc):
+    label = "present_ind_passive"
+    ext = "verb_tense"
+    aux = ["is", "am", "are", "'re", "'m", "'s", "’re", "’m", "’s"]
 
-    for token in doc:
-        if (
-                token.tag_ == "VBP" or token.tag_ == "VBZ") and token.dep_ == "auxpass" and token.lemma_ == 'be' and token.head.tag_ == "VBN":
-            head = token.head
-            present_ind_pas[head] = "present_ind_passive"
-
-            for child in head.subtree:
-                if child.text == "been" and child.dep_ == "auxpass":
-                    del present_ind_pas[head]
-                if child.text == "been" and child.dep_ == "ROOT":
-                    del present_ind_pas[head]
-            if head in present_ind_pas.keys():
-                present_ind_pas[token] = "present_ind_passive"
-            for t in head.children:
-                if t.tag_ == "VBN" and t.dep_ == "conj" and head in present_ind_pas:
-                    present_ind_pas[t] = "present_ind_passive"
-    return present_ind_pas
+    roots = [token for token in doc if "Aspect=Perf" in token.morph  and "Tense=Past" in token.morph  and "VerbForm=Part" in token.morph and\
+             [child for child in token.lefts if child.dep_ == "auxpass" and child.text in aux]]
+    aux = [token for token in doc if token in [*token.head.lefts] and token.head in roots and token.text in aux]
+    conj = [token for token in doc if token.tag_ == "VBN" and token.dep_ == "conj" and token.head in roots]
+    general = roots + aux + conj
+    return general, ext, label
 
 
-def present_cont_pas(doc):
-    present_cont_pas = {}
-
-    for token in doc:
-        if (token.tag_ == "VBZ" or token.tag_ == "VBP") and token.lemma_ == "be" and token.dep_ == "aux":
-            head = token.head
-
-            for t in head.subtree:
-                if t.text == "being" and t.dep_ == "auxpass" and head not in present_cont_pas:
-                    present_cont_pas[head] = "present_cont_passive"
-                    present_cont_pas[t] = "present_cont_passive"
-                    present_cont_pas[token] = "present_cont_passive"
-
-                    if t.tag_ == "VBN" and t.dep_ == "conj":
-                        present_cont_pas[t] = "present_cont_passive"
-    return present_cont_pas
+def present_progressive_passive(doc):
+    label = "present_cont_passive"
+    ext = "verb_tense"
+    aux = ["is", "am", "are", "'re", "'m", "'s", "’re", "’m", "’s"]
+    
+    roots = [token for token in doc if "Aspect=Perf" in token.morph and "Tense=Past" in token.morph and "VerbForm=Part" in token.morph and\
+             [child for child in token.lefts if child.dep_ == "aux" and child.text in aux] and [t for t in token.lefts if t.dep_ == "auxpass" and t.text == "being"]]
+    aux = [token for token in doc if token in [*token.head.lefts] and token.head in roots and token.text in aux]
+    auxpass = [token for token in doc if token in [*token.head.lefts] and token.head in roots and token.text == "being"]
+    conj = [token for token in doc if token.tag_ == "VBN" and token.dep_ == "conj" and token.head in roots]
+    general = roots + aux + auxpass + conj
+    return general, ext, label
 
 
 def present_perfect_passive(doc):
-    present_perfect_passive = {}
+    label = "present_perfect_passive"
+    ext = "verb_tense"
+    aux = ["have", "'s", "'ve", "’s", "’ve"]
+    auxpass = []
 
-    for token in doc:
-        if token.lemma_ == "have" and (token.tag_ == "VBZ" or token.tag_ == "VBP") and token.head.tag_ == "VBN":
-            head = token.head
-
-            for t in head.subtree:
-                if t.text == "been" and t.dep_ == "auxpass" and head not in present_perfect_passive:
-                    present_perfect_passive[head] = "present_perfect_passive"
-                    present_perfect_passive[token] = "present_perfect_passive"
-                    present_perfect_passive[t] = "present_perfect_passive"
-
-            for tok in head.children:
-                if tok.tag_ == "VBN" and tok.dep_ == "conj" and head in present_perfect_passive:
-                    present_perfect_passive[tok] = "present_perfect_passive"
-
-        if (token.tag_ == "VBZ" or token.tag_ == "VBP") and token.head.tag_ == "VBN":
-            head = token.head
-
-            for j in head.subtree:
-                if j.text == "been" and j.dep_ == "auxpass" and head not in present_perfect_passive:
-                    present_perfect_passive[head] = "present_perfect_passive"
-                    present_perfect_passive[token] = "present_perfect_passive"
-                    present_perfect_passive[j] = "present_perfect_passive"
-
-            for tkn in head.children:
-                if tkn.tag_ == "VBN" and tkn.dep_ == "conj" and head in present_perfect_passive:
-                    present_perfect_passive[tkn] = "present_perfect_passive"
-
-    return present_perfect_passive
+    tokens = list(itertools.chain.from_iterable([[token, token.head] for token in doc if token.dep_ == "aux" and token.lemma_ in aux and "Tense=Pres" in token.morph
+                                                 and token.head.tag_ == "VBN" and [auxpass.append(child) for child in token.head.lefts if child.dep_ == "auxpass" and child.text == "been"]]))
+    conj = [token for token in doc if token in [*token.head.rights] and token.dep_ == "conj" and token.head in tokens]
+    general = tokens + conj + auxpass
+    return general, ext, label
 
 
 def present_perfect(doc):
-    verbs = []
-    aux = {}
+    label = "present_perfect"
+    ext = "verb_tense"
 
-    verbs_perfect_passive = present_perfect_passive(doc)
-    verbs_ind_pas = present_ind_pas(doc)
-    verbs_cont_pas = present_cont_pas(doc)
-
-    for token in doc:
-
-        if token.lemma_ == "have" and (token.tag_ == "VBZ" or token.tag_ == "VBP") and token.head.tag_ == "VBN":
-            head = token.head
-            verbs.append(head)
-            verbs.append(token)
-
-            for key in verbs_perfect_passive.keys():
-                for verb in verbs:
-                    if key == verb:
-                        verbs.remove(head)
-                        verbs.remove(token)
-
-            for tok in head.subtree:
-                if head in verbs:
-                    if tok.tag_ == "VBN" and tok.dep_ == "conj":
-                        verbs.append(tok)
-
-        if (token.tag_ == "VBZ" or token.tag_ == "VBP") and token.head.tag_ == "VBN":
-            head = token.head
-            verbs.append(head)
-
-            for key in verbs_perfect_passive.keys():
-                for verb in verbs:
-                    if head in verbs and key == verb:
-                        verbs.remove(head)
-
-            for key in verbs_ind_pas.keys():
-                for verb in verbs:
-                    if head in verbs and key == verb:
-                        verbs.remove(head)
-
-            for key in verbs_cont_pas.keys():
-                for verb in verbs:
-                    if head in verbs and key == verb:
-                        verbs.remove(head)
-
-            for tok in head.subtree:
-                if head in verbs:
-                    if tok.tag_ == "VBN" and tok.dep_ == "conj" and head in verbs and tok not in verbs:
-                        verbs.append(tok)
-
-    present_perfect = {}
-
-    for verb in verbs:
-        present_perfect[verb] = "present_perfect"
-
-    present_perfect_ = present_perfect | aux
-
-    return present_perfect_
+    aux = ["have", "'ve", "'s", "’ve", "’s"]
+    tokens = list(itertools.chain.from_iterable([[token, token.head] for token in doc if token.dep_ == "aux" and token.lemma_ in aux and "Tense=Pres" in token.morph
+                                                 and token.head.tag_ == "VBN" and not any(child for child in token.head.lefts if child.dep_ == "auxpass" or child.dep_ == "nsubjpass")]))
+    conj = [token for token in doc if token in [*token.head.rights] and token.dep_ == "conj" and token.head in tokens]
+    general = tokens + conj 
+    return general, ext, label
 
 
 """ METRICS FOR THE PAST TENSES [PASSIVE & ACTIVE VOICE]"""
 
 
 def past_simple_passive(doc):
-    past_ind_passive = {}
+    label = "past_ind_passive"
+    ext = "verb_tense"
 
-    for token in doc:
-
-        if token.lemma_ == "be" and token.tag_ == "VBD" and token.dep_ == "auxpass" and token.head.tag_ == "VBN":
-            head = token.head
-            past_ind_passive[head] = "past_ind_passive"
-
-            for child in head.children:
-                if child.text == "been" and child.dep_ == "auxpass":
-                    del past_ind_passive[head]
-
-            for tok in head.subtree:
-                if tok.tag_ == "VBN" and tok.dep_ == "conj":
-                    past_ind_passive[tok] = "past_ind_passive"
-
-            if head in past_ind_passive.keys():
-                past_ind_passive[token] = "past_ind_passive"
-
-    return past_ind_passive
+    tokens = list(itertools.chain.from_iterable([[token, token.head]for token in doc if "Tense=Past" in token.morph and "VerbForm=Fin" in token.morph and token.dep_ == "auxpass" 
+              and "Aspect=Perf" in token.head.morph and "Tense=Past" in token.head.morph and "VerbForm=Part" in token.head.morph]))
+    conj = [token for token in doc if token.tag_ == "VBN" and token.dep_ == "conj" and token.head in tokens]
+    general = tokens + conj
+    return general, ext, label
 
 
 def past_simple(doc):
-    past_ind = {}
+    label = "past_simple"
+    ext = "verb_tense"
 
-    for token in doc:
-        if token.lemma_ == "be":
-            continue
-        if token.lemma_ == "have" and [child.tag_ == "VBN" for child in token.children]:
-            continue
-        if token.pos_ != "AUX" and token.tag_ == "VBD":
-            past_ind[token] = "past_simple"
+    indicative = [token for token in doc if "Tense=Past" in token.morph and "VerbForm=Fin" in token.morph and token.text != "was" and token.text != "were"
+                  and [child for child in token.lefts if child.dep_ == "nsubj"]]
+    did_sentences = list(itertools.chain.from_iterable([[token, token.head] for token in doc if "Tense=Past" in token.morph 
+                                                        and "VerbForm=Fin" in token.morph and token.dep_ == "aux" and "VerbForm=Inf" in token.head.morph]))
+    conj = [token for token in doc if token.pos_ == "VERB" and token.dep_ == "conj" and token.head in indicative]
+    conj_neg_inter = [token for token in doc if "VerbForm=Inf" in token.morph and token.dep_ == "conj" and [i for i in token.head.lefts if "Tense=Past" in i.morph 
+                    and "VerbForm=Fin" in i.morph and i.dep_ == "aux"]]
 
-        if token.lemma_ == "do" and token.tag_ == "VBD" and token.head.tag_ == "VB":
-            head = token.head
-            past_ind[head] = "past_simple"
-            past_ind[token] = "past_simple"
-            for t in head.subtree:
-                if t.tag_ == "VB" and t.dep_ == "conj":
-                    past_ind[t] = "past_simple"
+    general = indicative + did_sentences + conj + conj_neg_inter
 
-    return past_ind
+    return general, ext, label
 
 
 def past_simple_be(doc):
-    past_ind_be = {}
+    label = "past_ind_be"
+    ext = "verb_tense"
 
-    for token in doc:
-        for child in token.children:
-            if token.lemma_ == "be" and token.tag_ == "VBD" and child.tag_ != "VBG" and token not in past_ind_be:
-                past_ind_be[token] = "past_ind_be"
-
-    return past_ind_be
+    tokens = [token for token in doc if token.lemma_ == "be" and token.tag_ == "VBD" and [child for child in token.children if child.tag_ != "VBG"]]
+    return tokens, ext, label
 
 
 def past_cont_passive(doc):
-    past_cont_passive = {}
+    label = "past_cont_passive"
+    ext = "verb_tense"
 
-    for token in doc:
-        if token.lemma_ == "be" and token.tag_ == "VBD" and token.head.tag_ == "VBN":
-            head = token.head
-
-            for child in head.children:
-                if child.text == "being" and child.tag_ == "VBG":
-                    past_cont_passive[head] = "past_cont_passive"
-                    past_cont_passive[child] = "past_cont_passive"
-                    past_cont_passive[token] = "past_cont_passive"
-
-            for t in head.subtree:
-                if t.tag_ == "VBN" and t.dep_ == "conj" and head in past_cont_passive and t not in past_cont_passive:
-                    past_cont_passive[t] = "past_cont_passive"
-
-    return past_cont_passive
+    aux = []
+    tokens = list(itertools.chain.from_iterable([[token, token.head] for token in doc if token.text == "being" and "Tense=Past" in token.head.morph and
+                                                 "VerbForm=Part" in token.head.morph and token.head.tag_ == "VBN" and 
+                                                 [aux.append(child) for child in token.head.lefts if child.dep_ == "aux" and child.lemma_ == "be" and "Tense=Past" in child.morph and "VerbForm=Fin" in child.morph]]))
+    conj = [token for token in doc if token.tag_ == "VBN" and token.dep_ == "conj" and token.head in tokens]
+    general = aux + tokens + conj
+    return general, ext, label
 
 
 def past_cont(doc):
-    past_cont = {}
+    label = "past_cont"
+    ext = "verb_tense"
 
-    for token in doc:
-        if token.lemma_ == "be" and token.tag_ == "VBD" and token.head.tag_ == "VBG":
-            head = token.head
-            past_cont[head] = "past_cont"
-            past_cont[token] = "past_cont"
-            for t in head.subtree:
-                if t.tag_ == "VBG" and t.dep_ == "conj" and t not in past_cont:
-                    past_cont[t] = "past_cont"
+    tokens = list(itertools.chain.from_iterable([[token, token.head] for token in doc if token.lemma_ == "be" and token.tag_ == "VBD" and token.head.tag_ == "VBG" and 
+                                                 not [t for t in token.head.lefts if t.dep_ == "aux" and t.text == "had"]]))
+    conj = [token for token in doc if token.tag_ == "VBG" and token.dep_ == "conj" and token.head in tokens]
+    general = tokens + conj
 
-    return past_cont
+    return general, ext, label
 
 
 def past_perfect(doc):
-    past_perf = {}
+    label = "past_perf"
+    ext = "verb_tense"
 
-    for token in doc:
-        if token.tag_ == "VBD" and token.dep_ == "aux" and token.lemma_ == "have" and token.head.tag_ == "VBN":
-            head = token.head
-            past_perf[head] = "past_perf"
+    tokens = list(itertools.chain.from_iterable([[token, token.head] for token in doc if token.dep_ == "aux" and "Tense=Past" in token.morph and token.lemma_ != "be"
+              and"Aspect=Perf" in token.head.morph and "Tense=Past" in token.head.morph and
+              not [child for child in token.head.lefts if child.dep_ == "auxpass" and child.lemma_ == "be"]]))
+    conj = [token for token in doc if token.dep_ == "conj" and token.pos_ == "VERB" and token.head in tokens]
+    general = tokens + conj
 
-            for child in head.children:
-                if child.text == "been" and child.dep_ == "auxpass":
-                    del past_perf[head]
-
-            for t in head.subtree:
-                if t.tag_ == "VBN" and t.dep_ == "conj" and head in past_perf and t not in past_perf:
-                    past_perf[t] = "past_perf"
-
-        if (token.text == "'d" or token.text == "’d") and (token.head.tag_ == "VBN" or token.head.tag_ == "VBD"):
-            head = token.head
-            past_perf[head] = "past_perf"
-
-            for child in head.children:
-                if child.lemma_ == "be" and child.dep_ == "auxpass" and head in past_perf:
-                    del past_perf[head]
-
-            for tok in head.subtree:
-                if tok.tag_ == "VBN" and tok.dep_ == "conj" and head in past_perf and tok not in past_perf:
-                    past_perf[tok] = "past_perf"
-
-            if head in past_perf.keys():
-                past_perf[token] = "past_perf"
-
-    return past_perf
+    return general, ext, label
 
 
 def past_perf_passive(doc):
-    past_perf_passive = {}
+    label = "past_perf_passive"
+    ext = "verb_tense"
 
-    for token in doc:
-        if token.tag_ == "VBD" and token.lemma_ == "have" and token.head.tag_ == "VBN":
-            head = token.head
+    auxpass = []
+    tokens = list(itertools.chain.from_iterable([[token, token.head] for token in doc if token.dep_ == "aux" and "Tense=Past" in token.morph and token.lemma_ != "be"
+              and"Aspect=Perf" in token.head.morph and "Tense=Past" in token.head.morph and [auxpass.append(child) for child in token.head.lefts if child.dep_ == "auxpass" and child.lemma_ == "be"]]))
+    conj = [token for token in doc if token.dep_ == "conj" and token.pos_ == "VERB" and token.head in tokens]
+    general =  tokens + conj + auxpass
 
-            for child in head.children:
-                if child.text == "been" and child.dep_ == "auxpass":
-                    past_perf_passive[head] = "past_perf_passive"
-                    past_perf_passive[token] = "past_perf_passive"
-                    past_perf_passive[child] = "past_perf_passive"
-
-            for t in head.subtree:
-                if t.tag_ == "VBN" and t.dep_ == "conj" and head in past_perf_passive and t not in past_perf_passive:
-                    past_perf_passive[t] = "past_perf_passive"
-
-                    # make sure that no past simple passive verbs are regarded as
-                    # synonyms of the past perfect passive
-                    for ch in t.children:
-                        if ch.lemma_ == "be" and (ch.tag_ == "VBD" or ch.tag_ == "VBG") and t in past_perf_passive:
-                            del past_perf_passive[t]
-
-        if (token.text == "'d" or token.text == "’d") and token.head.tag_ == "VBN":
-            head = token.head
-
-            for child in head.children:
-                if child.lemma_ == "be" and child.dep_ == "auxpass":
-                    past_perf_passive[head] = "past_perf_passive"
-                    past_perf_passive[token] = "past_perf_passive"
-                    past_perf_passive[child] = "past_perf_passive"
-
-            for tok in head.subtree:
-                if tok.tag_ == "VBN" and tok.dep_ == "conj" and head in past_perf_passive:
-                    past_perf_passive[tok] = "past_perf_passive"
-
-                    for chld in tok.children:
-                        if chld.lemma_ == "be" and (chld.tag_ == "VBD" or chld.tag_ == "VBG"):
-                            del past_perf_passive[tok]
-
-    return past_perf_passive
+    return general, ext, label
 
 
 def past_perfect_cont(doc):
-    past_perfect_cont = {}
+    label = "past_perf_cont"
+    ext = "verb_tense"
 
-    for token in doc:
-        if token.tag_ == "VBD" and token.lemma_ == "have" and token.head.tag_ == "VBG":
-            head = token.head
-            past_perfect_cont[head] = "past_perf_cont"
-            past_perfect_cont[token] = "past_perf_cont"
-
-            for j in head.children:
-                if j.text == "been":
-                    past_perfect_cont[j] = "past_perf_cont"
-
-            for t in head.subtree:
-                if t.tag_ == "VBG" and t.dep_ == "conj" and t not in past_perfect_cont:
-                    past_perfect_cont[t] = "past_perf_cont"
-
-    return past_perfect_cont
+    aux_been = []
+    aux_have = ["had", "'d", "’d", "Had"]
+    tokens = list(itertools.chain.from_iterable([[token, token.head] for token in doc if token.dep_ == "aux" and token.text in aux_have and 
+              token.head.tag_ == "VBG" and [aux_been.append(child) for child in token.head.lefts if child.text == "been" and child.dep_ == "aux"]]))
+    conj = [token for token in doc if token.dep_ == "conj" and token.tag_ == "VBG" and token.head in tokens]
+    general = tokens + conj + aux_been
+    return general, ext, label
 
 
 """ METRICS FOR THE FUTURE TENSES [PASSIVE & ACTIVE VOICE]"""
 
 
 def future_simple(doc):
-    future_simple = {}
+    label = "future_simple"
+    ext = "verb_tense"
 
-    for token in doc:
-        if (str(token)[len(str(token)) - 2:] == "ll" or token.lemma_ == "will") \
-                and token.head.tag_ == "VB" and token.head not in future_simple:
-            head = token.head
+    tokens = list(itertools.chain.from_iterable([[token, token.head] for token in doc if (token.lemma_ =="will" or token.lemma_ == "'ll" or token.lemma_ == "’ll")
+              and "VerbForm=Inf" in token.head.morph]))
+    conj = [token for token in doc if "VerbForm=Inf" in token.morph and token.dep_ == "conj" and token.head in tokens]
+    general = tokens + conj
 
-            for t in head.subtree:
-                if t.tag_ == "VB" and t.dep_ != "xcomp":
-                    future_simple[t] = "future_simple"
-                    future_simple[token] = "future_simple"
-
-    return future_simple
+    return general, ext, label
 
 
 def future_simple_passive(doc):
-    future_simple_passive = {}
+    label = "future_simple_passive"
+    ext = "verb_tense"
 
-    for token in doc:
-        if (str(token)[
-            len(str(token)) - 2:] == "ll" or token.lemma_ == "will") and \
-                token.head.tag_ == "VBN" and token.head not in future_simple_passive:
-            head = token.head
+    aux = []
+    tokens = list(itertools.chain.from_iterable([[token, token.head] for token in doc if (token.lemma_ =="will" or token.lemma_ == "'ll" or token.lemma_ == "’ll")
+              and "Tense=Past" in token.head.morph and "VerbForm=Part" in token.head.morph and [aux.append(child) for child in token.head.lefts if child.dep_ == "auxpass" and child.text == "be"]
+              and not [t for t in token.head.lefts if t.text == "being"]]))
+    conj = [token for token in doc if token.dep_ == "conj" and token.pos_ == "VERB" and "Tense=Past" in token.morph and "VerbForm=Part" in token.morph and token.head in tokens]
+    general = tokens + aux + conj
 
-            for t in head.children:
-                if t.text == "be" and t.dep_ == "auxpass":
-                    future_simple_passive[head] = "future_simple_passive"
-                    future_simple_passive[token] = "future_simple_passive"
-                    future_simple_passive[t] = "future_simple_passive"
-
-            for child in head.subtree:
-                if child.tag_ == "VBN" and child.dep_ == "conj" and head in future_simple_passive:
-                    future_simple_passive[child] = "future_simple_passive"
-
-                    for ch in child.children:
-                        if (
-                                ch.text == "being" or ch.text == "been") and ch.dep_ == "auxpass" and child in future_simple_passive:
-                            del future_simple_passive[child]
-
-    return future_simple_passive
+    return general, ext, label
 
 
 def future_cont(doc):
-    future_progr = {}
+    label = "future_progr"
+    ext = "verb_tense"
 
-    for token in doc:
-        if (str(token)[len(str(token)) - 2:] == "ll" or token.lemma_ == "will") \
-                and token.head.tag_ == "VBG" and token.head not in future_progr:
-
-            head = token.head
-            future_progr[head] = "future_progr"
-
-            for t in head.subtree:
-                if t.lemma_ == "have" and head in future_progr:
-                    del future_progr[head]
-
-                if t.tag_ == "VBG" and t.dep_ == "conj":
-                    future_progr[t] = "future_progr"
-
-            if head in future_progr.keys():
-                future_progr[token] = "future_progr"
-
-            for j in head.children:
-                if j.text == "be":
-                    future_progr[j] = "future_progr"
-    return future_progr
+    aux = []
+    heads = list(itertools.chain.from_iterable([[token, token.head] for token in doc if (token.lemma_ =="will" or token.lemma_ == "'ll" or token.lemma_ == "’ll") and
+             "Tense=Pres" in token.head.morph and "VerbForm=Part" in token.head.morph and [aux.append(child) for child in token.head.lefts if "VerbForm=Inf" in child.morph and child.lemma_ == "be"]]))
+    conj = [token for token in doc if token.dep_ == "conj" and token.pos_ == "VERB" and "Tense=Pres" in token.morph and "VerbForm=Part" in token.morph and token.head in heads]
+    general = aux + heads + conj
+    return general, ext, label
 
 
 def future_progr_passive(doc):
-    future_progr_passive = {}
+    label = "future_progr_passive"
+    ext = "verb_tense"
 
-    for token in doc:
-        if (str(token)[len(str(token)) - 2:] == "ll" or token.lemma_ == "will") \
-                and token.head.tag_ == "VBN" and token.head not in future_progr_passive:
-            head = token.head
-
-            for t in head.children:
-                if t.text == "being" and t.dep_ == "auxpass":
-                    future_progr_passive[head] = "future_progr_passive"
-                    future_progr_passive[t] = "future_progr_passive"
-                    future_progr_passive[token] = "future_progr_passive"
-
-                if t.text == "be" and head in future_progr_passive.keys():
-                    future_progr_passive[t] = "future_progr_passive"
-
-                if t.tag_ == "VBN" and t.dep_ == "conj" and head in future_progr_passive:
-                    future_progr_passive[t] = "future_progr_passive"
-
-                    for chld in t.children:
-                        if chld.text == "be" or chld.text == "been" and chld.dep_ == "auxpass" and t in future_progr_passive:
-                            del future_progr_passive[t]
-
-    return future_progr_passive
+    aux = []
+    tokens = list(itertools.chain.from_iterable([[token, token.head] for token in doc if (token.lemma_ =="will" or token.lemma_ == "'ll" or token.lemma_ == "’ll")
+              and "Tense=Past" in token.head.morph and "VerbForm=Part" in token.head.morph and [aux.append(child) for child in token.head.lefts if child.dep_ == "aux" and child.text == "be"]
+              and [aux.append(t) for t in token.head.lefts if t.text == "being" and t.dep_ == "auxpass"]]))
+    conj = [token for token in doc if token.dep_ == "conj" and token.pos_ == "VERB" and "Tense=Past" in token.morph and "VerbForm=Part" in token.morph and token.head in tokens]
+    general = tokens + aux + conj
+    return general, ext, label
 
 
 def future_perfect(doc):
-    future_perfect = {}
+    label = "future_perfect"
+    ext = "verb_tense"
 
-    for token in doc:
-        if (str(token)[len(str(token)) - 2:] == "ll" or token.lemma_ == "will") \
-                and token.head.tag_ == "VBN" and token.head not in future_perfect:
-            head = token.head
+    aux = []
+    tokens = list(itertools.chain.from_iterable([[token, token.head] for token in doc if (token.lemma_ =="will" or token.lemma_ == "'ll" or token.lemma_ == "’ll")
+              and "Tense=Past" in token.head.morph and "VerbForm=Part" in token.head.morph and not [t for t in token.head.lefts if t.text == "been" and t.dep_ == "auxpass"]
+              and [aux.append(child) for child in token.head.lefts if child.dep_ == "aux" and child.text == "have"]]))
+    conj = [token for token in doc if token.dep_ == "conj" and "Tense=Past" in token.morph and "VerbForm=Part" in token.morph and token.head in tokens]
+    general = tokens + aux + conj
 
-            for t in head.children:
-                if t.lemma_ == "have" and t.dep_ == "aux":
-                    future_perfect[head] = "future_perfect"
-                if t.text == "been" and t.dep_ == "auxpass":
-                    del future_perfect[head]
-
-            for tok in head.subtree:
-                if tok.tag_ == "VBN" and tok.dep_ == "conj" and head in future_perfect:
-                    future_perfect[tok] = "future_perfect"
-
-                for chld in tok.children:
-                    if (chld.text == "being" or chld.text == "be") and tok in future_perfect:
-                        del future_perfect[tok]
-
-            if head in future_perfect.keys():
-                for k in head.children:
-                    if k.text == "have":
-                        future_perfect[k] = "future_perfect"
-                    if k.text == "been":
-                        future_perfect[k] = "future_perfect"
-
-    return future_perfect
+    return general, ext, label
 
 
 def future_perfect_passive(doc):
-    future_perf_passive = {}
+    label = "future_perf_passive"
+    ext = "verb_tense"
 
-    for token in doc:
-        if (str(token)[len(str(token)) - 2:] == "ll" or token.lemma_ == "will") \
-                and token.head.tag_ == "VBN" and token.head not in future_perf_passive:
-            head = token.head
+    aux = []
+    tokens = list(itertools.chain.from_iterable([[token, token.head] for token in doc if (token.lemma_ =="will" or token.lemma_ == "'ll" or token.lemma_ == "’ll")
+              and "Tense=Past" in token.head.morph and "VerbForm=Part" in token.head.morph and [aux.append(t) for t in token.head.lefts if t.text == "been" and t.dep_ == "auxpass"]
+              and [aux.append(child) for child in token.head.lefts if child.dep_ == "aux" and child.text == "have"]]))
+    conj = [token for token in doc if token.dep_ == "conj" and "Tense=Past" in token.morph and "VerbForm=Part" in token.morph and token.head in tokens]
+    general = tokens + aux + conj
 
-            for child in head.children:
-                if child.text == "been" and child.dep_ == "auxpass":
-                    future_perf_passive[head] = "future_perf_passive"
-                    future_perf_passive[token] = "future_perf_passive"
-                    future_perf_passive[child] = "future_perf_passive"
-
-            for chld in head.subtree:
-                if chld.tag_ == "VBN" and chld.dep_ == "conj" and head in future_perf_passive:
-                    future_perf_passive[chld] = "future_perf_passive"
-
-                for t in chld.children:
-                    if (t.text == "be" or t.text == "being") and t.dep_ == "auxpass" and chld in future_perf_passive:
-                        del future_perf_passive[chld]
-
-    return future_perf_passive
+    return general, ext, label
 
 
 def future_perf_cont(doc):
-    future_perfect_cont = {}
-    for token in doc:
-        if (str(token)[len(str(token)) - 2:] == "ll" or token.lemma_ == "will") \
-                and token.head.tag_ == "VBG" and token.head not in future_perfect_cont:
-            head = token.head
+    label = "future_perfect_cont"
+    ext = "verb_tense"
 
-            for t in head.children:
-                if t.tag_ == "VBN" and t.lemma_ == "be":
-                    future_perfect_cont[head] = "future_perfect_cont"
-                    future_perfect_cont[t] = "future_perfect_cont"
-                    future_perfect_cont[token] = "future_perfect_cont"
-    return future_perfect_cont
+    aux = []
+    tokens = list(itertools.chain.from_iterable([[token, token.head] for token in doc if (token.lemma_ =="will" or token.lemma_ == "'ll" or token.lemma_ == "’ll")
+                                                 and "Tense=Pres" in token.head.morph and "VerbForm=Part" in token.head.morph and [aux.append(child) for child in token.head.lefts if child.dep_ == "aux" and child.text == "have"]
+                                                 and [aux.append(t) for t in token.head.lefts if t.text == "been" and t.dep_ == "aux"]]))
+    conj = [token for token in doc if token.dep_ == "conj" and "Tense=Pres" in token.morph and "VerbForm=Part" in token.morph and token.head in tokens]
+    general = tokens + aux + conj
+    return general, ext, label
 
 
 """ METRICS FOR MODAL VERBS [PASSIVE & ACTIVE VOICE]"""
 
 
 def would_ind_active(doc):
-    would_ind_active = {}
+    would_ind_active = set()
+    label = "would_ind_active"
+    ext = "modal_verbs"
 
     for token in doc:
         if token.lemma_ == "would" and token.head.tag_ == "VB":
             head = token.head
-            would_ind_active[head] = "would_ind_active"
-            would_ind_active[token] = "would_ind_active"
+            would_ind_active.add(head)
+            would_ind_active.add(token)
 
             for t in head.subtree:
                 if t.tag_ == "VB" and t.dep_ == "conj":
-                    would_ind_active[t] = "would_ind_active"
-    return would_ind_active
+                    would_ind_active.add(t)
+    return would_ind_active, ext, label
 
 
 def would_ind_passive(doc):
-    would_ind_passive = {}
+    would_ind_passive = set()
+    label = "would_ind_passive"
+    ext = "modal_verbs"
 
     for token in doc:
         if token.lemma_ == "would" and token.head.tag_ == "VBN":
@@ -654,19 +358,21 @@ def would_ind_passive(doc):
 
             for tkn in head.children:
                 if tkn.text == "be" and tkn.dep_ == "auxpass":
-                    would_ind_passive[head] = "would_ind_passive"
-                    would_ind_passive[token] = "would_ind_passive"
-                    would_ind_passive[tkn] = "would_ind_passive"
+                    would_ind_passive.add(head)
+                    would_ind_passive.add(token)
+                    would_ind_passive.add(tkn)
 
             for t in head.subtree:
                 if t.tag_ == "VBN" and t.dep_ == "conj" and head in would_ind_passive:
-                    would_ind_passive[t] = "would_ind_passive"
+                    would_ind_passive.add(t)
 
-    return would_ind_passive
+    return would_ind_passive, ext, label
 
 
 def would_cont_active(doc):
-    would_cont_active = {}
+    would_cont_active = set()
+    ext = "modal_verbs"
+    label = "would_cont"
 
     for token in doc:
 
@@ -675,18 +381,20 @@ def would_cont_active(doc):
 
             for t in head.subtree:
                 if t.text == "be":
-                    would_cont_active[head] = "would_cont"
-                    would_cont_active[t] = "would_cont"
-                    would_cont_active[token] = "would_cont"
+                    would_cont_active.add(head)
+                    would_cont_active.add(t)
+                    would_cont_active.add(token)
 
                     for j in head.subtree:
                         if j.tag_ == "VBG" and j.dep_ == "conj":
-                            would_cont_active[j] = "would_cont"
-    return would_cont_active
+                            would_cont_active.add(j)
+    return would_cont_active, ext, label
 
 
 def would_perf_active(doc):
-    would_perf_active = {}
+    would_perf_active = set()
+    label = "would_perf_active"
+    ext = "modal_verbs"
 
     for token in doc:
         if (token.lemma_ == "would" or token.lemma_ == "'d" or token.lemma_ == "’d") and token.head.tag_ == "VBN":
@@ -694,27 +402,29 @@ def would_perf_active(doc):
 
             for t in head.children:
                 if t.lemma_ == "have":
-                    would_perf_active[head] = "would_perf_active"
+                    would_perf_active.add(head)
 
             for k in head.children:
                 if k.lemma_ == "be" and head in would_perf_active:
-                    del would_perf_active[head]
+                    would_perf_active.remove(head)
 
-            if head in would_perf_active.keys():
-                would_perf_active[token] = "would_perf_active"
+            if head in would_perf_active:
+                would_perf_active.add(token)
                 for tkn in head.children:
                     if tkn.lemma_ == "have":
-                        would_perf_active[tkn] = "would_perf_active"
+                        would_perf_active.add(tkn)
 
             for j in head.subtree:
                 if (j.tag_ == "VBN" or j.tag_ == "VBD") and j.dep_ == "conj" and head in would_perf_active:
-                    would_perf_active[j] = "would_perf_active"
+                    would_perf_active.add(j)
 
-    return would_perf_active
+    return would_perf_active, ext, label
 
 
 def would_perf_passive(doc):
-    would_perf_passive = {}
+    would_perf_passive = set()
+    label = "would_perf_passive"
+    ext = "modal_verbs"
 
     for token in doc:
 
@@ -723,32 +433,36 @@ def would_perf_passive(doc):
 
             for k in head.children:
                 if k.text == "been" and k.dep_ == "auxpass":
-                    would_perf_passive[head] = "would_perf_passive"
+                    would_perf_passive.add(head)
 
             for j in head.subtree:
                 if (j.tag_ == "VBN" or j.tag_ == "VBD") and j.dep_ == "conj" and head in would_perf_passive:
-                    would_perf_passive[j] = "would_perf_passive"
+                    would_perf_passive.add(j)
 
-    return would_perf_passive
+    return would_perf_passive, ext, label
 
 
 def should_ind_active(doc):
-    should_ind_active = {}
+    should_ind_active = set()
+    label = "should_ind_active"
+    ext = "modal_verbs"
 
     for token in doc:
 
         if token.lemma_ == "should" and token.head.tag_ == "VB":
             head = token.head
-            should_ind_active[head] = "should_ind_active"
-            should_ind_active[token] = "should_ind_active"
+            should_ind_active.add(head)
+            should_ind_active.add(token)
             for t in head.subtree:
                 if t.tag_ == "VB" and t.dep_ == "conj":
-                    should_ind_active[t] = "should_ind_active"
-    return should_ind_active
+                    should_ind_active.add(t)
+    return should_ind_active, ext, label
 
 
 def should_ind_passive(doc):
-    should_ind_passive = {}
+    should_ind_passive = set()
+    label = "should_ind_passive"
+    ext = "modal_verbs"
 
     for token in doc:
 
@@ -757,33 +471,37 @@ def should_ind_passive(doc):
 
             for tkn in head.children:
                 if tkn.text == "be" and tkn.dep_ == "auxpass":
-                    should_ind_passive[head] = "should_ind_passive"
-                    should_ind_passive[tkn] = "should_ind_passive"
-                    should_ind_passive[token] = "should_ind_passive"
+                    should_ind_passive.add(head)
+                    should_ind_passive.add(tkn)
+                    should_ind_passive.add(token)
 
             for t in head.subtree:
                 if t.tag_ == "VBN" and t.dep_ == "conj" and head in should_ind_passive:
-                    should_ind_passive[t] = "should_ind_passive"
-    return should_ind_passive
+                    should_ind_passive.add(t)
+    return should_ind_passive, ext, label
 
 
 def shall_ind_active(doc):
-    shall_ind_active = {}
+    shall_ind_active = set()
+    label = "shall_ind_active"
+    ext = "modal_verbs"
 
     for token in doc:
 
         if token.lemma_ == "shall" and token.head.tag_ == "VB":
             head = token.head
-            shall_ind_active[head] = "shall_ind_active"
-            shall_ind_active[token] = "shall_ind_active"
+            shall_ind_active.add(head)
+            shall_ind_active.add(token)
             for t in head.subtree:
                 if t.tag_ == "VB" and t.dep_ == "conj":
-                    shall_ind_active[t] = "shall_ind_active"
-    return shall_ind_active
+                    shall_ind_active.add(t)
+    return shall_ind_active, ext, label
 
 
 def shall_ind_passive(doc):
-    shall_ind_passive = {}
+    shall_ind_passive = set()
+    label = "shall_ind_passive"
+    ext = "modal_verbs"
 
     for token in doc:
 
@@ -792,18 +510,20 @@ def shall_ind_passive(doc):
 
             for tkn in head.children:
                 if tkn.text == "be" and tkn.dep_ == "auxpass":
-                    shall_ind_passive[head] = "shall_ind_passive"
-                    shall_ind_passive[tkn] = "aux_shall_ind_passive"
-                    shall_ind_passive[token] = "shall_ind_passive"
+                    shall_ind_passive.add(head)
+                    shall_ind_passive.add(tkn)
+                    shall_ind_passive.add(token)
 
             for t in head.subtree:
                 if t.tag_ == "VBN" and t.dep_ == "conj" and head in shall_ind_passive:
-                    shall_ind_passive[t] = "shall_ind_passive"
-    return shall_ind_passive
+                    shall_ind_passive.add(t)
+    return shall_ind_passive, ext, label
 
 
 def should_cont(doc):
-    should_cont = {}
+    should_cont = set()
+    label = "should_cont"
+    ext = "modal_verbs"
 
     for token in doc:
 
@@ -812,18 +532,20 @@ def should_cont(doc):
 
             for t in head.subtree:
                 if t.text == "be":
-                    should_cont[head] = "should_cont"
-                    should_cont[t] = "aux_should_cont"
-                    should_cont[token] = "should_cont"
+                    should_cont.add(head)
+                    should_cont.add(t)
+                    should_cont.add(token)
 
                     for j in head.subtree:
                         if j.tag_ == "VBG" and j.dep_ == "conj":
-                            should_cont[j] = "should_cont"
-    return should_cont
+                            should_cont.add(j)
+    return should_cont, ext, label
 
 
 def should_perf_active(doc):
-    should_perf_active = {}
+    should_perf_active = set()
+    label = "should_perf_active"
+    ext = "modal_verbs"
 
     for token in doc:
 
@@ -832,25 +554,27 @@ def should_perf_active(doc):
 
             for t in head.children:
                 if t.text == "have":
-                    should_perf_active[head] = "should_perf_active"
-                    should_perf_active[t] = "should_perf_active"
+                    should_perf_active.add(head)
+                    should_perf_active.add(t)
 
                     for k in head.children:
                         if k.text == "been" and k.dep_ != "ROOT" and (head in should_perf_active):
-                            del should_perf_active[head]
-                            del should_perf_active[t]
+                            should_perf_active.remove(head)
+                            should_perf_active.remove(t)
 
-            if head in should_perf_active.keys():
-                should_perf_active[token] = "should_perf_active"
+            if head in should_perf_active:
+                should_perf_active.add(token)
 
             for k in head.subtree:
                 if (k.tag_ == "VBN" or k.tag_ == "VBD") and k.dep_ == "conj" and head in should_perf_active:
-                    should_perf_active[k] = "should_perf_active"
-    return should_perf_active
+                    should_perf_active.add(k)
+    return should_perf_active, ext, label
 
 
 def should_perf_passive(doc):
-    should_perf_passive = {}
+    should_perf_passive = set()
+    label = "should_perf_passive"
+    ext = "modal_verbs"
 
     for token in doc:
 
@@ -859,33 +583,37 @@ def should_perf_passive(doc):
 
             for t in head.children:
                 if t.text == "been" and t.dep_ == "auxpass":
-                    should_perf_passive[head] = "should_perf_passive"
-                    should_perf_passive[t] = "should_perf_passive"
-                    should_perf_passive[token] = "should_perf_passive"
+                    should_perf_passive.add(head)
+                    should_perf_passive.add(t)
+                    should_perf_passive.add(token)
 
             for j in head.subtree:
                 if (j.tag_ == "VBN" or j.tag_ == "VBD") and j.dep_ == "conj" and head in should_perf_passive:
-                    should_perf_passive[j] = "should_perf_passive"
-    return should_perf_passive
+                    should_perf_passive.add(j)
+    return should_perf_passive, ext, label
 
 
 def must_ind_active(doc):
-    must_ind_active = {}
+    must_ind_active = set()
+    label = "must_ind_active"
+    ext = "modal_verbs"
 
     for token in doc:
 
         if token.lemma_ == "must" and token.head.tag_ == "VB":
             head = token.head
-            must_ind_active[head] = "must_ind_active"
-            must_ind_active[token] = "must_ind_active"
+            must_ind_active.add(head)
+            must_ind_active.add(token)
             for t in head.subtree:
                 if t.tag_ == "VB" and t.dep_ == "conj":
-                    must_ind_active[t] = "must_ind_active"
-    return must_ind_active
+                    must_ind_active.add(t)
+    return must_ind_active, ext, label
 
 
 def must_ind_passive(doc):
-    must_ind_passive = {}
+    must_ind_passive = set()
+    label = "must_ind_passive"
+    ext = "modal_verbs"
 
     for token in doc:
 
@@ -894,18 +622,20 @@ def must_ind_passive(doc):
 
             for tkn in head.children:
                 if tkn.text == "be" and tkn.dep_ == "auxpass":
-                    must_ind_passive[head] = "must_ind_passive"
-                    must_ind_passive[token] = "must_ind_passive"
-                    must_ind_passive[tkn] = "must_ind_passive"
+                    must_ind_passive.add(head)
+                    must_ind_passive.add(token)
+                    must_ind_passive.add(tkn)
 
             for t in head.subtree:
                 if t.tag_ == "VBN" and t.dep_ == "conj" and head in must_ind_passive:
-                    must_ind_passive[t] = "must_ind_passive"
-    return must_ind_passive
+                    must_ind_passive.add(t)
+    return must_ind_passive, ext, label
 
 
 def must_cont(doc):
-    must_cont = {}
+    must_cont = set()
+    label = "must_cont"
+    ext = "modal_verbs"
 
     for token in doc:
 
@@ -914,18 +644,20 @@ def must_cont(doc):
 
             for t in head.subtree:
                 if t.text == "be":
-                    must_cont[head] = "must_cont"
-                    must_cont[token] = "must_cont"
-                    must_cont[t] = "must_cont"
+                    must_cont.add(head)
+                    must_cont.add(token)
+                    must_cont.add(t)
 
                     for j in head.subtree:
                         if j.tag_ == "VBG" and j.dep_ == "conj":
-                            must_cont[j] = "must_cont"
-    return must_cont
+                            must_cont.add(j)
+    return must_cont, ext, label
 
 
 def must_perf_active(doc):
-    must_perf_active = {}
+    must_perf_active = set()
+    label = "must_perf_active"
+    ext = "modal_verbs"
 
     for token in doc:
 
@@ -934,25 +666,27 @@ def must_perf_active(doc):
 
             for t in head.subtree:
                 if t.text == "have":
-                    must_perf_active[head] = "must_perf_active"
-                    must_perf_active[t] = "must_perf_active"
+                    must_perf_active.add(head)
+                    must_perf_active.add(t)
 
                     for tkn in head.children:
                         if tkn.text == "been" and tkn.dep_ != "ROOT":
-                            del must_perf_active[head]
-                            del must_perf_active[t]
+                            must_perf_active.remove(head)
+                            must_perf_active.remove(t)
 
-            if head in must_perf_active.keys():
-                must_perf_active[token] = "must_perf_active"
+            if head in must_perf_active:
+                must_perf_active.add(token)
 
             for j in head.subtree:
                 if (j.tag_ == "VBN" or j.tag_ == "VBD") and j.dep_ == "conj":
-                    must_perf_active[j] = "must_perf_active"
-    return must_perf_active
+                    must_perf_active.add(j)
+    return must_perf_active, ext, label
 
 
 def must_perf_passive(doc):
-    must_perf_passive = {}
+    must_perf_passive = set()
+    label = "must_perf_passive"
+    ext = "modal_verbs"
 
     for token in doc:
 
@@ -961,37 +695,41 @@ def must_perf_passive(doc):
 
             for tkn in head.children:
                 if tkn.text == "been" and tkn.dep_ == "auxpass":
-                    must_perf_passive[head] = "could_perf_passive"
-                    must_perf_passive[token] = "could_perf_passive"
-                    must_perf_passive[tkn] = "could_perf_passive"
+                    must_perf_passive.add(head)
+                    must_perf_passive.add(token)
+                    must_perf_passive.add(tkn)
 
                     for tkn in head.children:
                         if tkn.lemma_ == "have":
-                            must_perf_passive[tkn] = "could_perf_passive"
+                            must_perf_passive.add(tkn)
 
             for j in head.subtree:
                 if (j.tag_ == "VBN" or j.tag_ == "VBD") and j.dep_ == "conj" and head in must_perf_passive:
-                    must_perf_passive[j] = "must_perf_active"
-    return must_perf_passive
+                    must_perf_passive.add(j)
+    return must_perf_passive, ext, label
 
 
 def can_ind(doc):
-    can_ind = {}
+    can_ind = set()
+    label = "can_ind"
+    ext = "modal_verbs"
 
     for token in doc:
 
         if token.lemma_ == "can" and token.head.tag_ == "VB":
             head = token.head
-            can_ind[head] = "can_ind"
-            can_ind[token] = "can_ind"
+            can_ind.add(head)
+            can_ind.add(token)
             for t in head.subtree:
                 if t.tag_ == "VB" and t.dep_ == "conj":
-                    can_ind[t] = "can_ind"
-    return can_ind
+                    can_ind.add(t)
+    return can_ind, ext, label
 
 
 def can_ind_passive(doc):
-    can_present_ind_passive = {}
+    can_present_ind_passive = set()
+    label = "can_ind_passive"
+    ext = "modal_verbs"
 
     for token in doc:
 
@@ -1000,34 +738,38 @@ def can_ind_passive(doc):
 
             for tkn in head.children:
                 if tkn.text == "be" and tkn.dep_ == "auxpass":
-                    can_present_ind_passive[head] = "can_ind_passive"
-                    can_present_ind_passive[tkn] = "can_ind_passive"
-                    can_present_ind_passive[token] = "can_ind_passive"
+                    can_present_ind_passive.add(head)
+                    can_present_ind_passive.add(tkn)
+                    can_present_ind_passive.add(token)
 
             for t in head.subtree:
                 if t.tag_ == "VBN" and t.dep_ == "conj" and head in can_present_ind_passive:
-                    can_present_ind_passive[t] = "can_ind_passive"
+                    can_present_ind_passive.add(t)
 
-    return can_present_ind_passive
+    return can_present_ind_passive, ext, label
 
 
 def could_ind_active(doc):
-    could_ind_active = {}
+    could_ind_active = set()
+    label = "could_ind"
+    ext = "modal_verbs"
 
     for token in doc:
 
         if token.lemma_ == "could" and token.head.tag_ == "VB":
             head = token.head
-            could_ind_active[head] = "could_ind"
-            could_ind_active[token] = "could_ind"
+            could_ind_active.add(head)
+            could_ind_active.add(token)
             for t in head.subtree:
                 if t.tag_ == "VB" and t.dep_ == "conj":
-                    could_ind_active[t] = "could_ind"
-    return could_ind_active
+                    could_ind_active.add(t)
+    return could_ind_active, ext, label
 
 
 def could_ind_passive(doc):
-    could_ind_passive = {}
+    could_ind_passive = set()
+    label = "could_ind_passive"
+    ext = "modal_verbs"
 
     for token in doc:
 
@@ -1036,18 +778,20 @@ def could_ind_passive(doc):
 
             for tkn in head.children:
                 if tkn.text == "be" and tkn.dep_ == "auxpass":
-                    could_ind_passive[head] = "could_ind_passive"
-                    could_ind_passive[token] = "could_ind_passive"
-                    could_ind_passive[tkn] = "could_ind_passive"
+                    could_ind_passive.add(head)
+                    could_ind_passive.add(token)
+                    could_ind_passive.add(tkn)
 
             for t in head.subtree:
                 if t.tag_ == "VBN" and t.dep_ == "conj" and head in could_ind_passive:
-                    could_ind_passive[t] = "could_ind_passive"
-    return could_ind_passive
+                    could_ind_passive.add(t)
+    return could_ind_passive, ext, label
 
 
 def can_cont(doc):
-    can_cont = {}
+    can_cont = set()
+    label = "can_cont"
+    ext = "modal_verbs"
 
     for token in doc:
 
@@ -1056,18 +800,20 @@ def can_cont(doc):
 
             for t in head.subtree:
                 if t.text == "be":
-                    can_cont[head] = "can_cont"
-                    can_cont[t] = "can_cont"
-                    can_cont[token] = "can_cont"
+                    can_cont.add(head)
+                    can_cont.add(t)
+                    can_cont.add(token)
 
                     for j in head.subtree:
                         if j.tag_ == "VBG" and j.dep_ == "conj":
-                            can_cont[j] = "can_cont"
-    return can_cont
+                            can_cont.add(j)
+    return can_cont, ext, label
 
 
 def could_cont(doc):
-    could_cont = {}
+    could_cont = set()
+    label = "could_cont"
+    ext = "modal_verbs"
 
     for token in doc:
 
@@ -1076,45 +822,33 @@ def could_cont(doc):
 
             for t in head.subtree:
                 if t.text == "be":
-                    could_cont[head] = "could_cont"
-                    could_cont[token] = "could_cont"
-                    could_cont[t] = "could_cont"
+                    could_cont.add(head)
+                    could_cont.add(token)
+                    could_cont.add(t)
 
                     for j in head.subtree:
                         if j.tag_ == "VBG" and j.dep_ == "conj":
-                            could_cont[j] = "could_cont"
-    return could_cont
+                            could_cont.add(j)
+    return could_cont, ext, label
 
 
 def could_perf_active(doc):
-    could_perf_active = {}
 
-    for token in doc:
-
-        if token.lemma_ == "could" and token.head.tag_ == "VBN":
-            head = token.head
-
-            for t in head.subtree:
-                if t.lemma_ == "have":
-                    could_perf_active[head] = "could_perf"
-                    could_perf_active[t] = "could_perf"
-
-                    for j in head.subtree:
-                        if j.text == "been" and j.dep_ != "ROOT" and (head in could_perf_active):
-                            del could_perf_active[head]
-                            del could_perf_active[t]
-
-            if head in could_perf_active.keys():
-                could_perf_active[token] = "could_perf"
-
-            for k in head.subtree:
-                if k.tag_ == "VBN" and k.dep_ == "conj" and head in could_perf_active:
-                    could_perf_active[k] = "could_perf"
-    return could_perf_active
+    label = "could_perf"
+    ext = "modal_verbs"
+    sentences = list(itertools.chain.from_iterable([[sent for token in sent if token.dep_ == "ROOT" and doc[token.i-1].text == "have" 
+                  and doc[token.i-1].dep_ == "aux" and [child for child in token.lefts if child.text == "could" and child.dep_ == "aux"]]
+                  for sent in doc.sents]))
+    search = list(itertools.chain.from_iterable([[[token.head, doc[token.head.i-1], token] for 
+                                                  token in sent if token.dep_ == "aux" and token.text == "could"] for sent in sentences]))
+    result = list(itertools.chain.from_iterable(search))
+    return result, ext, label
 
 
 def could_perf_passive(doc):
-    could_perf_passive = {}
+    could_perf_passive = set()
+    label = "could_perf_passive"
+    ext = "modal_verbs"
 
     for token in doc:
 
@@ -1123,37 +857,41 @@ def could_perf_passive(doc):
 
             for t in head.children:
                 if t.text == "been":
-                    could_perf_passive[head] = "could_perf_passive"
-                    could_perf_passive[t] = "could_perf_passive"
-                    could_perf_passive[token] = "could_perf_passive"
+                    could_perf_passive.add(head)
+                    could_perf_passive.add(t)
+                    could_perf_passive.add(token)
 
                     for k in head.children:
                         if k.lemma_ == "have":
-                            could_perf_passive[k] = "could_perf_passive"
+                            could_perf_passive.add(k)
 
-            for k in head.subtree:
-                if k.tag_ == "VBN" and k.dep_ == "conj" and head in could_perf_passive:
-                    could_perf_passive[k] = "could_perf_passive"
-    return could_perf_passive
+            for i in head.subtree:
+                if i.tag_ == "VBN" and i.dep_ == "conj" and head in could_perf_passive:
+                    could_perf_passive.add(i)
+    return could_perf_passive, ext, label
 
 
 def may_ind_active(doc):
-    may_ind_active = {}
+    may_ind_active = set()
+    label = "may_ind"
+    ext = "modal_verbs"
 
     for token in doc:
 
         if token.lemma_ == "may" and token.head.tag_ == "VB":
             head = token.head
-            may_ind_active[head] = "may_ind"
-            may_ind_active[token] = "may_ind"
+            may_ind_active.add(head)
+            may_ind_active.add(token)
             for t in head.subtree:
                 if t.tag_ == "VB" and t.dep_ == "conj":
-                    may_ind_active[t] = "may_ind"
-    return may_ind_active
+                    may_ind_active.add(t)
+    return may_ind_active, ext, label
 
 
 def may_ind_passive(doc):
-    may_ind_passive = {}
+    may_ind_passive = set()
+    label = "may_ind_passive"
+    ext = "modal_verbs"
 
     for token in doc:
 
@@ -1162,33 +900,37 @@ def may_ind_passive(doc):
 
             for tkn in head.children:
                 if tkn.text == "be" and tkn.dep_ == "auxpass":
-                    may_ind_passive[head] = "may_ind_passive"
-                    may_ind_passive[tkn] = "may_ind_passive"
-                    may_ind_passive[token] = "may_ind_passive"
+                    may_ind_passive.add(head)
+                    may_ind_passive.add(tkn)
+                    may_ind_passive.add(token)
 
             for t in head.subtree:
                 if t.tag_ == "VBN" and t.dep_ == "conj" and head in may_ind_passive:
-                    may_ind_passive[t] = "may_ind_passive"
-    return may_ind_passive
+                    may_ind_passive.add(t)
+    return may_ind_passive, ext, label
 
 
 def might_ind_active(doc):
-    might_ind_active = {}
+    might_ind_active = set()
+    label = "might_ind"
+    ext = "modal_verbs"
 
     for token in doc:
 
         if token.lemma_ == "might" and token.head.tag_ == "VB":
             head = token.head
-            might_ind_active[head] = "might_ind"
-            might_ind_active[token] = "might_ind"
+            might_ind_active.add(head)
+            might_ind_active.add(token)
             for t in head.subtree:
                 if t.tag_ == "VB" and t.dep_ == "conj":
-                    might_ind_active[t] = "might_ind"
-    return might_ind_active
+                    might_ind_active.add(t)
+    return might_ind_active, ext, label
 
 
 def might_ind_passive(doc):
-    might_ind_passive = {}
+    might_ind_passive = set()
+    label = "might_ind_passive"
+    ext = "modal_verbs"
 
     for token in doc:
 
@@ -1197,18 +939,20 @@ def might_ind_passive(doc):
 
             for tkn in head.children:
                 if tkn.text == "be" and tkn.dep_ == "auxpass":
-                    might_ind_passive[head] = "might_ind_passive"
-                    might_ind_passive[token] = "might_ind_passive"
-                    might_ind_passive[tkn] = "might_ind_passive"
+                    might_ind_passive.add(head)
+                    might_ind_passive.add(token)
+                    might_ind_passive.add(tkn)
 
             for t in head.subtree:
                 if t.tag_ == "VBN" and t.dep_ == "conj" and head in might_ind_passive:
-                    might_ind_passive[t] = "might_ind_passive"
-    return might_ind_passive
+                    might_ind_passive.add(t)
+    return might_ind_passive, ext, label
 
 
 def may_cont(doc):
-    may_cont = {}
+    may_cont = set()
+    label = "may_cont"
+    ext = "modal_verbs"
 
     for token in doc:
 
@@ -1217,18 +961,20 @@ def may_cont(doc):
 
             for t in head.subtree:
                 if t.text == "be":
-                    may_cont[head] = "may_cont"
-                    may_cont[token] = "may_cont"
-                    may_cont[t] = "may_cont"
+                    may_cont.add(head)
+                    may_cont.add(token)
+                    may_cont.add(t)
 
                     for j in head.subtree:
                         if j.tag_ == "VBG" and j.dep_ == "conj":
-                            may_cont[j] = "may_cont"
-    return may_cont
+                            may_cont.add(j)
+    return may_cont, ext, label
 
 
 def might_perf_active(doc):
-    might_perf_active = {}
+    might_perf_active = set()
+    label = "might_perf"
+    ext = "modal_verbs"
 
     for token in doc:
         if token.lemma_ == "might" and token.head.tag_ == "VBN":
@@ -1236,25 +982,27 @@ def might_perf_active(doc):
 
             for t in head.subtree:
                 if t.text == "have":
-                    might_perf_active[head] = "might_perf"
-                    might_perf_active[t] = "might_perf"
+                    might_perf_active.add(head)
+                    might_perf_active.add(t)
 
                     for k in head.children:
                         if k.text == "been" and k.dep_ != "ROOT" and (head in might_perf_active):
-                            del might_perf_active[head]
-                            del might_perf_active[t]
+                            might_perf_active.remove(head)
+                            might_perf_active.remove(t)
 
-            if head in might_perf_active.keys():
-                might_perf_active[token] = "might_perf"
+            if head in might_perf_active:
+                might_perf_active.add(token)
 
             for j in head.subtree:
                 if (j.tag_ == "VBN" or j.tag_ == "VBD") and j.dep_ == "conj":
-                    might_perf_active[j] = "might_perf"
-    return might_perf_active
+                    might_perf_active.add(j)
+    return might_perf_active, ext, label
 
 
 def might_perf_passive(doc):
-    might_perf_passive = {}
+    might_perf_passive = set()
+    label = "might_perf_passive"
+    ext = "modal_verbs"
 
     for token in doc:
 
@@ -1263,22 +1011,24 @@ def might_perf_passive(doc):
 
             for t in head.children:
                 if t.text == "been" and t.dep_ == "auxpass":
-                    might_perf_passive[head] = "might_perf_passive"
-                    might_perf_passive[token] = "might_perf_passive"
-                    might_perf_passive[t] = "might_perf_passive"
+                    might_perf_passive.add(head)
+                    might_perf_passive.add(token)
+                    might_perf_passive.add(t)
 
                     for k in head.children:
                         if k.lemma_ == "have":
-                            might_perf_passive[k] = "might_perf_passive"
+                            might_perf_passive.add(k)
 
             for k in head.subtree:
                 if k.tag_ == "VBN" and k.dep_ == "conj" and head in might_perf_passive:
-                    might_perf_passive[k] = "might_perf_passive"
-    return might_perf_passive
+                    might_perf_passive.add(k)
+    return might_perf_passive, ext, label
 
 
 def may_perf_passive(doc):
-    may_perf_passive = {}
+    may_perf_passive = set()
+    label = "might_perf_passive"
+    ext = "modal_verbs"
 
     for token in doc:
 
@@ -1287,16 +1037,19 @@ def may_perf_passive(doc):
 
             for t in head.children:
                 if t.text == "been" and t.dep_ == "auxpass":
-                    may_perf_passive[head] = "may_perf_passive"
-                    may_perf_passive[token] = "may_perf_passive"
-                    may_perf_passive[t] = "may_perf_passive"
+                    may_perf_passive.add(head)
+                    may_perf_passive.add(token)
+                    may_perf_passive.add(t)
                 if t.lemma_ == "have":
-                    may_perf_passive[t] = "may_perf_passive"
+                    may_perf_passive.add(t)
 
             for k in head.subtree:
                 if k.tag_ == "VBN" and k.dep_ == "conj" and head in may_perf_passive:
-                    may_perf_passive[k] = "may_perf_passive"
-    return may_perf_passive
+                    may_perf_passive.add(k)
+    return may_perf_passive, ext, label
+
+
+"""ADJECTIVES AND ADVERBS: DEGREES OF COMPARISON"""
 
 
 def adjectives(doc):
@@ -1398,3 +1151,61 @@ def adverbs(doc):
             adv[token] = "superlative_adverb"
 
     return adv
+
+
+FUNCTION_LIST = [
+    present_simple,
+    present_cont,
+    present_perfect_cont,
+    present_simple_passive,
+    present_progressive_passive,
+    present_perfect_passive,
+    present_perfect,
+    past_simple_passive,
+    past_simple,
+    past_simple_be,
+    past_cont_passive,
+    past_cont,
+    past_perfect,
+    past_perf_passive,
+    past_perfect_cont,
+    future_simple,
+    future_simple_passive,
+    future_cont,
+    future_progr_passive,
+    future_perfect,
+    future_perfect_passive,
+    future_perf_cont,
+    would_ind_active,
+    would_ind_passive,
+    would_cont_active,
+    would_perf_active,
+    would_perf_passive,
+    should_ind_active,
+    should_ind_passive,
+    shall_ind_active,
+    shall_ind_passive,
+    should_cont,
+    should_perf_active,
+    should_perf_passive,
+    must_ind_active,
+    must_cont,
+    must_perf_active,
+    must_perf_passive,
+    can_ind,
+    can_ind_passive,
+    could_ind_active,
+    could_ind_passive,
+    can_cont,
+    could_cont,
+    could_perf_active,
+    could_perf_passive,
+    may_ind_active,
+    may_ind_passive,
+    might_ind_active,
+    might_ind_passive,
+    may_cont,
+    might_perf_active,
+    might_perf_passive,
+    may_perf_passive,
+]

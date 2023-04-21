@@ -58,6 +58,26 @@ def incidence(doc, selection):
     return ratio(len(selection), doc._.n_tokens)
 
 
+def sent_incidence(doc, selection):
+    return ratio(len(selection), doc._.n_sents)
+
+
 def highlight_words(doc, tokens):
     return "".join(
         [(str(f"[[[{token}]]]") if token in tokens else str(token)) + token.whitespace_ for token in doc])
+
+
+def start_end_quote(doc):
+    for token in doc:
+        if ("PunctSide=Ini" and "PunctType=Quot") in token.morph:
+            start = token.i+1
+            break
+        else:
+            start = None
+    for token in reversed(doc):
+        if ("PunctSide=Fin" and "PunctType=Quot") in token.morph:
+            end = token.i-1
+            break
+        else:
+            end = None
+    return start, end

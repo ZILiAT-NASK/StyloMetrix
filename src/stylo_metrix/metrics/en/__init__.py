@@ -13,10 +13,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+from stylo_metrix.structures import Lang
 
-from stylo_metrix.metrics.en.grammatical_forms import grammatical_forms_group
-from stylo_metrix.metrics.en.syntactic_en import syntactic_group
-from stylo_metrix.metrics.en.lexical_en import lexical_group
-original_group = grammatical_forms_group \
-                 + syntactic_group \
-                 + lexical_group
+class EnLang(Lang):
+    definitions = ['english', 'angielski', 'en', 'eng']
+    spacy_model = 'en_core_web_trf'
+
+from .distance_en import *
+from .grammatical_forms import *
+from .parts_of_speech_en import *
+from .lexical_en import *
+from .syntactic_en import *
+from .verb_tenses_en import *
+from .text_statistics import *
+from .figures_of_speech import *
+from .psycholinguistics import *
+from .text_statistics import *
+from .social_media import *

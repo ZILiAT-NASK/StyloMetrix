@@ -13,103 +13,63 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+from .metric import Metric
 
-from stylo_metrix.structures.metric import Metric
-from stylo_metrix.writer import write_text
+class MetricGroup:
+    def __init__(self, metrics=None):
+        if isinstance(metrics, MetricGroup):
+            self.metrics = metrics.metrics
+        else:
+            self.metrics = set(metrics) if metrics else set()
 
-
-class MetricsGroup:
-    def __init__(self, *args):
-        self._metrics = []
-        for arg in args:
-            self._add_metric(arg)
-
-    def __repr__(self):
-        return self._make_repr()
-
-    def __str__(self):
-        return self._make_txt()
-
-    def __iter__(self):
-        for m in self._metrics:
-            yield m
+    def to_list(self):
+        metrics = self._get_sorted_metrics()
+        metrics = [metric.id for metric in metrics]
+        return(metrics)
 
     def __add__(self, other):
-        if isinstance(other, Metric):
-            return MetricsGroup(self._metrics + other)
-        if isinstance(other, MetricsGroup):
-            return MetricsGroup(self._metrics + other._metrics)
-        return TypeError()
+        if isinstance(other, MetricGroup):
+            other_metrics = other.metrics
+        elif issubclass(other, Metric):
+            other_metrics = set((other,))
+        else:
+            other_metrics = None
+        metric_list = self.metrics.union(other_metrics)
+        return MetricGroup(metric_list)
 
-    def __iadd__(self, other):
-        if isinstance(other, (Metric, MetricsGroup)):
-            self._add_metric(other)
-            return self
-        raise TypeError()
+    def __sub__(self, other):
+        if isinstance(other, MetricGroup):
+            other_metrics = other.metrics
+        elif issubclass(other, Metric):
+            other_metrics = set((other,))
+        metric_list = self.metrics.difference(other_metrics)
+        return MetricGroup(metric_list)
 
-    # def __eq__(self, other): pass
+    def __str__(self):
+        metrics = self._get_sorted_metrics()
+        out = list()
+        for id, metric in enumerate(metrics):
+            metric_str = f'{id}  |  {metric.details()}'
+            out.append(metric_str)
+        return '\n'.join(out)
 
-    # def __contains__(self, item): pass
+    def __getitem__(self, key):
+        if isinstance(key, slice):
+            indexes = range(*key.indices(len(self)))
+            metrics = list()
+            for id in indexes:
+                metric = self[id]
+                metrics.append(metric)
+            return MetricGroup(metrics)
+        return self._get_sorted_metrics()[key]
 
     def __len__(self):
-        return len(self._metrics)
+        return len(self.metrics)
 
-    # def __delitem__(self, key): pass
+    def _get_sorted_metrics(self):
+        metrics = list(self.metrics)
+        metrics = sorted(metrics, key=self._sort_fun)
+        return metrics
 
-    def __getitem__(self, item):
-        if isinstance(item, slice):
-            return self.__class__(self._metrics[item])
-        else:
-            return self._metrics[item]
-
-    def __copy__(self):
-        return self.__class__(self._metrics)
-
-    def get_codes(self):
-        return [m.code for m in self._metrics]
-
-    def _add_metric(self, m):
-        if isinstance(m, Metric):
-            self._metrics.append(m)
-        elif isinstance(m, (list, tuple, MetricsGroup)):
-            for x in m:
-                self._add_metric(x)
-        else:
-            raise TypeError()
-
-    # ------ printing ------
-
-    def get_md(self):
-        return self._make_md()
-
-    def get_txt(self):
-        return self._make_txt()
-
-    def save_md(self, path):
-        write_text(self._make_md(), path)
-
-    def save_txt(self, path):
-        write_text(self._make_txt(), path)
-
-    def _make_md(self):
-        str_list = [
-            "| Category | Code | Name |",
-            "|---|---|---|",
-            *[f"| {m.category} | {m.code} | {m.name} |" for m in self],
-            "",
-        ]
-        return '\n'.join(str_list)
-
-    def _make_txt(self):
-        c = [20, 16, 40]  # columns width
-        str_list = [
-            f"{'Category':<{c[0]}} {'Code':<{c[1]}} {'Name':<{c[2]}}",
-            '-' * (sum(c) + len(c) - 1),
-            *[f"{m.category:<{c[0]}} {m.code:<{c[1]}} {m.name:<{c[2]}}" for m in self],
-            "",
-        ]
-        return '\n'.join(str_list)
-
-    def _make_repr(self):
-        r = ', '.join([metric.code for metric in self])
-        return f"<MetricsGroup [{r}]>"
+    def _sort_fun(self, metric_el):
+        return (metric_el.category.name_en, metric_el.code)

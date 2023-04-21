@@ -14,6 +14,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-from stylo_metrix.structures.metric import Metric, CustomMetric
-from stylo_metrix.structures.metrics_group import MetricsGroup
-from stylo_metrix.structures.stylo_metrix_vector import StyloMetrixVector
+from .language import Lang
+from .category import Category
+from .metric import Metric
+from .metrics_group import MetricGroup
