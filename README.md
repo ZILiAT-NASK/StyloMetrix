@@ -9,7 +9,7 @@ Zakład Inżynierii Lingwistycznej i Anailzy Tekstu, NASK PIB
 ## 📌 Quick
 💡 Stylometry tool in beta version for **Polish**, **English** and **Ukrainian** language, distributed as a **Python package**
 
-💡 [Tutorial notebook](examples/Quick%20Tutorial.ipynb)
+💡 [Tutorial notebook](examples/Tutorial_pl.ipynb)
 
 💡 List of built-in metrics for [Polish](resources/metrics_list_pl.md), [English](resources/metrics_list_en.md)
 
