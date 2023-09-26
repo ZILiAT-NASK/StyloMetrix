@@ -1,4 +1,4 @@
-# Copyright (C) 2023  NASK PIB
+# Copyright (C) 2022  NASK PIB
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ def get_all_categories(lang):
     return categories
 
 
-def custom_metric(lang, custom_category=None):
+def custom_metric(lang, custom_category=None, metric_nlp=None):
     def decorator(count_function):
         lang_name = lang
         dec_lang = Lang.get_language(lang_name)
@@ -45,6 +45,7 @@ def custom_metric(lang, custom_category=None):
         
         class Wrapper(Metric):
             category = custom_category if custom_category else CUSTOM
+            nlp = metric_nlp
             name_en = 'Custom'
             name_local = 'Custom'
 

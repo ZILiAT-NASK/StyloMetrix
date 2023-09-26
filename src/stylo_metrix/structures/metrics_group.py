@@ -1,4 +1,4 @@
-# Copyright (C) 2023  NASK PIB
+# Copyright (C) 2022  NASK PIB
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -72,4 +72,4 @@ class MetricGroup:
         return metrics
 
     def _sort_fun(self, metric_el):
-        return (metric_el.category.name_en, metric_el.code)
+        return (metric_el.id)

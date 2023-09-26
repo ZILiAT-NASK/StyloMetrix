@@ -1,4 +1,4 @@
-# Copyright (C) 2023  NASK PIB
+# Copyright (C) 2022  NASK PIB
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,18 +15,9 @@
 
 
 from spacy_syllables import SpacySyllables
-
-from stylo_metrix.pipeline.pl.matcher_component import MatcherComponent
-from stylo_metrix.pipeline.pl.params import Params
-from stylo_metrix.pipeline.pl.pos_tagger import POSTagger
-from stylo_metrix.pipeline.pl.psycholinguistic import Psycholinguistic
-from stylo_metrix.pipeline.pl.sentence_segmenter import SentenceSegmenter
+from spacymoji import Emoji
 
 pl_components = [
     SpacySyllables,
-    SentenceSegmenter,
-    POSTagger,
-    Psycholinguistic,
-    MatcherComponent,
-    Params
+    Emoji,
 ]

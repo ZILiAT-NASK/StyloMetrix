@@ -1,4 +1,4 @@
-# Copyright (C) 2023  NASK PIB
+# Copyright (C) 2022  NASK PIB
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,9 +14,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import re
-from stylo_metrix.structures import Metric, Category
+from ...structures import Metric, Category
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-from stylo_metrix.utils import incidence
+from ...utils import incidence
 
 
 class Social_Media(Category):
@@ -41,15 +41,7 @@ class MASKED(Metric):
 
         result = incidence(doc, debug)
         return result, debug
-
-class URLS(Metric):
-    category = Social_Media
-    name_en = "Including urls"
-
-    def count(doc):
-        debug = [token for token in doc if token.like_url == True]
-        result = incidence(doc, debug)
-        return result, debug
+    
 
 class DIGIT(Metric):
     category = Social_Media
@@ -267,6 +259,6 @@ class INCR(Metric):
                    'very']
 
         debug = [token for token in doc if token.text in lexicon]
-    
+
         result = incidence(doc, debug)
         return result, debug

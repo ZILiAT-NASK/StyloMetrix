@@ -1,4 +1,4 @@
-# Copyright (C) 2023  NASK PIB
+# Copyright (C) 2022  NASK PIB
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,17 +14,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-from stylo_metrix.pipeline.en.dictionary_en import TAGS_DICT, WORDS_POS, FUNCTION_WORDS
+from .dictionary_en import FUNCTION_WORDS
 import itertools
 
-def classify_pos(token):
-    for custom_pos, pos in TAGS_DICT.items():
-        if token.pos_ in pos:
-            return custom_pos
-
-
-def is_word(token):
-    return token._.pos in WORDS_POS
 
 
 def is_function_word(token):
@@ -33,7 +25,7 @@ def is_function_word(token):
 
 
 def is_content_word(token):
-    if token._.is_word and token.lemma_ and not token._.is_function_word:
+    if not token._.is_function_word:
         return True
 
 
@@ -348,7 +340,7 @@ def would_ind_active(doc):
 
 
 def would_ind_passive(doc):
-    would_ind_passive = set()
+    would_ind_passive = []
     label = "would_ind_passive"
     ext = "modal_verbs"
 
@@ -358,13 +350,13 @@ def would_ind_passive(doc):
 
             for tkn in head.children:
                 if tkn.text == "be" and tkn.dep_ == "auxpass":
-                    would_ind_passive.add(head)
-                    would_ind_passive.add(token)
-                    would_ind_passive.add(tkn)
+                    would_ind_passive.append(head)
+                    would_ind_passive.append(token)
+                    would_ind_passive.append(tkn)
 
             for t in head.subtree:
                 if t.tag_ == "VBN" and t.dep_ == "conj" and head in would_ind_passive:
-                    would_ind_passive.add(t)
+                    would_ind_passive.append(t)
 
     return would_ind_passive, ext, label
 
@@ -392,7 +384,7 @@ def would_cont_active(doc):
 
 
 def would_perf_active(doc):
-    would_perf_active = set()
+    would_perf_active = []
     label = "would_perf_active"
     ext = "modal_verbs"
 
@@ -402,21 +394,21 @@ def would_perf_active(doc):
 
             for t in head.children:
                 if t.lemma_ == "have":
-                    would_perf_active.add(head)
+                    would_perf_active.append(head)
 
             for k in head.children:
                 if k.lemma_ == "be" and head in would_perf_active:
                     would_perf_active.remove(head)
 
             if head in would_perf_active:
-                would_perf_active.add(token)
+                would_perf_active.append(token)
                 for tkn in head.children:
                     if tkn.lemma_ == "have":
-                        would_perf_active.add(tkn)
+                        would_perf_active.append(tkn)
 
             for j in head.subtree:
                 if (j.tag_ == "VBN" or j.tag_ == "VBD") and j.dep_ == "conj" and head in would_perf_active:
-                    would_perf_active.add(j)
+                    would_perf_active.append(j)
 
     return would_perf_active, ext, label
 
@@ -429,11 +421,13 @@ def would_perf_passive(doc):
     for token in doc:
 
         if (token.lemma_ == "would" or token.lemma_ == "'d" or token.lemma_ == "’d") and token.head.tag_ == "VBN":
+            would_perf_passive.add(token)
             head = token.head
 
             for k in head.children:
                 if k.text == "been" and k.dep_ == "auxpass":
                     would_perf_passive.add(head)
+                    would_perf_passive.add(k)
 
             for j in head.subtree:
                 if (j.tag_ == "VBN" or j.tag_ == "VBD") and j.dep_ == "conj" and head in would_perf_passive:
@@ -1027,7 +1021,7 @@ def might_perf_passive(doc):
 
 def may_perf_passive(doc):
     may_perf_passive = set()
-    label = "might_perf_passive"
+    label = "may_perf_passive"
     ext = "modal_verbs"
 
     for token in doc:

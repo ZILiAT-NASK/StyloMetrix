@@ -1,4 +1,4 @@
-# Copyright (C) 2023  NASK PIB
+# Copyright (C) 2022  NASK PIB
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,8 +15,8 @@
 
 
 from spacy.matcher import Matcher
-from stylo_metrix.structures import Category, Metric
-from stylo_metrix.utils import incidence, ratio, start_end_quote
+from ...structures import Category, Metric
+from ...utils import incidence, ratio, start_end_quote
 import itertools
 
 class Syntactic(Category):
@@ -32,7 +32,7 @@ class SY_DIRECT_SPEECH(Metric):
         start, end = start_end_quote(doc)
         if (start and end) != None:
             span = doc[start:end]
-            span_words = [token for token in span if token._.is_word]
+            span_words = [token for token in span if token.is_alpha]
             result = incidence(doc, span_words)
             return result, {"Direct Speech": span_words}
         else:
@@ -40,13 +40,25 @@ class SY_DIRECT_SPEECH(Metric):
             return result, {}
 
 
+
+class SY_NARRATIVE(Metric):
+    category = Syntactic
+    name_en = "Number of words in narrative sentences"
+
+    def count(doc):
+        sents = [sent.text.split() for sent in doc.sents if sent[-1].text == "."]
+        flatten = list(itertools.chain.from_iterable(sents))
+        result = incidence(doc, flatten)
+        return result, {}
+    
+    
 class SY_NEGATIVE(Metric):
     category = Syntactic
     name_en = "Number of words in negative sentences"
 
     def count(doc):
-        neg = set([sent for sent in doc.sents for token in sent if "Polarity=Neg" in token.morph])
-        flatten = [token for i in neg for token in i]
+        neg = [sent.text.split() for sent in doc.sents for token in sent if "Polarity=Neg" in token.morph]
+        flatten = list(itertools.chain.from_iterable(neg))
         result = incidence(doc, flatten)
         return result, {}
 
@@ -57,9 +69,9 @@ class SY_PARATAXIS(Metric):
     name_en = "Number of words in parataxis sentences"
 
     def count(doc):
-        prt = set([sent for sent in doc.sents for token in sent if "parataxis" in token.dep_])
-        tokens = [token for i in prt for token in i]
-        result = incidence(doc, tokens)
+        prt = [sent.text.split() for sent in doc.sents for token in sent if "parataxis" in token.dep_]
+        flatten = list(itertools.chain.from_iterable(prt))
+        result = incidence(doc, flatten)
         return result, {}
 
 class SY_NON_FINITE(Metric):
@@ -67,8 +79,9 @@ class SY_NON_FINITE(Metric):
     name_en = "Number of words in sentences without any verbs"
 
     def count(doc):
-        sent = [sent for sent in doc.sents if not any(token for token in sent if token.pos_ == "VERB")]
-        result = incidence(doc, sent)
+        sent = [sent.text.split() for sent in doc.sents if not any(token for token in sent if token.pos_ == "VERB")]
+        flatten = list(itertools.chain.from_iterable(sent))
+        result = incidence(doc, flatten)
         return result, {}
 
 
@@ -77,8 +90,9 @@ class SY_QUOTATIONS(Metric):
     name_en = "Number of words in sentences with quotation marks"
 
     def count(doc):
-        sent = [sent for sent in doc.sents for token in sent if token.text == '"' or token.text == "'"]
-        result = incidence(doc, sent)
+        sent = [sent.text.split() for sent in doc.sents for token in sent if token.text == '"' or token.text == "'"]
+        flatten = list(itertools.chain.from_iterable(sent))
+        result = incidence(doc, flatten)
         return result, {}
 
 
@@ -87,8 +101,9 @@ class SY_EXCLAMATION(Metric):
     name_en = "Number of words in exclamatory sentences"
 
     def count(doc):
-        sent = [sent for sent in doc.sents for token in sent if token.text == "!"]
-        result = incidence(doc, sent)
+        sent = [sent.text.split() for sent in doc.sents for token in sent if token.text == "!"]
+        flatten = list(itertools.chain.from_iterable(sent))
+        result = incidence(doc, flatten)
         return result, {}
 
 
@@ -97,8 +112,9 @@ class SY_QUESTION(Metric):
     name_en = "Number of words in interrogative sentences"
 
     def count(doc):
-        sent = [sent for sent in doc.sents for token in sent if token.text == "?"]
-        result = incidence(doc, sent)
+        sentences = [sent.text.split() for sent in doc.sents if sent[-1].text == '?']
+        flatten = list(itertools.chain.from_iterable(sentences))
+        result = incidence(doc, flatten)
         return result, {}
 
 class SY_ELLIPSES(Metric):
@@ -106,8 +122,9 @@ class SY_ELLIPSES(Metric):
     name_en = "Number of words in elliptic sentences"
 
     def count(doc):
-        sents = [sent for sent in doc.sents for token in sent if token.dep_ == "orphan"]
-        result = incidence(doc, sents)
+        sents = [sent.text.split() for sent in doc.sents for token in sent if token.dep_ == "orphan"]
+        flatten = list(itertools.chain.from_iterable(sents))
+        result = incidence(doc, flatten)
         return result, {}
 
 
@@ -143,8 +160,9 @@ class SY_IMPERATIVE(Metric):
     name_en = "Number of words in imperative sentences"
 
     def count(doc):
-        tokens = [sent for sent in doc.sents for token in sent if "Mood=Imp" in token.morph and token.pos_ == "VERB"]
-        result = incidence(doc, tokens)
+        tokens = [sent.text.split() for sent in doc.sents for token in sent if "Mood=Imp" in token.morph and token.pos_ == "VERB"]
+        flatten = list(itertools.chain.from_iterable(tokens))
+        result = incidence(doc, flatten)
         return result, {}
 
 
@@ -153,8 +171,9 @@ class SY_AMPLIFIED_SENT(Metric):
     name_en = "Number of words in amplified sentences"
 
     def count(doc):
-        tokens = [sent for sent in doc.sents if sent.text[-2:] == "?!"]
-        result = incidence(doc, tokens)
+        tokens = [sent.text.split() for sent in doc.sents if sent.text[-2:] == "?!"]
+        flatten = list(itertools.chain.from_iterable(tokens))
+        result = incidence(doc, flatten)
         return result, {}
 
 
@@ -187,5 +206,4 @@ class SY_NOUN_PHRASES(Metric):
         flatten_np = list(itertools.chain(*noun_phrases))
         result = ratio(len(flatten_np), len(doc))
         debug = {"Noun Phrases": flatten_np}
-
         return result, debug

@@ -1,110 +1,168 @@
-# Copyright (C) 2023  NASK PIB
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+from spacy.matcher import DependencyMatcher
+from spacy.matcher import Matcher
+import re
 
+from ...structures import Metric, Category
+from ...utils import ratio
 
-from stylo_metrix.structures import Metric, Category
+class Syntaktyka(Category):
+    lang='pl'
+    name_en='Syntactic'
+    name_local='Syntaktyka'
 
-from stylo_metrix.utils import incidence, ratio
-
-
-class Syntactic(Category):
-    lang = 'pl'
-    name_en = "Syntactic"
-    name_local = "Składniowe"
-
+class SY_FMWE(Metric):
+    category = Syntaktyka
+    name_en = "Flat multiword expressions"
+    name_pl = "Związki wielowyrazowe"
+ 
+    def count(doc):
+        flat = [[token.head, token] for token in doc if "flat" in token.dep_]
+        debug = [token for i in flat for token in i]
+        result = len(debug)
+        return ratio(result, len(doc)), debug
+		
+class SY_APPM(Metric):
+    category = Syntaktyka
+    name_en = "Appositional modifiers"
+    name_pl = "Modyfikatory w apozycji"
+ 
+    def count(doc):
+        flat = [[token.head, token] for token in doc if "appos" in token.dep_]
+        debug = [token for i in flat for token in i]
+        result = len(debug)
+        return ratio(result, len(doc)), debug
 
 class SY_S_DE(Metric):
-    category = Syntactic
-    name_en = "Words in declarative sentences incidence"
+    category = Syntaktyka
+    name_en = "Words in declarative sentences"
     name_local = "Wyrazy w zdaniach oznajmujących"
 
     def count(doc):
-        sents = [sent for sent in doc.sents if sent[-1].text in ['.', '…']]
-        words = sum([[token for token in sent if token._.is_word] for sent in sents], [])
-        result = incidence(doc, words)
-        debug = {'TOKENS': words}
-        return result, debug
+        decl = set([sent for sent in doc.sents for token in sent if token.text in ["."]])
+        debug = [token for i in decl for token in i]
+        result = len(debug)
+        return ratio(result, len(doc)), debug
+	
+class SY_S_EX(Metric):
+    category = Syntaktyka
+    name_en = "Words in exclamatory sentences"
+    name_local = "Wyrazy w zdaniach wykrzyknikowych"
 
-
+    def count(doc):
+        exl = set([sent for sent in doc.sents for token in sent if token.text == "!"])
+        debug = [token for i in exl for token in i]
+        result = len(debug)
+        return ratio(result, len(doc)), debug
+		
 class SY_S_IN(Metric):
-    category = Syntactic
-    name_en = "Words in interrogative sentences incidence"
+    category = Syntaktyka
+    name_en = "Words in interrogative sentences"
     name_local = "Wyrazy w zdaniach pytających"
 
     def count(doc):
-        sents = [sent for sent in doc.sents if sent[-1].text in ['?']]
-        words = sum([[token for token in sent if token._.is_word] for sent in sents], [])
-        result = incidence(doc, words)
-        debug = {'TOKENS': words}
-        return result, debug
-
-
-class SY_S_EX(Metric):
-    category = Syntactic
-    name_en = "Words in exclamative sentences incidence"
-    name_local = "Wyrazy w zdaniach rozkazujących"
+        quest = set([sent for sent in doc.sents for token in sent if token.text == "?"])
+        debug = [token for i in quest for token in i]
+        result = len(debug)
+        return ratio(result, len(doc)), debug
+		
+class SY_S_NEG(Metric):
+    category = Syntaktyka
+    name_en = "Words in negative sentences"
+    name_local = "Wyrazy w zdaniach przeczących"
 
     def count(doc):
-        sents = [sent for sent in doc.sents if sent[-1].text in ['!']]
-        words = sum([[token for token in sent if token._.is_word] for sent in sents], [])
-        result = incidence(doc, words)
-        debug = {'TOKENS': words}
-        return result, debug
-
-
-class SY_S_INIT(Metric):
-    category = Syntactic
-    name_en = "Words being initial word in sentence incidence"
-    name_local = "Wyrazy będące pierwszym wyrazem zdania"
-
-    def count(doc):
-        words = [sent[0] for sent in doc.sents]
-        result = incidence(doc, words)
-        debug = {'TOKENS': words}
-        return result, debug
-
-
-class SY_NPHR(Metric):
-    category = Syntactic
-    name_en = "Words in nominal phrases incidence"
-    name_local = "Wyrazy we frazach nominalnych"
+        neg_sentences = []
+        for sent in doc.sents:
+            if any(token.dep_ in ["ROOT", "ccomp", "cop"] and token.pos_ in ["VERB", "AUX"] for token in sent) and any(token.dep_ == "advmod:neg" and token.pos_ == "PART" for token in sent):
+                neg_sentences.append(sent)
+        debug = [token for sent in neg_sentences for token in sent]
+        result = len(debug)
+        return ratio(result, len(doc)), debug
+		
+class SY_S_ELL(Metric):
+    category = Syntaktyka
+    name_en = "Words in ellipsis-ending sentences"
+    name_local = "Wyrazy w zdaniach zakończonych wielokropkiem"
 
     def count(doc):
-        nouns = [token for token in doc if token.pos_ == 'NOUN']
-        nouns_not_part_of_subtree = []
-        for noun in nouns:
-            list_without_current = [n for n in nouns if n is not noun]
-            subtrees = [list(noun.subtree) for noun in list_without_current]
-            subtrees_list = sum(subtrees, [])
-            if noun not in subtrees_list:
-                nouns_not_part_of_subtree.append(noun)
-        subtrees = [[word for word in list(noun.subtree) if word._.is_word] for noun in nouns_not_part_of_subtree]
-        sum_subtrees = sum(subtrees, [])
-        result = incidence(doc, sum_subtrees)
-        debug = {"TOKENS": subtrees}
-        return result, debug
+        ellipsis_pattern = r'\.\.\.'
+        ellipsis_matches = re.finditer(ellipsis_pattern, doc.text)
+        ellipsis_indices = [match.start() for match in ellipsis_matches]
+        ellipsis_sentences = [sent for sent in doc.sents if any(token.idx in ellipsis_indices for token in sent)]
+        total_words = len(list(doc))
+        debug = [token.text for sent in ellipsis_sentences for token in sent]
+        result = len(debug)
+        return ratio(result, len(doc)), debug
+		
+class SY_S_VOC(Metric):
+    category = Syntaktyka
+    name_en = "Words in sentences with a noun in the vocative case"
+    name_local = "Wyrazy w zdaniach z rzeczownikiem w wołaczu"
 
+    def count(doc):
+        result = 0
+        inn7w = []
+        for sent in doc.sents:
+            if any(token.pos_ in ["NOUN", "PROPN"] and str(token.morph.get("Case")) == "['Voc']" for token in sent):
+                inn7w.append(sent)      
+        debug = [token for sent in inn7w for token in sent]
+        result = len(debug)
+        return ratio(result, len(doc)), debug
 
+class SY_S_NOM(Metric):
+    category = Syntaktyka
+    name_en = "Words in nominal sentences"
+    name_local = "Wyrazy w równoważnikach zdań"
+
+    def count(doc):
+        nom = set([sent for sent in doc.sents if all
+        (token.pos_ == 'AUX' and 'VerbType=Quasi' in token.morph for token in sent if token.pos_ == 'AUX')
+        and not any(token for token in sent if token.pos_ in ['VERB', 'AUX']
+        and token.pos_ != 'AUX')])
+        debug = [token for i in nom for token in i]
+        result = len(debug)
+        return ratio(result, len(doc)), debug
+		
+class SY_S_INF(Metric):
+    category = Syntaktyka
+    name_en = "Words in infinitive-only sentences without finite verbs"
+    name_local = "Słowa w zdaniach z bezokolicznikami bez czasowników osobowych"
+	
+    def count(doc):
+        inf = set([sent for sent in doc.sents if not any(token for token in sent if "VerbForm=Fin" in token.morph)
+                and any(token for token in sent if "VerbForm=Inf" in token.morph)])
+        debug = [token for i in inf for token in i]
+        result = len(debug)
+        return ratio(result, len(doc)), debug
+		
+class SY_NPRED(Metric):
+    category = Syntaktyka
+    name_en = "Nominal predicates"
+    name_local = "Orzeczenia imienne"
+
+    def count(doc):
+        result = 0
+        nom_pred = []
+
+        for sent in doc.sents:
+            for token in sent:
+                if token.dep_ == 'cop' and token.head.pos_ in ['NOUN', 'ADJ', 'PRON'] and token.pos_ == 'AUX':
+                    subject = token.head
+                    predicate = token
+                    result += 1
+                    result += 1
+                    nom_pred.append((predicate.text, subject.text))
+
+        return ratio(result, len(doc)), nom_pred
+		
 class SY_MOD(Metric):
-    category = Syntactic
-    name_en = "Words in modifiers incidence"
+    category = Syntaktyka
+    name_en = "Words within modifiers"
     name_local = "Wyrazy w przydawkach"
 
     def count(doc):
-        mod_tags = ['amod', 'nmod', 'nmod:arg', 'acl']
-        nouns = [token for token in doc if token.pos_ == "NOUN"]
+        mod_tags = ['amod', 'nmod', 'nmod:arg', 'acl', 'appos', 'det', 'det:poss']
+        nouns = [token for token in doc if token.pos_ in ["NOUN", "PROPN"]]
         children_mods = [[ch for ch in list(noun.children) if ch.dep_ in mod_tags] for noun in nouns]
         mods_heads = sum(children_mods, [])
         mods_not_part_of_subtree = []
@@ -114,102 +172,149 @@ class SY_MOD(Metric):
             subtrees_list = sum(subtrees, [])
             if mod not in subtrees_list:
                 mods_not_part_of_subtree.append(mod)
-        subtrees = [[el for el in list(head.subtree) if el._.is_word] for head in mods_not_part_of_subtree]
-        sum_subtrees = sum(subtrees, [])
-        result = incidence(doc, sum_subtrees)
-        debug = {"TOKENS": subtrees}
+        debug = [[el for el in list(head.subtree)] for head in mods_not_part_of_subtree]
+        sum_subtrees = sum(debug, [])
+        result = ratio(len(sum_subtrees), len(doc))
         return result, debug
+		
+class SY_NPHR(Metric):
+    category = Syntaktyka
+    name_en = "Words in nominal phrases"
+    name_local = "Wyrazy we frazach nominalnych"
 
+    def count(doc):
+        nouns = [token for token in doc if token.pos_ in ['NOUN', 'PROPN']]
+        nouns_not_part_of_subtree = []
+        for noun in nouns:
+            list_without_current = [n for n in nouns if n is not noun]
+            subtrees = [list(noun.subtree) for noun in list_without_current]
+            subtrees_list = sum(subtrees, [])
+            if noun not in subtrees_list:
+                nouns_not_part_of_subtree.append(noun)
+        debug = [[word for word in list(noun.subtree)] for noun in nouns_not_part_of_subtree]
+        sum_subtrees = sum(debug, [])
+        result = ratio(len(sum_subtrees), len(doc))
+        return result, debug
+		
+class SY_INV_OBJ(Metric):
+    category = Syntaktyka
+    name_en = "OVS word order"
+    name_local = "Inwersja zdania, rozpoczęcie od dopełnienia"
 
-class SY_INV_EP(Metric):
-    category = Syntactic
-    name_en = "Epithet inversion"
+    def count(doc):    
+        nlp = SY_INV_OBJ.get_nlp()
+        result = []
+        counter = 0
+        matcher = DependencyMatcher(nlp.vocab)        
+        pattern = [# anchor token: root
+            {   "RIGHT_ID" : "verb",
+                "RIGHT_ATTRS": {"DEP": {"IN" : ["ROOT", 'xcomp']}}},
+           
+           # root >-- left child
+           
+            {   "LEFT_ID": "verb",  
+                "REL_OP": ">--",
+                "RIGHT_ID": "left child",
+                "RIGHT_ATTRS": {"MORPH": {"INTERSECTS": ["Case=Gen", "Case=Dat", "Case=Acc", "Case=Ins", "Case=Loc"]}}
+                  }
+           ]
+                
+        matcher.add("LEFT_CHILD", [pattern])
+        matches = matcher(doc)
+
+        for i in range(len(matches)):
+            match_id, token_ids = matches[i]
+            match = []
+            for l in doc[token_ids[1]].lefts:
+              match.append(l)
+            for n in range((token_ids[0]+1)-token_ids[1]):
+              match.append(doc[token_ids[1]+n])
+            result.append(match)
+        
+        counter = sum([len(listElem) for listElem in result])
+        
+        debug = {'FOUND': result}
+        return ratio(counter, len(doc)), debug
+		
+class SY_INV_EPI(Metric):
+    category = Syntaktyka
+    name_en = "Inverted epithet"
     name_local = "Inwersja epitetu"
 
-    def count(doc):
-        inv = [doc[start:end] for match_id, start, end
-                    in doc._.matches
-                    if doc.vocab.strings[match_id] == SY_INV_EP.code]
-        count = sum(len(i) for i in inv)
-        debug = {'TOKENS': inv}
-        return ratio(count, doc._.n_tokens), debug
-
-
-class SY_INV_OBJ(Metric):
-    category = Syntactic
-    name_en = "Inversion - object as sentence start"
-    name_local = "Inwersja - rozpoczęcie zdania od dopełnienia"
+    def count(doc):    
+        result = [token.text for token in doc if token.pos_ == "ADJ" and token.head.pos_ == "NOUN" and token in token.head.rights]
+        debug = {'FOUND': result}
+        return ratio(len(result), len(doc)), debug
+		
+class SY_INIT(Metric):
+    category = Syntaktyka
+    name_en = "Words being the initial token in a sentence"
+    name_local = "Wyrazy będące pierwszym wyrazem zdania"
 
     def count(doc):
-        sents = [[token for token in sent if token.dep_ == "iobj" and token.i < token.head.i] for sent in doc.sents]
-        count = len(sum(sents, []))
-        debug = {'TOKENS': sents}
-        return ratio(count, doc._.n_tokens), debug
-
-
-class SY_SUBORD(Metric):
-    category = Syntactic
-    name_en = "Subordinating conjunctions"
-    name_local = "Łączniki zdań podrzędnie złożonych"
+        debug = [sent[0].text for sent in doc.sents if sent]
+        result = len(debug)
+        return ratio(result, len(doc)), debug
+		
+class SY_QUOT(Metric):
+    category = Syntaktyka
+    name_en = "Number of words in quotation marks"
+    name_local = "Słowa w cudzysłowie"
 
     def count(doc):
-        sconj = list(token.text for token in doc if token.pos_ == 'SCONJ')
-        count = len(sconj)
-        debug = {'TOKENS': sconj}
-        return ratio(count, doc._.n_tokens), debug
-
-
-class SY_COORD(Metric):
-    category = Syntactic
-    name_en = "Coordinating conjunctions"
-    name_local = "Łączniki zdań współrzędnie złożonych"
-
-    def count(doc):
-        cconj = list(token.text for token in doc if token.pos_ == 'CCONJ')
-        count = len(cconj)
-        debug = {'TOKENS': cconj}
-        return ratio(count, doc._.n_tokens), debug
-
-
-class SY_COND(Metric):
-    category = Syntactic
-    name_en = "Conditional conjunctions"
-    name_local = "Spójniki warunkowe"
+        quote_positions = [i for i, token in enumerate(doc) if token.text in ['"', "'"]]
+        if len(quote_positions) % 2 != 0:
+            quote_positions.pop()
+        debug = [token for i in range(0, len(quote_positions), 2)
+                                for token in doc[quote_positions[i] + 1 : quote_positions[i + 1]]]
+        result = len(debug)
+        return ratio(result, len(doc)), debug
+		
+class SY_SIMILE_NP(Metric):
+    category = Syntaktyka
+    name_en = "Similes (noun/pronoun)"
+    name_local = "Porównania (rzeczownik/zaimek)"
 
     def count(doc):
-        vocab = ['jeśli', 'jeżeli', 'skoro']
-        conditions = list(token.text for token in doc if token.lower_ in vocab)
-        debug = {'TOKENS': conditions}
-        return ratio(len(conditions), doc._.n_tokens), debug
+        result = 0
+        debug = []
 
+        for sent in doc.sents:
+            subj = [
+                token.text for token in sent
+                if token.pos_ in ['NOUN', 'PROPN', 'PRON']
+                and token.dep_ == 'nsubj'
+            ]
 
-class SY_NOM_SENT(Metric):
-    category = Syntactic
-    name_en = "Nominal phrases"
-    name_local = "Równoważniki zdań"
+            sim = [
+                token.text for token in sent
+                  if token.pos_ == 'SCONJ'
+                  and str(token.morph.get("ConjType")) == '[\'Cmpr\']'
+                  ]
+
+            obl = [
+                token.text for token in sent
+                if token.dep_ == 'obl:cmpr'
+            ]
+
+            if subj and sim and obl:
+                debug.append((subj, sim, obl))
+                result = result + len(subj) + len(sim) + len(obl)
+
+        return ratio(result, len(doc)), debug
+
+class SY_SIMILE_ADJ(Metric):
+    category = Syntaktyka
+    name_en = "Similes (adjective)"
+    name_local = "Porównania (przymiotnik)"
 
     def count(doc):
-        sents = [list(sent) for sent in doc.sents if not any(t.pos_ == 'VERB' for t in sent)]
-        tokens = sum(sents, [])
-        filtered_tokens = [t for t in tokens if t in doc._.tokens]
-        result = ratio(len(filtered_tokens), doc._.n_tokens)
-        debug = {'VALUES': sents}
-        return result, debug
-
-
-# SYNTACTIC = [
-#     SY_S_DE,
-#     SY_S_IN,
-#     SY_S_EX,
-#     SY_S_INIT,
-#     SY_NPHR,
-#     SY_MOD,
-#     SY_INV_EP,
-#     SY_INV_OBJ,
-#     SY_SUBORD,
-#     SY_COORD,
-#     SY_COND,
-#     SY_NOM_SENT,
-# ]
-
-# syntactic_group = MetricsGroup([m() for m in SYNTACTIC])
+        nlp = SY_SIMILE_ADJ.get_nlp()
+        matcher = Matcher(nlp.vocab)
+        pattern = [{"POS": {"IN": ["ADJ"]}}, {"POS": {"IN": ["SCONJ"]}, "MORPH": {"INTERSECTS": ["ConjType=Cmpr"]}}, {"POS": {"IN": ["NOUN", "PROPN"]}}]
+        matcher.add("nazwa", [pattern])
+        matches = matcher(doc)
+        debug = [doc[start:end].text for _, start, end in matches]
+        tri_gram_count = len(debug) * 3
+        result = tri_gram_count
+        return ratio(result, len(doc)), debug

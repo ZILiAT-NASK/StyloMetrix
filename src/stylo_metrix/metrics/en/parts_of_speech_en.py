@@ -1,4 +1,4 @@
-# Copyright (C) 2023  NASK PIB
+# Copyright (C) 2022  NASK PIB
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,9 +14,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-from stylo_metrix.structures import Metric, Category
-
-from stylo_metrix.utils import incidence
+from ...structures import Metric, Category
+from ...utils import incidence, ratio
 
 
 class PartOfSpeech(Category):
@@ -29,8 +28,8 @@ class POS_VERB(Metric):
     name_en = "Verbs"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "v"]
-        result = incidence(doc, search)
+        search = [token for token in doc if token.pos_ in ["VERB", "AUX"]]
+        result = ratio(len(search), len(doc.text.split()))
         debug = {'TOKENS': search}
         return result, debug
 
@@ -40,8 +39,8 @@ class POS_NOUN(Metric):
     name_en = "Nouns"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "n"]
-        result = incidence(doc, search)
+        search = [token for token in doc if token.pos_ == "NOUN"]
+        result = ratio(len(search), len(doc.text.split()))
         debug = {'TOKENS': search}
         return result, debug
 
@@ -51,8 +50,8 @@ class POS_ADJ(Metric):
     name_en = "Adjectives"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "adj"]
-        result = incidence(doc, search)
+        search = [token for token in doc if token.pos_ == "ADJ"]
+        result = ratio(len(search), len(doc.text.split()))
         debug = {'TOKENS': search}
         return result, debug
 
@@ -62,8 +61,8 @@ class POS_ADV(Metric):
     name_en = "Adverbs"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "adv"]
-        result = incidence(doc, search)
+        search = [token for token in doc if token.pos_ == "ADV"]
+        result = ratio(len(search), len(doc.text.split()))
         debug = {'TOKENS': search}
         return result, debug
 
@@ -73,8 +72,8 @@ class POS_DET(Metric):
     name_en = "Determiners"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "det"]
-        result = incidence(doc, search)
+        search = [token for token in doc if token.pos_ == "DET"]
+        result = ratio(len(search), len(doc.text.split()))
         debug = {'TOKENS': search}
         return result, debug
 
@@ -84,8 +83,8 @@ class POS_INTJ(Metric):
     name_en = "Interjections"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "intj"]
-        result = incidence(doc, search)
+        search = [token for token in doc if token.pos_ == "INTJ"]
+        result = ratio(len(search), len(doc.text.split()))
         debug = {'TOKENS': search}
         return result, debug
 
@@ -95,8 +94,8 @@ class POS_CONJ(Metric):
     name_en = "Conjunctions"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "conj"]
-        result = incidence(doc, search)
+        search = [token for token in doc if token.pos_ in  ["SCONJ", "CCONJ"]]
+        result = ratio(len(search), len(doc.text.split()))
         debug = {'TOKENS': search}
         return result, debug
 
@@ -106,8 +105,8 @@ class POS_PART(Metric):
     name_en = "Particles"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "part" or token.dep_ == "prt"]
-        result = incidence(doc, search)
+        search = [token for token in doc if token.pos_ == "PART"]
+        result = ratio(len(search), len(doc.text.split()))
         debug = {'TOKENS': search}
         return result, debug
 
@@ -117,8 +116,8 @@ class POS_NUM(Metric):
     name_en = "Numerals"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "num"]
-        result = incidence(doc, search)
+        search = [token for token in doc if token.pos_ == "NUM"]
+        result = ratio(len(search), len(doc.text.split()))
         debug = {'TOKENS': search}
         return result, debug
 
@@ -128,8 +127,8 @@ class POS_PREP(Metric):
     name_en = "Prepositions"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "prep"]
-        result = incidence(doc, search)
+        search = [token for token in doc if token.tag_ == "IN"]
+        result = ratio(len(search), len(doc.text.split()))
         debug = {'TOKENS': search}
         return result, debug
 
@@ -139,8 +138,8 @@ class POS_PRO(Metric):
     name_en = "Pronouns"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "prep"]
-        result = incidence(doc, search)
+        search = [token for token in doc if token.pos_ == "PRON"]
+        result = ratio(len(search), len(doc.text.split()))
         debug = {'TOKENS': search}
         return result, debug
 

@@ -16,3 +16,4 @@
 from .pl import PlLang
 from .en import EnLang
 from .ukr import UkrLang
+from .ru import RuLang

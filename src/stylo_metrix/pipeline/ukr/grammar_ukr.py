@@ -1,4 +1,4 @@
-# Copyright (C) 2023  NASK PIB
+# Copyright (C) 2022  NASK PIB
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,28 +13,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-
-from stylo_metrix.pipeline.ukr.dictionary_ukr import POS_DICT, WORDS_POS
-
-
-def classify_pos(token):
-    for custom_pos, pos in POS_DICT.items():
-        if token.pos_ in pos:
-            return custom_pos
-
-
-def is_word(token):
-    return token._.pos in WORDS_POS
-
-
 def is_function_word(token):
     function_words_pos = ["PART", "SYM", "ADP", "X", "DET", "CCONJ", "SCONJ", "PUNCT", "INTJ"]
-    if token.pos_ in function_words_pos:
-        return True
+    return token.pos_ in function_words_pos
 
 
 def is_content_word(token):
-    if token._.is_word and not token._.is_function_word:
+    if not token._.is_function_word:
         return True
 
 

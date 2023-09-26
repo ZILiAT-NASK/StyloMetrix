@@ -1,0 +1,17 @@
+include src/stylo_metrix/metrics/en/data/hurtlex/animals.txt
+include src/stylo_metrix/metrics/en/data/hurtlex/cognitive_disabilities.txt
+include src/stylo_metrix/metrics/en/data/hurtlex/deadly_sins.txt
+include src/stylo_metrix/metrics/en/data/hurtlex/derogatory_words.txt
+include src/stylo_metrix/metrics/en/data/hurtlex/disabilities.txt
+include src/stylo_metrix/metrics/en/data/hurtlex/economic_disadvantage.txt
+include src/stylo_metrix/metrics/en/data/hurtlex/ethnic_slurs.txt
+include src/stylo_metrix/metrics/en/data/hurtlex/felonies.txt
+include src/stylo_metrix/metrics/en/data/hurtlex/female_genetalia.txt
+include src/stylo_metrix/metrics/en/data/hurtlex/homosexuality.txt
+include src/stylo_metrix/metrics/en/data/hurtlex/locations.txt
+include src/stylo_metrix/metrics/en/data/hurtlex/male_genetalia.txt
+include src/stylo_metrix/metrics/en/data/hurtlex/moral.txt
+include src/stylo_metrix/metrics/en/data/hurtlex/plants.txt
+include src/stylo_metrix/metrics/en/data/hurtlex/professions.txt
+include src/stylo_metrix/metrics/en/data/hurtlex/potential.txt
+include src/stylo_metrix/metrics/en/data/hurtlex/prostitution.txt

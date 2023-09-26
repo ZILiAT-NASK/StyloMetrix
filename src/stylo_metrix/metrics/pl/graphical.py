@@ -1,45 +1,89 @@
-# Copyright (C) 2023  NASK PIB
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+import re
 
-from abc import ABC
+from ...structures import Metric, Category
+from ...utils import ratio
 
-from stylo_metrix.structures import Metric, Category
+from .data.dictionaries import emoticons, lenny_faces
 
-from stylo_metrix.utils import ratio
-
-
-class Graphical(Category):
-    lang = 'pl'
-    name_en = "Graphical"
-    name_local = "Graficzne"
-
+class Grafika(Category):
+    lang='pl'
+    name_en='Graphical'
+    name_local='Grafika'
 
 class GR_UPPER(Metric):
-    category = Graphical
+    category = Grafika
     name_en = "Capital letters"
     name_local = "Kapitaliki"
+   
+    def count(doc):
+        debug = [token.text for i, token in enumerate(doc) if (not token.is_sent_start or len(token.text) > 1) and token.text.isupper()
+                and str(token.morph.get('NumForm')) != "['Roman']"]
+        result = len(debug)
+        return ratio(result, len(doc)), debug
+
+class GR_EMOJI(Metric):
+    category = Grafika
+    name_en = "Emojis"
+    name_local = "Emoji"
 
     def count(doc):
-        upper = [token.text for token in doc if token.is_upper]
-        count = len(upper)
-        debug = {"TOKENS": upper}
-        return ratio(count, doc._.n_tokens), debug
+        debug = [token.text for token in doc if token._.is_emoji]
+        result = len(debug)
+        return ratio(result, len(doc)), debug
+	
+class GR_EMOT(Metric):
+    category = Grafika
+    name_en = "Emoticons"
+    name_local = "Emotikony"
 
+    def count(doc):
+        found_emoticons = [
+        token.text if token.text in emoticons else token.text_with_ws.strip()
+        for token in doc
+        ]
+        debug = [token for token in found_emoticons if token in emoticons]
+        result = len(debug)
+        return ratio(result, len(doc)), debug
+		
+class GR_LENNY(Metric):
+    category = Grafika
+    name_en = "Lenny faces"
+    name_local = "Lenny faces"
 
-# GRAPHICAL = [
-#     GR_UPPER,
-# ]
+    def count(doc):
+        debug = re.findall(lenny_faces, doc.text)
+        result = len(debug)
+        return ratio(result, len(doc)), debug
 
-# graphical_group = MetricsGroup([m() for m in GRAPHICAL])
+class GR_MENTION(Metric):
+    category = Grafika
+    name_en = "Direct mentions with @"
+    name_local = "Bezpośrednie wzmianki z @"
+
+    def count(doc):
+        matches = re.findall(r'(^@\w+)|\s(@\w+)', doc.text)
+        debug = [match[0] or match[1] for match in matches if any(match)]
+        result = len(debug)
+        return ratio(result, len(doc)), debug
+		
+class GR_HASH(Metric):
+    category = Grafika
+    name_en = "Hashtags"
+    name_local = "Hasztagi"
+
+    def count(doc):
+        matches = re.findall(r'(^#\w+)|\s(#\w+)', doc.text)
+        debug = [match[0] or match[1] for match in matches if any(match)]
+        result = len(debug)
+        return ratio(result, len(doc)), debug
+
+class GR_LINK(Metric):
+    category = Grafika
+    name_en = "Hyperlinks"
+    name_local = "Hiperlinki"
+
+    def count(doc):
+        debug = re.findall("(?:http|ftp|https):\/\/(?:[\w_-]+(?:(?:\.[\w_-]+)+))(?:[\w.,@?^=%&:\/~+_#-]*[\w@?^=%&\/~+#-])", doc.text)
+        result = len(debug)
+        return ratio(result, len(doc)), debug
+		

@@ -1,4 +1,4 @@
-# Copyright (C) 2023  NASK PIB
+# Copyright (C) 2022  NASK PIB
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,9 +14,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-from stylo_metrix.structures import Category, Metric
-from stylo_metrix.utils import incidence
-
+from ...structures import Category, Metric
+from ...utils import incidence, log_incidence
+import math
 
 class Lexical(Category):
     lang = 'ukr'
@@ -33,17 +33,56 @@ class L_TYPE_TOKEN_RATIO_LEMMAS(Metric):
     name_en = "Type-token ratio for words lemmas"
 
     def count(doc):
-        types = set(token.lemma_ for token in doc._.words)
+        types = set(token.lemma_ for token in doc if token.is_alpha)
         result = incidence(doc, types)
         return result, {}
 
+
+class HERDAN_TTR(Metric):
+    category = Lexical
+    name_en = "Herdan's TTR"
+
+    def count(doc):
+        '''
+        Function to calculate Herdan's TTR for the Ukrainian language
+        param: doc - spacy doc object
+        return: float - Herdan's TTR score
+        '''
+        # get types and tokens
+        types = set([word.text for word in doc if word.is_alpha])
+        tokens = [word.text for word in doc if word.is_alpha]
+
+        # calculate Herdan's TTR
+        return log_incidence(len(types), len(tokens)), {}
+
+
+class MASS_TTR(Metric):
+    category = Lexical
+    name_en = "Mass TTR"
+
+    def count(doc):
+        '''
+        Function to calculate Mass TTR for the Ukrainian language
+        param: doc - spacy doc object
+        return: float - Mass TTR score
+
+        The TTR score that displays most stability with respect to the text length.
+        '''
+        # get types and tokens
+        types = len(set([word.text for word in doc if word.is_alpha]))
+        tokens = len([word.text for word in doc if word.is_alpha])
+        try:
+            if tokens > 0 and types > 0:
+                return (math.log(tokens) - math.log(types)) / math.log2(tokens), {}
+        except ZeroDivisionError:
+            return 0.0, {}
 
 class L_CONT_A(Metric):
     category = Lexical
     name_en = "Incidence of Content words"
 
     def count(doc):
-        search = [token.text for token in doc._.words if token._.is_content_word]
+        search = [token.text for token in doc if token._.is_content_word]
         result = incidence(doc, search)
         return result, {"CW": search}
 
@@ -53,7 +92,7 @@ class L_FUNC_A(Metric):
     name_en = "Incidence of Function words"
 
     def count(doc):
-        search = [token.text for token in doc._.words if token._.is_function_word]
+        search = [token.text for token in doc if token._.is_function_word]
         result = incidence(doc, search)
         return result, {"CW": search}
 
@@ -63,7 +102,7 @@ class L_CONT_T(Metric):
     name_en = "Incidence of Content words types"
 
     def count(doc):
-        search = set(token.text for token in doc._.words if token._.is_content_word)
+        search = set(token.text for token in doc if token._.is_content_word)
         result = incidence(doc, search)
         return result, {}
 
@@ -73,7 +112,7 @@ class L_FUNC_T(Metric):
     name_en = "Incidence of Function words types"
 
     def count(doc):
-        search = set(token.text for token in doc._.words if token._.is_function_word)
+        search = set(token.text for token in doc if token._.is_function_word)
         result = incidence(doc, search)
         return result, {}
 
@@ -121,7 +160,6 @@ class L_PERSONAL_NAME(Metric):
         sum_ents = sum(ents, [])
         result = incidence(doc, sum_ents)
         return result, {}
-
 
 class L_ANIM_NOUN(Metric):
     category = Lexical

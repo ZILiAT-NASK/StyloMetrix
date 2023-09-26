@@ -1,4 +1,4 @@
-# Copyright (C) 2023  NASK PIB
+# Copyright (C) 2022  NASK PIB
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,8 +14,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-from stylo_metrix.structures import Category, Metric
-from stylo_metrix.utils import incidence
+from ...structures import Category, Metric
+from ...utils import incidence
 
 
 class VerbFroms(Category):
@@ -39,10 +39,10 @@ class VF_ROOT_VERB_IMPERFECT(Metric):
 # All verbs in imperfect form / дієслова недоконаного виду
 class VF_ALL_VERB_IMPERFECT(Metric):
     category = VerbFroms
-    name_en = "Incidence of all verbs in imperfect aspect"
+    name_en = "Incidence of all verbs in imperfect aspect, active voice"
 
     def count(doc):
-        verbs = [token.text for token in doc if token.pos_ == "VERB" and "Aspect=Imp" in token.morph]
+        verbs = [token.text for token in doc if token.pos_ == "VERB" and "Aspect=Imp" in token.morph and "Voice=Act" in token.morph]
         result = incidence(doc, verbs)
         return result, {}
 
@@ -95,6 +95,18 @@ class VF_PAST_IND_IMPERFECT(Metric):
         result = incidence(doc, verbs)
         return result, {}
 
+
+# Present tense, indicative mood, perfect aspect
+class VF_PRESENT_IND_PERFECT(Metric):
+    category = VerbFroms
+    name_en = "Incidence of verbs in the present tense, indicative mood, perfect aspect"
+    
+    def count(doc):
+        verbs = [token.text for token in doc if "Aspect=Perf" in token.morph and "Tense=Pres" in token.morph
+             and "VerbForm=Fin" in token.morph and "Mood=Ind" in token.morph]
+        result = incidence(doc, verbs)
+        return result, {}
+    
 
 # Past tense, indicative mood, perfect aspect / дієслова минулого доконаного часу
 class VF_PAST_IND_PERFECT(Metric):

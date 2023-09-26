@@ -1,4 +1,4 @@
-# Copyright (C) 2023  NASK PIB
+# Copyright (C) 2022  NASK PIB
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,10 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from stylo_metrix.pipeline.ukr.pos_tagger_ukr import POSTagger
-from stylo_metrix.pipeline.ukr.params import Params
+from ...pipeline.ukr.pos_tagger_ukr import POSTagger
+from spacy_syllables import SpacySyllables
 
 ukr_components = [
     POSTagger,
-    Params,
+    SpacySyllables,
 ]

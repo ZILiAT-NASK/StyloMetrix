@@ -17,21 +17,25 @@ from spacy.language import Language
 from spacy.tokens import Doc
 
 from ..structures import Metric
+from .pl import pl_components
 from .en import en_components
 from .en.custom_preprocessing import CustomPreprocessing as CP_en
-from .pl import pl_components
 from .ukr import ukr_components
 from .ukr.custom_preprocessing import CustomPreprocessing as CP_ukr
+from .ru import ru_components
+from .ru.custom_preprocessing import CustomPreprocessing as CP_ru
+
 
 
 @Language.factory('stylo_metrix')
-def create_sm_component(nlp, name, metrics_ids):
-    return SMComponent(nlp, metrics_ids)
+def create_sm_component(nlp, name, metrics_ids, customization):
+    return SMComponent(nlp, metrics_ids, customization)
 
 
 class SMComponent:
-    def __init__(self, nlp, metrics_ids):
+    def __init__(self, nlp, metrics_ids, customization):
         self.metrics_ids = metrics_ids
+        self.customization = customization
         lang = nlp.config["nlp"]["lang"]
 
         if lang == 'pl':
@@ -42,6 +46,10 @@ class SMComponent:
         elif lang == 'uk':
             components = ukr_components
             nlp.tokenizer = CP_ukr(nlp.tokenizer)
+        elif lang == 'ru':
+            components = ru_components
+            nlp.tokenizer = CP_ru(nlp.tokenizer)
+
 
         self.components = [component(nlp) for component in components]
         Doc.set_extension("name", default=None, force=True)
@@ -56,19 +64,20 @@ class SMComponent:
                 doc = component(doc)
             except:
                 comp_exception = True
+        if self.customization:
+            doc = self.customization(doc)
 
         for id in self.metrics_ids:
             metric = Metric.get_by_id(id)
-            if comp_exception:
-                try:
-                    if comp_exception or len(doc) == 0:
-                        doc._.metrics[metric] = None, []
-                    else:
-                        doc._.metrics[metric] = metric(doc)
-                except Exception as e:
+            try:
+                if comp_exception or len(doc) == 0:
                     doc._.metrics[metric] = None, []
-                    print(str(e) + f'\n AT METRIC {metric.code}, TEXT: {doc[:10]}...')
-                    # raise type(e)(str(e) + f'\n AT METRIC {metric.code}, TEXT: {doc[:10]}...')
+                else:
+                    doc._.metrics[metric] = metric(doc)
+            except Exception as e:
+                doc._.metrics[metric] = None, []
+                print(str(e) + f'\n AT METRIC {metric.code}, TEXT: {doc[:10]}...')
+                # raise type(e)(str(e) + f'\n AT METRIC {metric.code}, TEXT: {doc[:10]}...')
         return doc
 
     def _assign_name(self, doc, name):

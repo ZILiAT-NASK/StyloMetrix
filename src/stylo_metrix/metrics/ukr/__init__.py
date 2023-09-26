@@ -1,4 +1,4 @@
-# Copyright (C) 2023  NASK PIB
+# Copyright (C) 2022  NASK PIB
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from stylo_metrix.structures import Lang
+from ...structures import Lang
 
 class UkrLang(Lang):
     definitions = ['ukrainian', 'ukraiński', 'ukr']
@@ -23,3 +23,4 @@ from .lexical_ukr import *
 from .parts_of_speech_ukr import *
 from .verb_forms_ukr import *
 from .syntactic_ukr import *
+from .readability_ukr import *

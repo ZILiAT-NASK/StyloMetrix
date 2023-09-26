@@ -1,4 +1,4 @@
-# Copyright (C) 2023  NASK PIB
+# Copyright (C) 2022  NASK PIB
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,13 +15,9 @@
 
 
 from spacy_syllables import SpacySyllables
-from stylo_metrix.pipeline.en.pos_tagger import POSTagger
-from stylo_metrix.pipeline.en.params import Params
-# from stylo_metrix.pipeline.en.metrics import Metrics
+from ...pipeline.en.pos_tagger import POSTagger
 
 en_components = [
     SpacySyllables,
     POSTagger,
-    Params,
-    # Metrics,
 ]

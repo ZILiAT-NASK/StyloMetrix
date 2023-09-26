@@ -1,4 +1,4 @@
-# Copyright (C) 2023  NASK PIB
+# Copyright (C) 2022  NASK PIB
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -54,6 +54,9 @@ class Lang(metaclass=LangMeta):
         if language is None:
             raise Exception(f'There is no language with definition {definition}.')
         return language
+    
+    def get_all_languages():
+        return Lang._all_languages
 
     @classmethod
     def register_category(cls, category):

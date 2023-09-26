@@ -1,4 +1,4 @@
-# Copyright (C) 2023  NASK PIB
+# Copyright (C) 2022  NASK PIB
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -93,3 +93,11 @@ class Metric(metaclass=MetricMeta):
         }
 
         return json.dumps(json_dict)
+    
+    @classmethod
+    def set_nlp(cls, nlp):
+        cls._nlp = nlp
+
+    @classmethod
+    def get_nlp(cls):
+        return cls._nlp

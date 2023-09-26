@@ -1,4 +1,4 @@
-# Copyright (C) 2023  NASK PIB
+# Copyright (C) 2022  NASK PIB
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,8 +14,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-from stylo_metrix.structures import Category, Metric
-from stylo_metrix.utils import incidence
+from ...structures import Category, Metric
+from ...utils import incidence
 
 
 class PartOfSpeech(Category):
@@ -28,7 +28,7 @@ class POS_VERB(Metric):
     name_en = "Incidence of Verbs"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "v"]
+        search = [token for token in doc if token.pos_ == "VERB"]
         result = incidence(doc, search)
         return result, {}
 
@@ -38,7 +38,7 @@ class POS_NOUN(Metric):
     name_en = "Incidence of Nouns"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "n"]
+        search = [token for token in doc if token.pos_ == "NOUN"]
         result = incidence(doc, search)
         return result, {}
 
@@ -48,7 +48,7 @@ class POS_ADJ(Metric):
     name_en = "Incidence of Adjectives"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "adj"]
+        search = [token for token in doc if token.pos_ == "ADJ"]
         result = incidence(doc, search)
         return result, {}
 
@@ -58,7 +58,7 @@ class POS_ADV(Metric):
     name_en = "Incidence of Adverbs"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "adv"]
+        search = [token for token in doc if token.pos_ == "ADV"]
         result = incidence(doc, search)
         return result, {}
 
@@ -68,7 +68,7 @@ class POS_DET(Metric):
     name_en = "Incidence of Determiners"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "det"]
+        search = [token for token in doc if token.pos_ == "DET"]
         result = incidence(doc, search)
         return result, {}
 
@@ -78,7 +78,7 @@ class POS_INTJ(Metric):
     name_en = "Incidence of Interjections"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "intj"]
+        search = [token for token in doc if token.pos_ == "INTJ"]
         result = incidence(doc, search)
         return result, {}
 
@@ -88,7 +88,7 @@ class POS_CONJ(Metric):
     name_en = "Incidence of Conjunctions"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "conj"]
+        search = [token for token in doc if token.pos_ ==  ["SCONJ", "CCONJ"]]
         result = incidence(doc, search)
         return result, {}
 
@@ -98,7 +98,7 @@ class POS_PART(Metric):
     name_en = "Incidence of Particles"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "part"]
+        search = [token for token in doc if token.pos_ == "PART"]
         result = incidence(doc, search)
         return result, {}
 
@@ -108,7 +108,7 @@ class POS_NUM(Metric):
     name_en = "Incidence of Numerals"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "num"]
+        search = [token for token in doc if token.pos_ == "NUM"]
         result = incidence(doc, search)
         return result, {}
 
@@ -118,7 +118,7 @@ class POS_PREP(Metric):
     name_en = "Incidence of Prepositions"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "prep"]
+        search = [token for token in doc if token.pos_ == "PREP"]
         result = incidence(doc, search)
         return result, {}
 
@@ -128,7 +128,7 @@ class POS_PRO(Metric):
     name_en = "Incidence of Pronouns"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "pro"]
+        search = [token for token in doc if token.pos_ == "PRON"]
         result = incidence(doc, search)
         return result, {}
 
@@ -138,6 +138,6 @@ class POS_OTHER(Metric):
     name_en = "Incidence of Code-Switching"
 
     def count(doc):
-        search = [token for token in doc._.words if token._.pos == "other"]
+        search = [token for token in doc if token.pos_ == "X"]
         result = incidence(doc, search)
         return result, {}

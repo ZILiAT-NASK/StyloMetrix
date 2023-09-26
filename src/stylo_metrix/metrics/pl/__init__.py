@@ -1,4 +1,4 @@
-# Copyright (C) 2023  NASK PIB
+# Copyright (C) 2022  NASK PIB
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,18 +13,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from stylo_metrix.structures import Lang
+from ...structures import Lang
 
 class PlLang(Lang):
     definitions = ['polish', 'polski', 'pl', 'pol']
     spacy_model = 'pl_nask'
 
 from .descriptive import *
-from .grammatical_forms import *
 from .graphical import *
 from .inflection import *
-from .lexical import *
-from .psycholinguistic import *
+from .lexis import *
+from .part_of_speech import *
+from .psycholinguistics import *
 from .punctuation import *
 from .syntactic import *
-from .word_formation import *
