@@ -72,7 +72,7 @@ Id | Category | Code | Name |
 63 | Inflection | IN_N_4ACC | Nouns in the accusative case
 64 | Inflection | IN_N_5INS | Nouns in the instrumental case
 65 | Inflection | IN_N_6LOC | Nouns in the locative case
-66 | Inflection | IN_N_7VOC | Nouns in the ablative case
+66 | Inflection | IN_N_7VOC | Nouns in the vocative case
 67 | Inflection | IN_N_SG | Singular nouns
 68 | Inflection | IN_N_PL | Plural nouns
 69 | Inflection | IN_N_MS | Masculine singular nouns
@@ -86,7 +86,7 @@ Id | Category | Code | Name |
 77 | Inflection | IN_PRO_4ACC | Pronouns in the accusative case
 78 | Inflection | IN_PRO_5INS | Pronouns in the instrumental case
 79 | Inflection | IN_PRO_6LOC | Pronouns in the locative case
-80 | Inflection | IN_PRO_7VOC | Pronouns in the ablative case
+80 | Inflection | IN_PRO_7VOC | Pronouns in the vocative case
 81 | Inflection | IN_PRO_1S | First person singular pronouns
 82 | Inflection | IN_PRO_2S | Second person singular pronouns
 83 | Inflection | IN_PRO_3S | Third person singular pronouns
