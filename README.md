@@ -16,9 +16,9 @@ Zakład Inżynierii Lingwistycznej i Anailzy Tekstu, NASK PIB
 💡 [Helper functions and extensions](resources/helpers_list.md)
 
 ## 🔖 Citation
-Please cite [this article](https://wydawnictwo.umg.edu.pl/pp-rai2022/pdfs/41_pp-rai-2022-121.pdf) when referring to StyloMetrix: 
+Please cite [this article](https://arxiv.org/pdf/2309.12810.pdf) when referring to StyloMetrix: 
 <pre>
-Okulska, I., & Zawadzka, A. Styles with Benefits. The StyloMetrix Vectors for Stylistic and Semantic Text Classification of Small-Scale Datasets and Different Sample Length.
+Okulska, I., Stetsenko, D., Kołos, A., Karlińska, A., Głąbińska, K., & Nowakowski, A. (2023). StyloMetrix: An Open-Source Multilingual Tool for Representing Stylometric Vectors. arXiv preprint arXiv:2309.12810.
 </pre>
 
 
