@@ -86,26 +86,26 @@ Id | Category | Code | Name |
 77  |  Syntactic  |  SY_POSITIONING  |  Number of positionings (прикладка)
 78  |  Syntactic  |  SY_QUESTION  |  Number of words in interrogative sentences
 79  |  Syntactic  |  SY_QUOTATIONS  |  Number of words in sentences with quotation marks
-80  |  VerbFroms  |  VF_ADV_IMPRF_PART  |  Incidence of adverbial imperfect participles
-81  |  VerbFroms  |  VF_ADV_PRF_PART  |  Incidence of adverbial perfect participles
-82  |  VerbFroms  |  VF_ALL_VERB_IMPERFECT  |  Incidence of all verbs in imperfect aspect
-83  |  VerbFroms  |  VF_ALL_VERB_PERFECT  |  Incidence of all verbs in perfect form
-84  |  VerbFroms  |  VF_FIRST_CONJ  |  Incidence of verbs in the first conjugation
-85  |  VerbFroms  |  VF_FOURTH_CONJ  |  Incidence of verbs in the fourth conjugation
-86  |  VerbFroms  |  VF_FUT_IND_COMPLEX  |  Incidence of verbs in the future tense, indicative mood, complex verb forms
-87  |  VerbFroms  |  VF_FUT_IND_IMPERFECT_SIMPLE  |  Incidence of verbs in the future tense, indicative mood, imperfect aspect, simple verb forms
-88  |  VerbFroms  |  VF_FUT_IND_PERFECT  |  Incidence of verbs in the future tense, indicative mood, perfect aspect
-89  |  VerbFroms  |  VF_IMPERSONAL_VERBS  |  Incidence of impersonal verbs
-90  |  VerbFroms  |  VF_INFINITIVE  |  Incidence of verbs in infinitive
-91  |  VerbFroms  |  VF_INTRANSITIVE  |  Incidence of intransitive verbs
-92  |  VerbFroms  |  VF_PARTICIPLE_ACTIVE  |  Incidence of active participles
-93  |  VerbFroms  |  VF_PARTICIPLE_PASSIVE  |  Incidence of passive participles
-94  |  VerbFroms  |  VF_PASSIVE  |  Incidence of verbs in the passive form
-95  |  VerbFroms  |  VF_PAST_IND_IMPERFECT  |  Incidence of verbs in the past tense, indicative mood, imperfect aspect
-96  |  VerbFroms  |  VF_PAST_IND_PERFECT  |  Incidence of verbs in the past tense, indicative mood, perfect aspect
-97  |  VerbFroms  |  VF_PRESENT_IND_IMPERFECT  |  Incidence of verbs in the present tense, indicative mood, imperfect aspect
-98  |  VerbFroms  |  VF_ROOT_VERB_IMPERFECT  |  Incidence of root verbs in imperfect aspect
-99  |  VerbFroms  |  VF_ROOT_VERB_PERFECT  |  Incidence of root verbs in perfect form
-100  |  VerbFroms  |  VF_SECOND_CONJ  |  Incidence of verbs in the second conjugation
-101  |  VerbFroms  |  VF_THIRD_CONJ  |  Incidence of verbs in the third conjugation
-102  |  VerbFroms  |  VF_TRANSITIVE  |  Incidence of transitive verbs
+80  |  VerbForms  |  VF_ADV_IMPRF_PART  |  Incidence of adverbial imperfect participles
+81  |  VerbForms  |  VF_ADV_PRF_PART  |  Incidence of adverbial perfect participles
+82  |  VerbForms  |  VF_ALL_VERB_IMPERFECT  |  Incidence of all verbs in imperfect aspect
+83  |  VerbForms  |  VF_ALL_VERB_PERFECT  |  Incidence of all verbs in perfect form
+84  |  VerbForms  |  VF_FIRST_CONJ  |  Incidence of verbs in the first conjugation
+85  |  VerbForms  |  VF_FOURTH_CONJ  |  Incidence of verbs in the fourth conjugation
+86  |  VerbForms  |  VF_FUT_IND_COMPLEX  |  Incidence of verbs in the future tense, indicative mood, complex verb forms
+87  |  VerbForms  |  VF_FUT_IND_IMPERFECT_SIMPLE  |  Incidence of verbs in the future tense, indicative mood, imperfect aspect, simple verb forms
+88  |  VerbForms  |  VF_FUT_IND_PERFECT  |  Incidence of verbs in the future tense, indicative mood, perfect aspect
+89  |  VerbForms  |  VF_IMPERSONAL_VERBS  |  Incidence of impersonal verbs
+90  |  VerbForms  |  VF_INFINITIVE  |  Incidence of verbs in infinitive
+91  |  VerbForms  |  VF_INTRANSITIVE  |  Incidence of intransitive verbs
+92  |  VerbFprms  |  VF_PARTICIPLE_ACTIVE  |  Incidence of active participles
+93  |  VerbForms  |  VF_PARTICIPLE_PASSIVE  |  Incidence of passive participles
+94  |  VerbForms  |  VF_PASSIVE  |  Incidence of verbs in the passive form
+95  |  VerbForms  |  VF_PAST_IND_IMPERFECT  |  Incidence of verbs in the past tense, indicative mood, imperfect aspect
+96  |  VerbForms  |  VF_PAST_IND_PERFECT  |  Incidence of verbs in the past tense, indicative mood, perfect aspect
+97  |  VerbForms  |  VF_PRESENT_IND_IMPERFECT  |  Incidence of verbs in the present tense, indicative mood, imperfect aspect
+98  |  VerbForms  |  VF_ROOT_VERB_IMPERFECT  |  Incidence of root verbs in imperfect aspect
+99  |  VerbForms  |  VF_ROOT_VERB_PERFECT  |  Incidence of root verbs in perfect form
+100  |  VerbForms  |  VF_SECOND_CONJ  |  Incidence of verbs in the second conjugation
+101  |  VerbForms  |  VF_THIRD_CONJ  |  Incidence of verbs in the third conjugation
+102  |  VerbForms  |  VF_TRANSITIVE  |  Incidence of transitive verbs
