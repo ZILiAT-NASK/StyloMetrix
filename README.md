@@ -131,7 +131,7 @@ We have put care into creating a set of powerful built-in metrics. See the list 
  
 
 ## 📪 Contact
-Zakład Inżynierii Lingwistycznej i Anailzy Tekstu, Naukowa i Akademicka Sieć Komputerowa – Państwowy Instytut Badawczy 
+Zakład Inżynierii Lingwistycznej i Analizy Tekstu, Naukowa i Akademicka Sieć Komputerowa – Państwowy Instytut Badawczy 
 
 **Adam Nowakowski** adam.nowakowski@nask.pl | **Inez Okulska** inez.okulska@nask.pl
 
