@@ -4,7 +4,7 @@
 
 <a href="https://github.com/ZILiAT-NASK/StyloMetrix#stylometrix"><img alt="StyloMetrix" src="https://github.com/ZILiAT-NASK/StyloMetrix/blob/v0.0.0/resources/sm.png?raw=true" width="200"/></a><a href="https://www.nask.pl/"><img alt="NASK" src="https://github.com/ZILiAT-NASK/StyloMetrix/blob/v0.0.0/resources/nask.png?raw=true" width="200"/></a>
 
-Zakład Inżynierii Lingwistycznej i Anailzy Tekstu, NASK PIB 
+Zakład Inżynierii Lingwistycznej i Analizy Tekstu, NASK PIB 
 
 ## 📌 Quick
 💡 Stylometry tool in beta version for **Polish**, **English** and **Ukrainian** language, distributed as a **Python package**
