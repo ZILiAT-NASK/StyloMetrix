@@ -98,7 +98,7 @@ Id | Category | Code | Name |
 89  |  VerbForms  |  VF_IMPERSONAL_VERBS  |  Incidence of impersonal verbs
 90  |  VerbForms  |  VF_INFINITIVE  |  Incidence of verbs in infinitive
 91  |  VerbForms  |  VF_INTRANSITIVE  |  Incidence of intransitive verbs
-92  |  VerbFprms  |  VF_PARTICIPLE_ACTIVE  |  Incidence of active participles
+92  |  VerbForms  |  VF_PARTICIPLE_ACTIVE  |  Incidence of active participles
 93  |  VerbForms  |  VF_PARTICIPLE_PASSIVE  |  Incidence of passive participles
 94  |  VerbForms  |  VF_PASSIVE  |  Incidence of verbs in the passive form
 95  |  VerbForms  |  VF_PAST_IND_IMPERFECT  |  Incidence of verbs in the past tense, indicative mood, imperfect aspect
