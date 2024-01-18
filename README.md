@@ -135,4 +135,4 @@ Zakład Inżynierii Lingwistycznej i Analizy Tekstu, Naukowa i Akademicka Sieć 
 
 **Inez Okulska** inez.okulska@nask.pl | ziliat@nask.pl
 
-Copyright (C) 2023  NASK PIB
+Copyright (C) 2024  NASK PIB
