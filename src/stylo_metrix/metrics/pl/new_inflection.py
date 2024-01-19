@@ -3,13 +3,13 @@ from spacy.matcher import Matcher
 from ...structures import Metric, Category
 from ...utils import ratio
 
-class Odmiana(Category):
+class Inflection(Category):
     lang='pl'
     name_en='Inflection'
     name_local='Odmiana'
 
 class IN_ADJ_POS(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Adjectives in positive degree"
     name_local = "Przymiotniki w stopniu równym"
    
@@ -20,7 +20,7 @@ class IN_ADJ_POS(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_ADJ_COM(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Adjectives in comparative degree"
     name_local = "Przymiotniki w stopniu wyższym"
    
@@ -30,7 +30,7 @@ class IN_ADJ_COM(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_ADJ_SUP(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Adjectives in superlative degree"
     name_local = "Przymiotniki w stopniu najwyższym"
    
@@ -40,7 +40,7 @@ class IN_ADJ_SUP(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_ADV_POS(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Adverbs in positive degree"
     name_local = "Przysłówki w stopniu równym"
    
@@ -51,7 +51,7 @@ class IN_ADV_POS(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_ADV_COM(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Adverbs in comparative degree"
     name_local = "Przysłówki w stopniu wyższym"
    
@@ -62,7 +62,7 @@ class IN_ADV_COM(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_ADV_SUP(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Adverbs in superlative degree"
     name_local = "Przysłówki w stopniu najwyższym"
    
@@ -73,7 +73,7 @@ class IN_ADV_SUP(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_N_1NOM(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Nouns in the nominative case"
     name_local = "Rzeczowniki w mianowniku"
    
@@ -84,7 +84,7 @@ class IN_N_1NOM(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_N_2GEN(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Nouns in the genitive case"
     name_local = "Rzeczowniki w dopełniaczu"
    
@@ -95,7 +95,7 @@ class IN_N_2GEN(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_N_3DAT(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Nouns in the dative case"
     name_local = "Rzeczowniki w celowniku"
    
@@ -106,7 +106,7 @@ class IN_N_3DAT(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_N_4ACC(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Nouns in the accusative case"
     name_local = "Rzeczowniki w bierniku"
    
@@ -117,7 +117,7 @@ class IN_N_4ACC(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_N_5INS(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Nouns in the instrumental case"
     name_local = "Rzeczowniki w narzędniku"
    
@@ -128,7 +128,7 @@ class IN_N_5INS(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_N_6LOC(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Nouns in the locative case"
     name_local = "Rzeczowniki w miejscowniku"
    
@@ -139,7 +139,7 @@ class IN_N_6LOC(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_N_7VOC(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Nouns in the vocative case"
     name_local = "Rzeczowniki w wołaczu"
    
@@ -150,7 +150,7 @@ class IN_N_7VOC(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_N_SG(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Singular nouns"
     name_local = "Rzeczowniki w liczbie pojedynczej"
     
@@ -161,7 +161,7 @@ class IN_N_SG(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_N_PL(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Plural nouns"
     name_local = "Rzeczowniki w liczbie mnogiej"
     
@@ -172,7 +172,7 @@ class IN_N_PL(Metric):
         return ratio(result, len(doc)), debug
 
 class IN_N_MS(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Singular masculine nouns"
     name_local = "Rzeczowniki w liczbie pojedynczej w rodzaju męskim"
     
@@ -184,7 +184,7 @@ class IN_N_MS(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_N_MP(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Nouns in masculine personal gender (plural)"
     name_local = "Rzeczowniki w liczbie mnogiej w rodzaju męskoosobowym"
     
@@ -197,7 +197,7 @@ class IN_N_MP(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_N_FS(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Singular feminine nouns"
     name_local = "Rzeczowniki w liczbie pojedynczej w rodzaju żeńskim"
     
@@ -209,7 +209,7 @@ class IN_N_FS(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_N_NMP(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Nouns in non-masculine personal gender (plural)"
     name_local = "Rzeczowniki w liczbie mnogiej w rodzaju niemęskoosobowym"
     
@@ -223,7 +223,7 @@ class IN_N_NMP(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_N_NS(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Singular neutral nouns"
     name_local = "Rzeczowniki w liczbie pojedynczej w rodzaju nijakim"
     
@@ -235,7 +235,7 @@ class IN_N_NS(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_PRO_1NOM(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Pronouns in the nominative case"
     name_local = "Zaimki w mianowniku"
    
@@ -246,7 +246,7 @@ class IN_PRO_1NOM(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_PRO_2GEN(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Pronouns in the genitive case"
     name_local = "Zaimki w dopełniaczu"
    
@@ -257,7 +257,7 @@ class IN_PRO_2GEN(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_PRO_3DAT(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Pronouns in the dative case"
     name_local = "Zaimki w celowniku"
    
@@ -268,7 +268,7 @@ class IN_PRO_3DAT(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_PRO_4ACC(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Pronouns in the accusative case"
     name_local = "Zaimki w bierniku"
    
@@ -279,7 +279,7 @@ class IN_PRO_4ACC(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_PRO_5INS(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Pronouns in the instrumental case"
     name_local = "Zaimki w narzędniku"
    
@@ -290,7 +290,7 @@ class IN_PRO_5INS(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_PRO_6LOC(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Pronouns in the locative case"
     name_local = "Zaimki w miejscowniku"
    
@@ -301,7 +301,7 @@ class IN_PRO_6LOC(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_PRO_7VOC(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Pronouns in the vocative case"
     name_local = "Zaimki w wołaczu"
    
@@ -312,7 +312,7 @@ class IN_PRO_7VOC(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_PRO_1S(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "First person singular pronouns"
     name_local = "Zaimki w 1 os. l. poj."
    
@@ -324,7 +324,7 @@ class IN_PRO_1S(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_PRO_2S(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Second person singular pronouns"
     name_local = "Zaimki w 2 os. l. poj."
    
@@ -336,7 +336,7 @@ class IN_PRO_2S(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_PRO_3S(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Third person singular pronouns"
     name_local = "Zaimki w 3 os. l. poj."
    
@@ -348,7 +348,7 @@ class IN_PRO_3S(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_PRO_1P(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "First person plural pronouns"
     name_local = "Zaimki w 1 os. l. mn."
    
@@ -360,7 +360,7 @@ class IN_PRO_1P(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_PRO_2P(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Second person plural pronouns"
     name_local = "Zaimki w 2 os. l. mn."
    
@@ -372,7 +372,7 @@ class IN_PRO_2P(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_PRO_3P(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Third person plural pronouns"
     name_local = "Zaimki w 3 os. l. mn."
    
@@ -384,7 +384,7 @@ class IN_PRO_3P(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_1S(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Verbs in 1 person singular"
     name_local = "Czasowniki w pierwszej osobie liczby pojedynczej"
     
@@ -396,7 +396,7 @@ class IN_V_1S(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_2S(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Verbs in 2 person singular"
     name_local = "Czasowniki w drugiej osobie liczby pojedynczej"
     
@@ -408,7 +408,7 @@ class IN_V_2S(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_3S(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Verbs in 3 person singular"
     name_local = "Czasowniki w trzeciej osobie liczby pojedynczej"
     
@@ -420,7 +420,7 @@ class IN_V_3S(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_1P(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Verbs in 3 person plural"
     name_local = "Czasowniki w pierwszej osobie liczby mnogiej"
     
@@ -432,7 +432,7 @@ class IN_V_1P(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_2P(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Verbs in 2 person plural"
     name_local = "Czasowniki w drugiej osobie liczby mnogiej"
     
@@ -444,7 +444,7 @@ class IN_V_2P(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_3P(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Verbs in 3 person plural"
     name_local = "Czasowniki w trzeciej osobie liczby mnogiej"
     
@@ -456,7 +456,7 @@ class IN_V_3P(Metric):
         return ratio(result, len(doc)), debug
 
 class IN_V_FIN(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Finite verbs"
     name_local = "Czasowniki w formie osobowej"
 
@@ -470,7 +470,7 @@ class IN_V_FIN(Metric):
         return ratio(result, len(doc)), debug
 
 class IN_V_INF(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Infinitive verbs"
     name_local = "Bezokoliczniki"
 
@@ -480,7 +480,7 @@ class IN_V_INF(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_QUASI(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Quasi-verbs"
     name_local = "Quasi-czasowniki"
    
@@ -491,7 +491,7 @@ class IN_V_QUASI(Metric):
         return ratio(result, len(doc)), debug
 	
 class IN_V_IMPERS(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Impersonal verb forms"
     name_local = "Bezosobniki"
 
@@ -501,7 +501,7 @@ class IN_V_IMPERS(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_IMPERS_PERF(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Impersonal verb forms in perfective aspect"
     name_local = "Bezosobniki w aspekcie dokonanym"
 
@@ -512,7 +512,7 @@ class IN_V_IMPERS_PERF(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_IMPERS_IMPERF(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Impersonal verb forms in imperfective aspect"
     name_local = "Bezosobniki w aspekcie niedokonanym"
 
@@ -523,7 +523,7 @@ class IN_V_IMPERS_IMPERF(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_MOD(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Modal verbs ('should')"
     name_local = "Czasowniki modalne ('winien/powinien')"
    
@@ -534,7 +534,7 @@ class IN_V_MOD(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_PACT(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Active adjectival participles"
     name_local = "Imiesłowy przymiotnikowe czynne"
 
@@ -545,7 +545,7 @@ class IN_V_PACT(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_PPAS(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Passive adjectival participles"
     name_local = "Imiesłowy przymiotnikowe bierne"
 
@@ -556,7 +556,7 @@ class IN_V_PPAS(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_PPAS_PERF(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Passive adjectival participles in perfective aspect"
     name_local = "Imiesłowy przymiotnikowe bierne w aspekcie dokonanym"
 
@@ -568,7 +568,7 @@ class IN_V_PPAS_PERF(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_PPAS_IMPERF(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Passive adjectival participles in imperfective aspect"
     name_local = "Imiesłowy przymiotnikowe bierne w aspekcie niedokonanym"
 
@@ -580,7 +580,7 @@ class IN_V_PPAS_IMPERF(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_PCON(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Present adverbial participles"
     name_local = "Imiesłowy przysłówkowe współczesne"
 
@@ -592,7 +592,7 @@ class IN_V_PCON(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_PANT(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Perfect adverbial participles"
     name_local = "Imiesłowy przysłówkowe uprzednie"
 
@@ -604,7 +604,7 @@ class IN_V_PANT(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_PERF(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Verbs in perfect aspect"
     name_local = "Czasowniki w aspekcie dokonanym"
 
@@ -616,7 +616,7 @@ class IN_V_PERF(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_IMPERF(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Verbs in imperfect aspect"
     name_local = "Czasowniki w aspekcie niedokonanym"
 
@@ -628,7 +628,7 @@ class IN_V_IMPERF(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_ACT(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Verbs in active voice"
     name_local = "Czasowniki w stronie czynnej"
 
@@ -642,7 +642,7 @@ class IN_V_ACT(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_PASS(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Verbs in passive voice"
     name_local = "Czasowniki w stronie biernej"
 
@@ -658,7 +658,7 @@ class IN_V_PASS(Metric):
         return ratio(bi_gram_count, len(doc)), debug
 		
 class IN_V_GER(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Gerunds"
     name_local = "Rzeczowniki odczasownikowe"
 
@@ -668,7 +668,7 @@ class IN_V_GER(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_PRES(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Verbs in present tense"
     name_local = "Czasowniki w czasie teraźniejszym"
 
@@ -679,7 +679,7 @@ class IN_V_PRES(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_PAST(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Verbs in past tense"
     name_local = "Czasowniki w czasie przeszłym"
 
@@ -691,7 +691,7 @@ class IN_V_PAST(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_FUTS(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Verbs in simple future tense"
     name_local = "Czasowniki w czasie przyszłym prostym"
 
@@ -702,7 +702,7 @@ class IN_V_FUTS(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_FUTC(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Verbs in future complex tense"
     name_local = "Czasowniki w czasie przyszłym złożonym"
 
@@ -745,7 +745,7 @@ class IN_V_FUTC(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_FUT(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Verbs in future tense"
     name_local = "Czasowniki w czasie przyszłym"
 
@@ -757,7 +757,7 @@ class IN_V_FUT(Metric):
         return combined_result, combined_debug
 		
 class IN_V_IMP(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Verbs in imperative mood"
     name_local = "Czasowniki w trybie rozkazującym"
 
@@ -768,7 +768,7 @@ class IN_V_IMP(Metric):
         return ratio(result, len(doc)), debug
 		
 class IN_V_COND(Metric):
-    category = Odmiana
+    category = Inflection
     name_en = "Verbs in conditional"
     name_local = "Czasowniki w trybie przypuszczającym"
     

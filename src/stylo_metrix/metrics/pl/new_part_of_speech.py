@@ -1,14 +1,14 @@
 from ...structures import Metric, Category
 from ...utils import ratio
 
-class Czesci_mowy(Category):
+class PartOfSpeech(Category):
     lang='pl'
-    name_en='Part of Speech'
+    name_en='Part_of_Speech'
     name_local='Czesci_mowy'
 
 
 class G_N(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Nouns"
     name_local = "Rzeczowniki"
 
@@ -18,7 +18,7 @@ class G_N(Metric):
         return ratio(result, len(doc)), debug
     
 class G_V(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Verbs"
     name_local = "Czasowniki"
 
@@ -29,7 +29,7 @@ class G_V(Metric):
         return ratio(result, len(doc)), debug
 		
 class G_ADJ(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Adjectives"
     name_local = "Przymiotniki"
 
@@ -42,7 +42,7 @@ class G_ADJ(Metric):
 
     
 class G_ADV(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Adverbs"
     name_local = "Przysłówki"
 
@@ -52,7 +52,7 @@ class G_ADV(Metric):
         return ratio(result, len(doc)), debug
 		
 class G_PRO(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Pronouns"
     name_local = "Zaimki"
 
@@ -62,7 +62,7 @@ class G_PRO(Metric):
         return ratio(result, len(doc)), debug
 		
 class G_PRO_PRS(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Personal pronouns"
     name_local = "Zaimki osobowe"
 
@@ -74,7 +74,7 @@ class G_PRO_PRS(Metric):
         return ratio(result, len(doc)), debug
 		
 class G_PRO_REL(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Relative pronouns"
     name_local = "Zaimki względne"
 
@@ -84,7 +84,7 @@ class G_PRO_REL(Metric):
         return ratio(result, len(doc)), debug
 		
 class G_PRO_DEM(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Demonstrative pronouns"
     name_local = "Zaimki wskazujące"
    
@@ -95,7 +95,7 @@ class G_PRO_DEM(Metric):
         return ratio(result, len(doc)), debug
 		
 class G_PRO_INT(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Interrogative pronouns"
     name_local = "Zaimki pytajne"
    
@@ -105,7 +105,7 @@ class G_PRO_INT(Metric):
         return ratio(result, len(doc)), debug
 		
 class G_PRO_IND(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Indefinite pronouns"
     name_local = "Zaimki nieokreślone"
    
@@ -115,7 +115,7 @@ class G_PRO_IND(Metric):
         return ratio(result, len(doc)), debug
 		
 class G_PRO_TOT(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Total pronouns"
     name_local = "Zaimki uogólniające"
    
@@ -125,7 +125,7 @@ class G_PRO_TOT(Metric):
         return ratio(result, len(doc)), debug
 		
 class G_PRO_NEG(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Negative pronouns"
     name_local = "Zaimki przeczące"
    
@@ -135,7 +135,7 @@ class G_PRO_NEG(Metric):
         return ratio(result, len(doc)), debug
 		
 class G_PRO_POS(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Possessive pronouns"
     name_local = "Zaimki dzierżawcze"
    
@@ -147,7 +147,7 @@ class G_PRO_POS(Metric):
         return ratio(result, len(doc)), debug
 		
 class G_NUM(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Numerals"
     name_local = "Liczebniki"
 
@@ -158,7 +158,7 @@ class G_NUM(Metric):
         return ratio(result, len(doc)), debug
 
 class G_CNUM(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Collective numerals"
     name_local = "Liczebniki zbiorowe"
 
@@ -171,7 +171,7 @@ class G_CNUM(Metric):
         return ratio(result, len(doc)), debug
 		
 class G_PART(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Particles"
     name_local = "Partykuły"
 
@@ -182,7 +182,7 @@ class G_PART(Metric):
         return ratio(result, len(doc)), debug
 		
 class G_ADP(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Adpositions"
     name_local = "Przyimki"
 
@@ -192,7 +192,7 @@ class G_ADP(Metric):
         return ratio(result, len(doc)), debug
 		
 class G_INTJ(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Interjections"
     name_local = "Wykrzykniki"
 
@@ -202,7 +202,7 @@ class G_INTJ(Metric):
         return ratio(result, len(doc)), debug
 		
 class G_SYM(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Symbols"
     name_local = "Symbole"
 
@@ -212,7 +212,7 @@ class G_SYM(Metric):
         return ratio(result, len(doc)), debug
 
 class G_ABBR(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Abbreviations"
     name_local = "Skrótowce" 
 
@@ -222,7 +222,7 @@ class G_ABBR(Metric):
         return ratio(result, len(doc)), debug
 		
 class G_CONJ(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Conjunctions"
     name_local = "Spójniki"
 
@@ -232,7 +232,7 @@ class G_CONJ(Metric):
         return ratio(result, len(doc)), debug
 		
 class G_CCONJ(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Coordinating conjunctions"
     name_local = "Łączniki zdan współrzędnie złożonych"
 
@@ -242,7 +242,7 @@ class G_CCONJ(Metric):
         return ratio(result, len(doc)), debug
 		
 class G_SCONJ(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Subordinating conjunctions"
     name_local = "Łączniki zdań podrzędnie złożonych"
 
@@ -252,7 +252,7 @@ class G_SCONJ(Metric):
         return ratio(result, len(doc)), debug
 
 class G_OTHER(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Other parts of speech"
     name_local = "Inne części mowy"
 
@@ -263,7 +263,7 @@ class G_OTHER(Metric):
         return ratio(result, len(doc)), debug
 
 class APOS_ADJ(Metric):
-    category = Czesci_mowy
+    category = PartOfSpeech
     name_en = "Descriptive apostrophe with an adjective"
     name_local = "Apostrofa opisowa z przymiotnikiem"
 

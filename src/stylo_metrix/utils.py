@@ -1,4 +1,4 @@
-# Copyright (C) 2023  NASK PIB
+# Copyright (C) 2024  NASK PIB
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,31 +14,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
+import math
 import statistics
-
-
-def mean(l: list):
-    try:
-        result = statistics.mean(l)
-    except statistics.StatisticsError:
-        result = 0
-    return result
-
-
-def stdev(lst: list):
-    try:
-        result = statistics.stdev(lst)
-    except statistics.StatisticsError:
-        result = 0
-    return result
-
-
-def median(lst: list):
-    try:
-        result = statistics.median(lst)
-    except statistics.StatisticsError:
-        result = 0
-    return result
 
 
 def ratio(v1: int, v2: int):
@@ -49,35 +26,38 @@ def ratio(v1: int, v2: int):
 
 
 def select(doc, attr_dict):
-    selection = [token for token in doc
-                 if all([getattr(getattr(token, '_'), attr) == value for attr, value in attr_dict.items()])]
+    selection = [
+        token
+        for token in doc
+        if all(
+            [
+                getattr(getattr(token, "_"), attr) == value
+                for attr, value in attr_dict.items()
+            ]
+        )
+    ]
     return selection
 
 
 def incidence(doc, selection):
-    return ratio(len(selection), doc._.n_tokens)
+    return ratio(len(selection), len(doc))
 
 
-def sent_incidence(doc, selection):
-    return ratio(len(selection), doc._.n_sents)
-
-
-def highlight_words(doc, tokens):
-    return "".join(
-        [(str(f"[[[{token}]]]") if token in tokens else str(token)) + token.whitespace_ for token in doc])
+def log_incidence(n1: int, n2: int):
+    try:
+        result = math.log(n1) / math.log(n2)
+        return result
+    except ZeroDivisionError:
+        return 0.0
 
 
 def start_end_quote(doc):
+    start = None
+    end = None
     for token in doc:
         if ("PunctSide=Ini" and "PunctType=Quot") in token.morph:
-            start = token.i+1
-            break
-        else:
-            start = None
+            start = token.i + 1
     for token in reversed(doc):
         if ("PunctSide=Fin" and "PunctType=Quot") in token.morph:
-            end = token.i-1
-            break
-        else:
-            end = None
+            end = token.i - 1
     return start, end

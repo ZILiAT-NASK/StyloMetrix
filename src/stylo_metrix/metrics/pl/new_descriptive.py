@@ -4,7 +4,7 @@ from ...structures import Metric, Category
 from ...utils import ratio
 
 
-class Deskryptywne(Category):
+class Descriptive(Category):
   lang='pl'
   name_en='Descriptive'
   name_local='Deskryptywne'
@@ -12,7 +12,7 @@ class Deskryptywne(Category):
 
 	
 class G_ADJ_CP(Metric):
-    category = Deskryptywne
+    category = Descriptive
     name_en = "Compound adjectives"
     name_local = "Przymiotniki złożone"
 
@@ -47,7 +47,7 @@ class G_ADJ_CP(Metric):
         return ratio(result, len(doc)), filtered_double_debug + triple_debug
 
 class DESC_ADJ(Metric):
-    category = Deskryptywne
+    category = Descriptive
     name_en = "Adjectival description of properties"
     name_local = "Opis właściwości przymiotnikowy"
 
@@ -62,7 +62,7 @@ class DESC_ADJ(Metric):
         return ratio(result, len(doc)), debug
 
 class DESC_ADV(Metric):
-    category = Deskryptywne
+    category = Descriptive
     name_en = "Adverbial description of properties"
     name_local = "Opis właściwości przysłówkowy"
 
@@ -77,7 +77,7 @@ class DESC_ADV(Metric):
         return ratio(result, len(doc)), debug
 	
 class DESC_APOS_NPHR(Metric):
-    category = Deskryptywne
+    category = Descriptive
     name_en = "Descriptive apostrophe with a nominal phrase"
     name_local = "Rozbudowana apostrofa z frazą nominalną"
 
@@ -119,7 +119,7 @@ class DESC_APOS_NPHR(Metric):
         return ratio(result, len(doc)), debug
 		
 class DESC_APOS_VERB(Metric):
-    category = Deskryptywne
+    category = Descriptive
     name_en = "Apostrophe containing a verb"
     name_local = "Apostrofa wraz z czasownikiem"
 
@@ -144,7 +144,7 @@ class DESC_APOS_VERB(Metric):
         return ratio(result, len(doc)), debug
 		
 class DESC_APOS_NPHR(Metric):
-    category = Deskryptywne
+    category = Descriptive
     name_en = "Descriptive apostrophe with a nominal phrase"
     name_local = "Rozbudowana apostrofa z frazą nominalną"
 
@@ -190,7 +190,7 @@ class DESC_APOS_NPHR(Metric):
         return ratio(result, len(doc)), debug
 		
 class DESC_ADV_ADJ(Metric):
-    category = Deskryptywne
+    category = Descriptive
     name_en = "Adverbs followed by adjectives"
     name_local = "Przymiotniki występujące po przysłówkach"
 
@@ -205,7 +205,7 @@ class DESC_ADV_ADJ(Metric):
         return ratio(bi_gram_count, len(doc)), debug
 
 class DESC_ADV_ADV(Metric):
-    category = Deskryptywne
+    category = Descriptive
     name_en = "Adverb pairs incidence"
     name_local = "Występowanie par przysłówków"
 
@@ -220,7 +220,7 @@ class DESC_ADV_ADV(Metric):
         return ratio(bi_gram_count, len(doc)), debug
 
 class DESC_PRON_VOC(Metric):
-    category = Deskryptywne
+    category = Descriptive
     name_en = "Personal pronoun followed by a noun in the vocative case"
     name_local = "Rzeczownik w wołaczu po zaimku osobowym"
 

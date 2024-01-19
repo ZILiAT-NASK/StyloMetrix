@@ -5,13 +5,13 @@ from ...utils import ratio
 
 from .data.dictionaries import emoticons, lenny_faces
 
-class Grafika(Category):
+class Graphical(Category):
     lang='pl'
     name_en='Graphical'
     name_local='Grafika'
 
 class GR_UPPER(Metric):
-    category = Grafika
+    category = Graphical
     name_en = "Capital letters"
     name_local = "Kapitaliki"
    
@@ -22,7 +22,7 @@ class GR_UPPER(Metric):
         return ratio(result, len(doc)), debug
 
 class GR_EMOJI(Metric):
-    category = Grafika
+    category = Graphical
     name_en = "Emojis"
     name_local = "Emoji"
 
@@ -32,7 +32,7 @@ class GR_EMOJI(Metric):
         return ratio(result, len(doc)), debug
 	
 class GR_EMOT(Metric):
-    category = Grafika
+    category = Graphical
     name_en = "Emoticons"
     name_local = "Emotikony"
 
@@ -46,7 +46,7 @@ class GR_EMOT(Metric):
         return ratio(result, len(doc)), debug
 		
 class GR_LENNY(Metric):
-    category = Grafika
+    category = Graphical
     name_en = "Lenny faces"
     name_local = "Lenny faces"
 
@@ -56,7 +56,7 @@ class GR_LENNY(Metric):
         return ratio(result, len(doc)), debug
 
 class GR_MENTION(Metric):
-    category = Grafika
+    category = Graphical
     name_en = "Direct mentions with @"
     name_local = "Bezpośrednie wzmianki z @"
 
@@ -67,7 +67,7 @@ class GR_MENTION(Metric):
         return ratio(result, len(doc)), debug
 		
 class GR_HASH(Metric):
-    category = Grafika
+    category = Graphical
     name_en = "Hashtags"
     name_local = "Hasztagi"
 
@@ -78,7 +78,7 @@ class GR_HASH(Metric):
         return ratio(result, len(doc)), debug
 
 class GR_LINK(Metric):
-    category = Grafika
+    category = Graphical
     name_en = "Hyperlinks"
     name_local = "Hiperlinki"
 

@@ -3,13 +3,13 @@ from spacy.matcher import Matcher
 from ...structures import Metric, Category
 from ...utils import ratio
 
-class Interpunkcja(Category):
+class Punctuation(Category):
     lang='pl'
     name_en='Punctuation'
     name_local='Interpunkcja'
 
 class PUNCT_TOTAL(Metric):
-    category = Interpunkcja
+    category = Punctuation
     name_en = "Total punctuation"
     name_local = "Interpunkcja"
 
@@ -19,7 +19,7 @@ class PUNCT_TOTAL(Metric):
         return ratio(result, len(doc)), debug
 		
 class PUNCT_BI_NOUN(Metric):
-    category = Interpunkcja
+    category = Punctuation
     name_en = "Punctuation following a noun"
     name_local = "Interpunkcja po rzeczowniku"
 
@@ -34,7 +34,7 @@ class PUNCT_BI_NOUN(Metric):
         return ratio(result, len(doc)), debug
 		
 class PUNCT_BI_VERB(Metric):
-    category = Interpunkcja
+    category = Punctuation
     name_en = "Punctuation following a verb"
     name_local = "Interpunkcja po czasowniku"
 

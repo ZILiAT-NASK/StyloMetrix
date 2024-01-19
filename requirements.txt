@@ -1,0 +1,15 @@
+colorama
+confection
+emoji
+morfeusz2
+numpy
+pandas
+scikit-learn
+scipy
+spacy==3.7.2
+spacymoji
+srsly
+thinc
+tqdm
+spacy_syllables
+pexpect

@@ -6,14 +6,14 @@ from ...utils import ratio
 from .data.dictionaries import vulgarisms, errors, adv_dur, adv_freq, adv_phrases, adv_temp, intensifiers, exceptions
 
 
-class Leksyka(Category):
+class Lexis(Category):
   lang='pl'
   name_en='Lexis'
   name_local='Leksyka'
 		
    		
 class L_NAME(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Proper names"
     name_local = "Nazwy własne"
 
@@ -23,7 +23,7 @@ class L_NAME(Metric):
         return ratio(result, len(doc)), debug
 		
 class L_NAME_M(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Masculine proper nouns"
     name_local = "Nazwy własne w rodzaju męskim"
 
@@ -34,7 +34,7 @@ class L_NAME_M(Metric):
         return ratio(result, len(doc)), debug
 		
 class L_NAME_F(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Feminine proper nouns"
     name_local = "Nazwy własne w rodzaju żeńskim"
 
@@ -45,7 +45,7 @@ class L_NAME_F(Metric):
         return ratio(result, len(doc)), debug
 		
 class L_NAME_ENT(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Named entities"
     name_local = "Jednostki nazewnicze"
 
@@ -55,7 +55,7 @@ class L_NAME_ENT(Metric):
         return ratio(result, len(doc)), debug
 		
 class L_PLACEN_GEOG(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Place and geographical names"
     name_local = "Nazwy miejsc i nazwy geograficzne"
 
@@ -67,7 +67,7 @@ class L_PLACEN_GEOG(Metric):
         return ratio(result, len(doc)), debug
 		
 class L_PERSN(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Person names"
     name_local = "Nazwy osób"
 
@@ -77,7 +77,7 @@ class L_PERSN(Metric):
         return ratio(result, len(doc)), debug
 		
 class L_PERSN_M(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Masculine person names"
     name_local = "Nazwy osób w rodzaju męskim"
 
@@ -88,7 +88,7 @@ class L_PERSN_M(Metric):
         return ratio(result, len(doc)), debug
 		
 class L_PERSN_F(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Feminine person names"
     name_local = "Nazwy osób w rodzaju żeńskim"
 
@@ -99,7 +99,7 @@ class L_PERSN_F(Metric):
         return ratio(result, len(doc)), debug
 		
 class L_ORGN(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Organization names"
     name_local = "Nazwy organizacji"
 
@@ -109,7 +109,7 @@ class L_ORGN(Metric):
         return ratio(result, len(doc)), debug
 		
 class L_ETHN(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Ethnonyms and demonyms"
     name_local = "Etnonimy i demonimy"
 
@@ -120,7 +120,7 @@ class L_ETHN(Metric):
         return ratio(result, len(doc)), debug
 		
 class L_GEOG_ADJ(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Adjectives derived from geographical names"
     name_local = "Przymiotniki wywodzące się od nazw geograficznych"
 
@@ -131,7 +131,7 @@ class L_GEOG_ADJ(Metric):
         return ratio(result, len(doc)), debug
 		
 class L_DATE(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Dates"
     name_local = "Daty"
 
@@ -141,7 +141,7 @@ class L_DATE(Metric):
         return ratio(result, len(doc)), debug
 
 class L_VULG(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Vulgarisms"
     name_local = "Wulgaryzmy"
 
@@ -151,7 +151,7 @@ class L_VULG(Metric):
         return ratio(result, len(doc)), debug
 
 class L_INTENSIF(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Degree modifiers of Greek origin"
     name_local = "Modyfikatory natężenia cechy pochodzenia greckiego"
 
@@ -163,7 +163,7 @@ class L_INTENSIF(Metric):
         return ratio(result, len(doc)), debug	
 
 class L_ERROR(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Common linguistic errors"
     name_local = "Częste błędy językowe"
 
@@ -194,7 +194,7 @@ class L_ERROR(Metric):
         return ratio(total_matched_words, len(words)), debug
 	
 class L_ADVPHR(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Adverbial phrases"
     name_local = "Frazy przysłówkowe"
 
@@ -225,7 +225,7 @@ class L_ADVPHR(Metric):
         return ratio(total_matched_words, len(words)), debug
 		
 class L_ADV_TEMP(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Adverbs of time"
     name_local = "Przyslowki temporalne"
 
@@ -237,7 +237,7 @@ class L_ADV_TEMP(Metric):
         return ratio(total_matched_words, len(words)), debug
 		
 class L_ADV_DUR(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Adverbs of duration"
     name_local = "Przysłówki duratywne"
 
@@ -261,7 +261,7 @@ class L_ADV_DUR(Metric):
         return ratio(total_matched_words, len(words)), debug
 		
 class L_ADV_FREQ(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Adverbs of frequency"
     name_local = "Przysłówki czestotliwosci"
 
@@ -285,7 +285,7 @@ class L_ADV_FREQ(Metric):
         return ratio(total_matched_words, len(words)), debug
 		
 class L_SYL_G1(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "One-syllable words"
     name_local = "Wyrazy jednosylabowe"
 
@@ -295,7 +295,7 @@ class L_SYL_G1(Metric):
         return ratio(result, len(doc)), debug
 		
 class L_SYL_G2(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Two-syllables words"
     name_local = "Wyrazy dwusylabowe"
 
@@ -305,7 +305,7 @@ class L_SYL_G2(Metric):
         return ratio(result, len(doc)), debug
 		
 class L_SYL_G3(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Three-syllables words"
     name_local = "Wyrazy trójsylabowe"
 
@@ -315,7 +315,7 @@ class L_SYL_G3(Metric):
         return ratio(result, len(doc)), debug
 		
 class L_SYL_G4(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Words formed of 4 or more syllables"
     name_local = "Wyrazy o liczbie sylab większej niż 3"
 
@@ -325,7 +325,7 @@ class L_SYL_G4(Metric):
         return ratio(result, len(doc)), debug
 	
 class L_TTR_IA(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Type-token ratio for non-lemmatized tokens"
     name_local = "Type-token ratio dla wyrazów w odmianach"
 
@@ -336,7 +336,7 @@ class L_TTR_IA(Metric):
         return ratio(len(result), len(doc)), debug
 		
 class L_TTR_LA(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Type-token ratio for lemmatized tokens"
     name_local = "Type-token ratio dla wyrazów zlematyzowanych"
 
@@ -347,7 +347,7 @@ class L_TTR_LA(Metric):
         return ratio(len(result), len(doc)), debug
 		
 class L_CONT_A(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Incidence of content words"
     name_local = "Wyrazy samodzielne"
 
@@ -357,7 +357,7 @@ class L_CONT_A(Metric):
         return ratio(result, len(doc)), debug
 		
 class L_CONT_T(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Content words types"
     name_local = "Typy wyrazów samodzielnych"
 
@@ -367,7 +367,7 @@ class L_CONT_T(Metric):
         return ratio(result, len(doc)), debug
 		
 class L_CONT_L(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Content words lemma types"
     name_local = "Typy lemm wyrazów samodzielnych"
 
@@ -377,7 +377,7 @@ class L_CONT_L(Metric):
         return ratio(result, len(doc)), debug
 		
 class L_FUNC_A(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Incidence of function words"
     name_local = "Słowa funkcyjne"
 
@@ -387,7 +387,7 @@ class L_FUNC_A(Metric):
         return ratio(result, len(doc)), debug
 		
 class L_FUNC_T(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Function words types"
     name_local = "Typy wyrazow funkcyjnych"
 
@@ -397,7 +397,7 @@ class L_FUNC_T(Metric):
         return ratio(result, len(doc)), debug
 		
 class L_FUNC_L(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Function words lemma types"
     name_local = "Typy lemm wyrazow funkcyjnych"
 
@@ -407,7 +407,7 @@ class L_FUNC_L(Metric):
         return ratio(result, len(doc)), debug
 		
 class L_STOP(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Incidence of stop words"
     name_local = "Wyrazy ze stoplisty"
 
@@ -417,7 +417,7 @@ class L_STOP(Metric):
         return ratio(result, len(doc)), debug
 		
 class L_TCCT1(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Tokens covering 1% of most common types"
     name_local = "Wyrazy wchodzące w skład 1% najczęstszych typów"
 
@@ -433,7 +433,7 @@ class L_TCCT1(Metric):
         return result, debug
 		
 class L_TCCT5(Metric):
-    category = Leksyka
+    category = Lexis
     name_en = "Tokens covering 5% of most common types"
     name_local = "Wyrazy wchodzące w skład 5% najczęstszych typów"
 
