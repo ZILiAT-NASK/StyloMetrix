@@ -15,7 +15,7 @@ class Syntactic(Category):
 class SY_FMWE(Metric):
     category = Syntactic
     name_en = "Flat multiword expressions"
-    name_pl = "Związki wielowyrazowe"
+    name_local = "Związki wielowyrazowe"
 
     def count(doc):
         flat = [[token.head, token] for token in doc if "flat" in token.dep_]
@@ -27,7 +27,7 @@ class SY_FMWE(Metric):
 class SY_APPM(Metric):
     category = Syntactic
     name_en = "Appositional modifiers"
-    name_pl = "Modyfikatory w apozycji"
+    name_local = "Modyfikatory w apozycji"
 
     def count(doc):
         flat = [[token.head, token] for token in doc if "appos" in token.dep_]
