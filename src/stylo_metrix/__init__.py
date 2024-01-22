@@ -1,4 +1,4 @@
-# Copyright (C) 2023  NASK PIB
+# Copyright (C) 2024  NASK PIB
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,3 +16,4 @@
 from .stylo_metrix import StyloMetrix
 from .tools.metric_tools import get_all_categories, get_all_metrics, custom_metric
 from .structures import Metric, Category
+from . import utils

@@ -19,11 +19,11 @@ class PlLang(Lang):
     definitions = ['polish', 'polski', 'pl', 'pol']
     spacy_model = 'pl_nask'
 
-from .descriptive import *
-from .graphical import *
-from .inflection import *
-from .lexis import *
-from .part_of_speech import *
-from .psycholinguistics import *
-from .punctuation import *
-from .syntactic import *
+from .new_descriptive import *
+from .new_graphical import *
+from .new_inflection import *
+from .new_lexis import *
+from .new_part_of_speech import *
+from .new_psycholinguistics import *
+from .new_punctuation import *
+from .new_syntactic import *

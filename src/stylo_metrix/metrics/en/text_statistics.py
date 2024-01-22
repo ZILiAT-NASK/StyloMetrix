@@ -13,15 +13,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from ...structures import Metric, Category
-from collections import Counter, defaultdict
-from ...utils import sent_incidence, incidence, ratio
 import itertools
 import math
+from collections import Counter, defaultdict
+
+from ...structures import Category, Metric
+from ...utils import ratio
+
 
 class Statistics(Category):
-    lang = 'en'
+    lang = "en"
     name_en = "General Statistics"
+
 
 class L_TYPE_TOKEN_RATIO_LEMMAS(Metric):
     category = Statistics
@@ -33,17 +36,16 @@ class L_TYPE_TOKEN_RATIO_LEMMAS(Metric):
         return result, {}
 
 
-
 class HERDAN_TTR(Metric):
     category = Statistics
     name_en = "Herdan's TTR"
 
     def count(doc):
-        '''
-        Function to calculate Herdan's TTR 
+        """
+        Function to calculate Herdan's TTR
         param: doc - spacy doc object
         return: float - Herdan's TTR score
-        '''
+        """
         # get types and tokens
         types = set([*doc])
         tokens = [*doc]
@@ -58,19 +60,21 @@ class MASS_TTR(Metric):
     name_en = "Mass TTR"
 
     def count(doc):
-        '''
-        Function to calculate Mass TTR 
+        """
+        Function to calculate Mass TTR
         param: doc - spacy doc object
         return: float - Mass TTR score
 
         The TTR score that displays most stability with respect to the text length.
-        '''
+        """
         # get types and tokens
         types = set([*doc])
         tokens = [*doc]
         try:
             if len(tokens) > 0 and len(types) > 0:
-                return (math.log(len(tokens)) - math.log(len(types))) / math.log2(len(tokens)), {}
+                return (math.log(len(tokens)) - math.log(len(types))) / math.log2(
+                    len(tokens)
+                ), {}
         except ZeroDivisionError:
             return 0.0, {}
 
@@ -87,6 +91,7 @@ class SENT_ST_WRDSPERSENT(Metric):
         else:
             return 0.0, {}
 
+
 """
 The algorithme of counting statistical metrics is the following:
 1. Take the dependency tegs in every sentence 
@@ -102,13 +107,12 @@ class SENT_ST_DIFFERENCE(Metric):
     name_en = "Symmetric difference between nodes in sentences per doc"
 
     def count(doc):
-
         sets = [set([token.dep_ for token in sent]) for sent in doc.sents]
         stat = []
         if len(sets) > 1:
-            for i in range(0, len(sets)-1, 1):
-                difference = sets[i].symmetric_difference(sets[i+1])
-                diffs = len(difference) / (len(sets[i])+len(sets[i+1]))
+            for i in range(0, len(sets) - 1, 1):
+                difference = sets[i].symmetric_difference(sets[i + 1])
+                diffs = len(difference) / (len(sets[i]) + len(sets[i + 1]))
                 stat.append(diffs)
             result = len(stat) / len(doc.text.split())
             return result, {}
@@ -116,7 +120,7 @@ class SENT_ST_DIFFERENCE(Metric):
             result = 0.0
             return result, {}
 
-        
+
 class ST_REPETITIONS_WORDS(Metric):
     category = Statistics
     name_en = "Repetitions of words in text"
@@ -207,7 +211,11 @@ class SENT_D_PP(Metric):
 
         # Statistics PPs in the sentence
         for sent in doc.sents:
-            PPs = [[*map(lambda x: x.text, [*token.subtree])] for token in sent if token.dep_ == 'prep']
+            PPs = [
+                [*map(lambda x: x.text, [*token.subtree])]
+                for token in sent
+                if token.dep_ == "prep"
+            ]
             p = set(itertools.chain(*PPs))
             incidence = len(p) / len(sent)
             if len([*doc.sents]) == 1:
@@ -230,7 +238,11 @@ class SENT_D_ADJP(Metric):
 
         # Statistics ADJPs in the sentence
         for sent in doc.sents:
-            ADJPs = [[*map(lambda x: x.text, [*token.children])] for token in sent if token._.adjectives]
+            ADJPs = [
+                [*map(lambda x: x.text, [*token.children])]
+                for token in sent
+                if token._.adjectives
+            ]
             a = list(itertools.chain(*ADJPs))
             incidence = len(a) / len(sent)
             if len([*doc.sents]) == 1:
@@ -253,7 +265,11 @@ class SENT_D_ADVP(Metric):
 
         # Statistics ADVPs in the sentence
         for sent in doc.sents:
-            ADVPs = [[token.text, *map(lambda x: x.text, [*token.children])] for token in sent if token._.adverbs]
+            ADVPs = [
+                [token.text, *map(lambda x: x.text, [*token.children])]
+                for token in sent
+                if token._.adverbs
+            ]
             a = list(itertools.chain(*ADVPs))
             incidence = len(a) / len(sent)
             if len([*doc.sents]) == 1:
@@ -265,4 +281,3 @@ class SENT_D_ADVP(Metric):
         # Statistics of ADVPs in the doc
         result = sum(stat) / len([*doc.sents])
         return result, {}
-
