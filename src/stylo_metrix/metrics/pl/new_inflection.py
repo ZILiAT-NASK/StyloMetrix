@@ -1,7 +1,8 @@
 from spacy.matcher import Matcher
 
-from ...structures import Metric, Category
+from ...structures import Category, Metric
 from ...utils import ratio
+
 
 class Inflection(Category):
     lang='pl'

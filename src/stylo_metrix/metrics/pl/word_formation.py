@@ -14,13 +14,13 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-from ...structures import Metric, Category
-
 from utils import incidence
+
+from ...structures import Category, Metric
 
 
 class WordFormation(Category):
-    lang = 'pl'
+    lang = "pl"
     name_en = "Word Formation"
     name_local = "Słowotwórcze"
 
@@ -30,20 +30,31 @@ class Affixes:
     def count(cls, doc):
         affixes = cls.affixes.split(", ")
         data = [token for token in doc if token._.pos == cls.pos] if cls.pos else doc
-        search = [token for token in data if
-                  any([token.lemma_.startswith(e) if cls.starts else token.lemma_.endswith(e)
-                       for e in affixes]) and token.lemma_ not in affixes]
+        search = [
+            token
+            for token in data
+            if any(
+                [
+                    token.lemma_.startswith(e)
+                    if cls.starts
+                    else token.lemma_.endswith(e)
+                    for e in affixes
+                ]
+            )
+            and token.lemma_ not in affixes
+        ]
         result = incidence(doc, search)
         return result, {}
 
 
 class NounsEnd(Affixes):
     starts = False
-    pos = 'n'
+    pos = "n"
 
 
 class WF_NE_OSC(Metric, NounsEnd):
-    """ przyrostek bardzo częsty, tworzy pojęcia abstrakcyjne """
+    """przyrostek bardzo częsty, tworzy pojęcia abstrakcyjne"""
+
     category = WordFormation
     name_en = "Incidence od nouns ending with ość"
     name_local = "Występowanie rzeczowników zakończonych na ość"
@@ -51,7 +62,8 @@ class WF_NE_OSC(Metric, NounsEnd):
 
 
 class WF_NE_IK(Metric, NounsEnd):
-    """ zdrobnienia - częste w tekstach potocznych, internetowych """
+    """zdrobnienia - częste w tekstach potocznych, internetowych"""
+
     category = WordFormation
     name_en = "Incidence od nouns ending with ik"
     name_local = "Występowanie rzeczowników zakończonych na ik"
@@ -59,7 +71,8 @@ class WF_NE_IK(Metric, NounsEnd):
 
 
 class WF_NE_EK(Metric, NounsEnd):
-    """ zdrobnienia - częste w tekstach potocznych, internetowych """
+    """zdrobnienia - częste w tekstach potocznych, internetowych"""
+
     category = WordFormation
     name_en = "Incidence od nouns ending with ek"
     name_local = "Występowanie rzeczowników zakończonych na ek"
@@ -67,7 +80,8 @@ class WF_NE_EK(Metric, NounsEnd):
 
 
 class WF_NE_KA(Metric, NounsEnd):
-    """ zdrobnienia - częste w tekstach potocznych, internetowych """
+    """zdrobnienia - częste w tekstach potocznych, internetowych"""
+
     category = WordFormation
     name_en = "Incidence od nouns ending with ka"
     name_local = "Występowanie rzeczowników zakończonych na ka"
@@ -75,7 +89,8 @@ class WF_NE_KA(Metric, NounsEnd):
 
 
 class WF_NE_KO(Metric, NounsEnd):
-    """ zdrobnienia - częste w tekstach potocznych, internetowych """
+    """zdrobnienia - częste w tekstach potocznych, internetowych"""
+
     category = WordFormation
     name_en = "Incidence od nouns ending with ko"
     name_local = "Występowanie rzeczowników zakończonych na ko"
@@ -83,7 +98,8 @@ class WF_NE_KO(Metric, NounsEnd):
 
 
 class WF_NE_IYCIEL(Metric, NounsEnd):
-    """ wykonawcy czynności i nosiciele cech """
+    """wykonawcy czynności i nosiciele cech"""
+
     category = WordFormation
     name_en = "Incidence od nouns ending with iciel, yciel"
     name_local = "Występowanie rzeczowników zakończonych na iciel, yciel"
@@ -91,7 +107,8 @@ class WF_NE_IYCIEL(Metric, NounsEnd):
 
 
 class WF_NE_OWIEC(Metric, NounsEnd):
-    """ wykonawcy czynności i nosiciele cech """
+    """wykonawcy czynności i nosiciele cech"""
+
     category = WordFormation
     name_en = "Incidence od nouns ending with owiec"
     name_local = "Występowanie rzeczowników zakończonych na owiec"
@@ -99,7 +116,8 @@ class WF_NE_OWIEC(Metric, NounsEnd):
 
 
 class WF_NE_ARZ(Metric, NounsEnd):
-    """ wykonawcy czynności i nosiciele cech """
+    """wykonawcy czynności i nosiciele cech"""
+
     category = WordFormation
     name_en = "Incidence od nouns ending with arz"
     name_local = "Występowanie rzeczowników zakończonych na arz"
@@ -107,7 +125,8 @@ class WF_NE_ARZ(Metric, NounsEnd):
 
 
 class WF_NE_OWICZ(Metric, NounsEnd):
-    """ wykonawcy czynności i nosiciele cech """
+    """wykonawcy czynności i nosiciele cech"""
+
     category = WordFormation
     name_en = "Incidence od nouns ending with owicz"
     name_local = "Występowanie rzeczowników zakończonych na owicz"
@@ -116,20 +135,23 @@ class WF_NE_OWICZ(Metric, NounsEnd):
 
 # -----------------------------------------------------------------
 
+
 class AdjectivesStart(Affixes):
     starts = True
-    pos = 'adj'
+    pos = "adj"
+
 
 # -----------------------------------------------------------------
 
 
 class AdjectivesEnd(Affixes):
     starts = False
-    pos = 'adj'
+    pos = "adj"
 
 
 class WF_ADJE_OWY(Metric, AdjectivesEnd):
-    """ najczęstsze przyrostki przymiotnikowe """
+    """najczęstsze przyrostki przymiotnikowe"""
+
     category = WordFormation
     name_en = "Incidence od adjectives ending with owy"
     name_local = "Występowanie przymiotników zakończonych na owy"
@@ -137,7 +159,8 @@ class WF_ADJE_OWY(Metric, AdjectivesEnd):
 
 
 class WF_ADJE_SKI(Metric, AdjectivesEnd):
-    """ najczęstsze przyrostki przymiotnikowe """
+    """najczęstsze przyrostki przymiotnikowe"""
+
     category = WordFormation
     name_en = "Incidence od adjectives ending with ski"
     name_local = "Występowanie przymiotników zakończonych na ski"
@@ -145,7 +168,8 @@ class WF_ADJE_SKI(Metric, AdjectivesEnd):
 
 
 class WF_ADJE_LIWY(Metric, AdjectivesEnd):
-    """ najczęstsze przyrostki przymiotnikowe """
+    """najczęstsze przyrostki przymiotnikowe"""
+
     category = WordFormation
     name_en = "Incidence od adjectives ending with liwy"
     name_local = "Występowanie przymiotników zakończonych na liwy"

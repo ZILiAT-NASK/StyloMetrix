@@ -14,13 +14,13 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-from ...structures import Metric, Category
+from utils import incidence, ratio, select
 
-from utils import incidence, select, ratio
+from ...structures import Category, Metric
 
 
 class GrammaticalForms(Category):
-    lang = 'pl'
+    lang = "pl"
     name_en = "Grammatical Forms"
     name_local = "Formy gramatyczne"
 
@@ -31,9 +31,9 @@ class G_V(Metric):
     name_local = "Czasowniki"
 
     def count(doc):
-        selection = select(doc, {'pos': 'v'})
+        selection = select(doc, {"pos": "v"})
         result = incidence(doc, selection)
-        debug = {'VALUES': selection}
+        debug = {"VALUES": selection}
         return result, debug
 
 
@@ -43,9 +43,9 @@ class G_N(Metric):
     name_local = "Rzeczowniki"
 
     def count(doc):
-        selection = select(doc, {'pos': 'n'})
+        selection = select(doc, {"pos": "n"})
         result = incidence(doc, selection)
-        debug = {'VALUES': selection}
+        debug = {"VALUES": selection}
         return result, debug
 
 
@@ -55,9 +55,9 @@ class G_ADJ(Metric):
     name_local = "Przymiotniki"
 
     def count(doc):
-        selection = select(doc, {'pos': 'adj'})
+        selection = select(doc, {"pos": "adj"})
         result = incidence(doc, selection)
-        debug = {'VALUES': selection}
+        debug = {"VALUES": selection}
         return result, debug
 
 
@@ -67,9 +67,9 @@ class G_ADV(Metric):
     name_local = "Przysłówki"
 
     def count(doc):
-        selection = select(doc, {'pos': 'adv'})
+        selection = select(doc, {"pos": "adv"})
         result = incidence(doc, selection)
-        debug = {'VALUES': selection}
+        debug = {"VALUES": selection}
         return result, debug
 
 
@@ -79,9 +79,9 @@ class G_PRO(Metric):
     name_local = "Zaimki"
 
     def count(doc):
-        selection = select(doc, {'pos': 'pro'})
+        selection = select(doc, {"pos": "pro"})
         result = incidence(doc, selection)
-        debug = {'VALUES': selection}
+        debug = {"VALUES": selection}
         return result, debug
 
 
@@ -91,11 +91,11 @@ class G_PRO_DEM(Metric):
     name_local = "Zaimki wskazujące"
 
     def count(doc):
-        selection = select(doc, {'pos': 'pro', 'pronoun_type': 'dem'})
+        selection = select(doc, {"pos": "pro", "pronoun_type": "dem"})
         result = incidence(doc, selection)
-        debug = {'VALUES': selection}
+        debug = {"VALUES": selection}
         return result, debug
-    
+
 
 class APOSTROFA_ADJ(Metric):
     category = GrammaticalForms
@@ -122,7 +122,7 @@ class APOSTROFA_ADJ(Metric):
                 c = c + len(inn7w) + len(pron)
         debug = {"FOUND": results}
         return ratio(c, doc._.n_tokens), debug
-    
+
 
 class APOSTROFA_VERB(Metric):
     category = GrammaticalForms
@@ -149,7 +149,7 @@ class APOSTROFA_VERB(Metric):
                 c = c + len(inn7w) + len(pron)
         debug = {"FOUND": results}
         return ratio(c, doc._.n_tokens), debug
-    
+
 
 class VOC_CONTENT(Metric):
     category = GrammaticalForms
