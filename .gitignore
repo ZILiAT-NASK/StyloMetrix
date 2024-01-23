@@ -9,7 +9,6 @@ helpers/
 log/
 out/
 stylo_metrix.egg-info/
-tests/
 texts/
 venv/
 stylometrix.py
