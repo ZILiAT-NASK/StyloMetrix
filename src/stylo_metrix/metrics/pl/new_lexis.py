@@ -297,8 +297,6 @@ class L_ADV_TEMP(Metric):
         result = len(debug)
         return ratio(result, len(doc)), debug
 
-        return ratio(total_matched_words, len(words)), debug
-
 
 class L_ADV_DUR(Metric):
     category = Lexis
