@@ -15,7 +15,7 @@ permissions:
 jobs:
   build:
 
-    runs-on: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -28,13 +28,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install -U pip setuptools wheel
         pip install -U spacy
+        pip install http://mozart.ipipan.waw.pl/~rtuora/spacy/pl_nask-0.0.7.tar.gz
         python -m spacy download en_core_web_trf
         python -m spacy download ru_core_news_lg
         python -m spacy download uk_core_news_trf
-        pip install http://mozart.ipipan.waw.pl/~rtuora/spacy/pl_nask-0.0.7.tar.gz
-        pip install flake8 pytest unittest
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        echo "Dependencies Installed" 
+        pip install requirements.txt
     # - name: Lint with flake8
     #   run: |
     #     # stop the build if there are Python syntax errors or undefined names
