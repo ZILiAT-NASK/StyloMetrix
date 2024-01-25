@@ -3,7 +3,7 @@ import unittest
 from src.stylo_metrix.stylo_metrix import StyloMetrix
 
 
-class TestGrammar(unittest.TestCase):
+class TestGrammarEN(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         lang = "en"

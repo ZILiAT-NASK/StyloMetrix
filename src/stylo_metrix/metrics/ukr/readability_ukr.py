@@ -23,7 +23,7 @@ class READABILITY(Category):
 
 
 # ---------------------------
-# GENERAL READABILITY SCORES APPLICABLE TO UKRAINIAN
+# GENERAL READABILITY SCORES APPLICABLE FOR UKRAINIAN
 # ---------------------------
 
 
@@ -52,7 +52,7 @@ class FKR(Metric):
         60.0–50.0	- Fairly difficult to read.
         50.0–30.0	- College	Difficult to read.
         30.0–10.0	- College graduate	Very difficult to read. Best understood by university graduates.
-        10.0–0.0	- Professional	Extremely difficult to read. Best understood by university graduates.
+        10.0–0.0	- Professional Extremely difficult to read. Best understood by university graduates.
         '''
         #  if the length of the text is less than 100 characters, return 0
         if len(doc.text) < 100:
@@ -71,7 +71,8 @@ class FKR(Metric):
         syllables = sum([word._.syllables_count for word in doc if word.is_alpha])
 
         # Flesch–Kincaid readability score
-        fkr_score = (206.835 - 1.015 * (words_per_sentence) - 84.6 * (syllables / total_words_count))
+        fkr_score = abs(206.835 - 1.015 * (words_per_sentence) - 84.6 * (syllables / total_words_count))
+
         return fkr_score, {}
     
 
@@ -102,4 +103,5 @@ class FKGL(Metric):
         for sent in doc.sents:
             words_per_sentence += len([word.text for word in sent if word.is_alpha]) / sentences
         rb_score = (words_per_sentence + second_param) * ALPHA 
+
         return rb_score, {}

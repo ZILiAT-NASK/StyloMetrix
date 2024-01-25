@@ -15,12 +15,14 @@
 
 from ...structures import Lang
 
-class UkrLang(Lang):
-    definitions = ['ukrainian', 'ukraiński', 'ukr']
-    spacy_model = 'uk_core_news_trf'
 
+class UkrLang(Lang):
+    definitions = ["ukrainian", "ukraiński", "ukr"]
+    spacy_model = "uk_core_news_trf"
+
+
+from .grammar import *
 from .lexical_ukr import *
 from .parts_of_speech_ukr import *
-from .verb_forms_ukr import *
-from .syntactic_ukr import *
 from .readability_ukr import *
+from .syntactic_ukr import *
