@@ -3,151 +3,166 @@ import unittest
 from src.stylo_metrix.stylo_metrix import StyloMetrix
 
 
-class TestPosEN(unittest.TestCase):
+class TestPosUKR(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        lang = "en"
+        lang = "ukr"
         cls.sm = StyloMetrix(lang, debug=True)
 
     def test_POS_VERB(self):
         metric = "POS_VERB"
-        test_text = "The project must be completed by the end of the month. The house must be built by the end of the year."
-        expected_debug = ["must", "be", "completed", "must", "be", "built"]
+        test_text = "Один чоловік побачив на базарі, що мисливець продає живого зайця."
+        expected_debug = ["побачив", "продає"]
         expected_out = len(expected_debug) / len(test_text.split())
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token.text for token in debug[metric][0]["TOKENS"]]
+        debug = [token for token in debug[metric][0]["TOKENS"]]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
     def test_POS_NOUN(self):
         metric = "POS_NOUN"
-        test_text = "The project must be completed by the end of the month. The house must be built by the end of the year."
-        expected_debug = ["project", "end", "month", "house", "end", "year"]
+        test_text = "Один чоловік побачив на базарі, що мисливець продає живого зайця."
+        expected_debug = ["чоловік", "базарі", "мисливець", "зайця"]
         expected_out = len(expected_debug) / len(test_text.split())
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token.text for token in debug[metric][0]["TOKENS"]]
+        debug = [token for token in debug[metric][0]["TOKENS"]]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
     def test_POS_ADJ(self):
         metric = "POS_ADJ"
-        test_text = "She is an attrective girl. He was extremely bored at the class."
-        expected_debug = ["attrective", "bored"]
+        test_text = "Один чоловік побачив на базарі, що мисливець продає живого зайця."
+        expected_debug = ["живого"]
         expected_out = len(expected_debug) / len(test_text.split())
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token.text for token in debug[metric][0]["TOKENS"]]
+        debug = [token for token in debug[metric][0]["TOKENS"]]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
     def test_POS_ADV(self):
         metric = "POS_ADV"
-        test_text = "She is an attrective girl. He was extremely bored at the class."
-        expected_debug = ["extremely"]
+        test_text = (
+            "Вже веснянки заспівали. Із стріх закрапало, а з гір струмочки покотилися."
+        )
+        expected_debug = ["Вже"]
         expected_out = len(expected_debug) / len(test_text.split())
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token.text for token in debug[metric][0]["TOKENS"]]
+        debug = [token for token in debug[metric][0]["TOKENS"]]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
     def test_POS_DET(self):
         metric = "POS_DET"
-        test_text = "The project must be completed by the end of the month. A house must be built by the end of the year."
-        expected_debug = ["The", "the", "the", "A", "the", "the"]
+        test_text = "Завтра я піду на прогулянку. Мій чоловік придбає для мене цю каблучку. Я напушу листа."
+        expected_debug = ["Мій", "цю"]
         expected_out = len(expected_debug) / len(test_text.split())
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token.text for token in debug[metric][0]["TOKENS"]]
+        debug = [token for token in debug[metric][0]["TOKENS"]]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
     def test_POS_INTJ(self):
         metric = "POS_INTJ"
-        test_text = "Wow, that sounds great! OMG, that was close."
-        expected_debug = ["Wow", "OMG"]
+        test_text = "Хей! Тут немає цуценяти."
+        expected_debug = ["Хей"]
         expected_out = len(expected_debug) / len(test_text.split())
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token.text for token in debug[metric][0]["TOKENS"]]
+        debug = [token for token in debug[metric][0]["TOKENS"]]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
     def test_POS_CONJ(self):
         metric = "POS_CONJ"
-        test_text = "She was there, but it felt as if she drifted off to another world."
-        expected_debug = ["but", "as", "if"]
+        test_text = "Її вважають автором багатьох народних пісень: “Ой, не ходи, Грицю” й “Засвіт встали козаченьки” та інших."
+        expected_debug = ["й", "та"]
         expected_out = len(expected_debug) / len(test_text.split())
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token.text for token in debug[metric][0]["TOKENS"]]
+        debug = [token for token in debug[metric][0]["TOKENS"]]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
     def test_POS_PART(self):
         metric = "POS_PART"
-        test_text = "They want to connect the dots between the Trump campaign and the Russian government."
-        expected_debug = ["to"]
+        test_text = "Її вважають автором багатьох народних пісень: “Ой, не ходи, Грицю” й “Засвіт встали козаченьки” та інших."
+        expected_debug = ["не"]
         expected_out = len(expected_debug) / len(test_text.split())
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token.text for token in debug[metric][0]["TOKENS"]]
+        debug = [token for token in debug[metric][0]["TOKENS"]]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
     def test_POS_NUM(self):
         metric = "POS_NUM"
-        test_text = "They met five years ago in the same place where they had met for the first time. The class starts at 9:00 am."
-        expected_debug = ["five", "9:00"]
+        test_text = "7 - щасливе число."
+        expected_debug = ["7"]
         expected_out = len(expected_debug) / len(test_text.split())
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token.text for token in debug[metric][0]["TOKENS"]]
+        debug = [token for token in debug[metric][0]["TOKENS"]]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
     def test_POS_PREP(self):
         metric = "POS_PREP"
-        test_text = "We stood by the riverbank. She fell into the water."
-        expected_debug = ["by", "into"]
+        test_text = "Я купила квиток на поїзд."
+        expected_debug = ["на"]
         expected_out = len(expected_debug) / len(test_text.split())
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token.text for token in debug[metric][0]["TOKENS"]]
+        debug = [token for token in debug[metric][0]["TOKENS"]]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
     def test_POS_PRO(self):
         metric = "POS_PRO"
-        test_text = "We stood by the riverbank. She fell into the water."
-        expected_debug = ["We", "She"]
+        test_text = "Я купила квиток на поїзд."
+        expected_debug = ["Я"]
         expected_out = len(expected_debug) / len(test_text.split())
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token.text for token in debug[metric][0]["TOKENS"]]
+        debug = [token for token in debug[metric][0]["TOKENS"]]
+
+        self.assertEqual(expected_out, out)
+        self.assertSequenceEqual(expected_debug, debug)
+
+    def test_POS_OTHER(self):
+        metric = "POS_OTHER"
+        test_text = "А він тільки xfgh pdl jklw"
+        expected_debug = ["xfgh", "pdl", "jklw"]
+        expected_out = len(expected_debug) / len(test_text.split())
+
+        out, debug = self.sm.transform([test_text])
+        out = out[metric][0]
+        debug = [token for token in debug[metric][0]["TOKENS"]]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)

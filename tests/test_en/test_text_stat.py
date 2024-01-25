@@ -31,7 +31,7 @@ He has been working on his project since Monday. She has been studying for the e
 """
 
 
-class TestTextStat(unittest.TestCase):
+class TestTextStatEN(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         lang = "en"

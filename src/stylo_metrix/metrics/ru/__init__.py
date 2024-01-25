@@ -15,12 +15,13 @@
 
 from ...structures import Lang
 
+
 class RuLang(Lang):
-    definitions = ['russian', 'rosyjski', 'ru']
-    spacy_model = 'ru_core_news_lg'
+    definitions = ["russian", "rosyjski", "ru"]
+    spacy_model = "ru_core_news_lg"
+
 
 from .lexical_ru import *
 from .parts_of_speech_ru import *
 from .syntactic_ru import *
 from .verb_forms_ru import *
-

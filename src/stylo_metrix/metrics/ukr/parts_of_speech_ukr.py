@@ -15,7 +15,7 @@
 
 
 from ...structures import Category, Metric
-from ...utils import incidence
+from ...utils import ratio
 
 
 class PartOfSpeech(Category):
@@ -28,9 +28,10 @@ class POS_VERB(Metric):
     name_en = "Incidence of Verbs"
 
     def count(doc):
-        search = [token for token in doc if token.pos_ == "VERB"]
-        result = incidence(doc, search)
-        return result, {}
+        search = [token.text for token in doc if token.pos_ == "VERB"]
+        result = ratio(len(search), len(doc.text.split()))
+        debug = {'TOKENS': search}
+        return result, debug
 
 
 class POS_NOUN(Metric):
@@ -38,9 +39,10 @@ class POS_NOUN(Metric):
     name_en = "Incidence of Nouns"
 
     def count(doc):
-        search = [token for token in doc if token.pos_ == "NOUN"]
-        result = incidence(doc, search)
-        return result, {}
+        search = [token.text for token in doc if token.pos_ == "NOUN"]
+        result = ratio(len(search), len(doc.text.split()))
+        debug = {'TOKENS': search}
+        return result, debug
 
 
 class POS_ADJ(Metric):
@@ -48,9 +50,10 @@ class POS_ADJ(Metric):
     name_en = "Incidence of Adjectives"
 
     def count(doc):
-        search = [token for token in doc if token.pos_ == "ADJ"]
-        result = incidence(doc, search)
-        return result, {}
+        search = [token.text for token in doc if token.pos_ == "ADJ"]
+        result = ratio(len(search), len(doc.text.split()))
+        debug = {'TOKENS': search}
+        return result, debug
 
 
 class POS_ADV(Metric):
@@ -58,9 +61,10 @@ class POS_ADV(Metric):
     name_en = "Incidence of Adverbs"
 
     def count(doc):
-        search = [token for token in doc if token.pos_ == "ADV"]
-        result = incidence(doc, search)
-        return result, {}
+        search = [token.text for token in doc if token.pos_ == "ADV"]
+        result = ratio(len(search), len(doc.text.split()))
+        debug = {'TOKENS': search}
+        return result, debug
 
 
 class POS_DET(Metric):
@@ -68,9 +72,10 @@ class POS_DET(Metric):
     name_en = "Incidence of Determiners"
 
     def count(doc):
-        search = [token for token in doc if token.pos_ == "DET"]
-        result = incidence(doc, search)
-        return result, {}
+        search = [token.text for token in doc if token.pos_ == "DET"]
+        result = ratio(len(search), len(doc.text.split()))
+        debug = {'TOKENS': search}
+        return result, debug
 
 
 class POS_INTJ(Metric):
@@ -78,19 +83,20 @@ class POS_INTJ(Metric):
     name_en = "Incidence of Interjections"
 
     def count(doc):
-        search = [token for token in doc if token.pos_ == "INTJ"]
-        result = incidence(doc, search)
-        return result, {}
-
-
+        search = [token.text for token in doc if token.pos_ == "INTJ"]
+        result = ratio(len(search), len(doc.text.split()))
+        debug = {'TOKENS': search}
+        return result, debug
+    
 class POS_CONJ(Metric):
     category = PartOfSpeech
     name_en = "Incidence of Conjunctions"
 
     def count(doc):
-        search = [token for token in doc if token.pos_ ==  ["SCONJ", "CCONJ"]]
-        result = incidence(doc, search)
-        return result, {}
+        search = [token.text for token in doc if token.pos_ in  ["SCONJ", "CCONJ"]]
+        result = ratio(len(search), len(doc.text.split()))
+        debug = {'TOKENS': search}
+        return result, debug
 
 
 class POS_PART(Metric):
@@ -98,9 +104,10 @@ class POS_PART(Metric):
     name_en = "Incidence of Particles"
 
     def count(doc):
-        search = [token for token in doc if token.pos_ == "PART"]
-        result = incidence(doc, search)
-        return result, {}
+        search = [token.text for token in doc if token.pos_ == "PART"]
+        result = ratio(len(search), len(doc.text.split()))
+        debug = {'TOKENS': search}
+        return result, debug
 
 
 class POS_NUM(Metric):
@@ -108,9 +115,10 @@ class POS_NUM(Metric):
     name_en = "Incidence of Numerals"
 
     def count(doc):
-        search = [token for token in doc if token.pos_ == "NUM"]
-        result = incidence(doc, search)
-        return result, {}
+        search = [token.text for token in doc if token.pos_ == "NUM"]
+        result = ratio(len(search), len(doc.text.split()))
+        debug = {'TOKENS': search}
+        return result, debug
 
 
 class POS_PREP(Metric):
@@ -118,9 +126,10 @@ class POS_PREP(Metric):
     name_en = "Incidence of Prepositions"
 
     def count(doc):
-        search = [token for token in doc if token.pos_ == "PREP"]
-        result = incidence(doc, search)
-        return result, {}
+        search = [token.text for token in doc if token.pos_ == "ADP"]
+        result = ratio(len(search), len(doc.text.split()))
+        debug = {'TOKENS': search}
+        return result, debug
 
 
 class POS_PRO(Metric):
@@ -128,9 +137,10 @@ class POS_PRO(Metric):
     name_en = "Incidence of Pronouns"
 
     def count(doc):
-        search = [token for token in doc if token.pos_ == "PRON"]
-        result = incidence(doc, search)
-        return result, {}
+        search = [token.text for token in doc if token.pos_ == "PRON"]
+        result = ratio(len(search), len(doc.text.split()))
+        debug = {'TOKENS': search}
+        return result, debug
 
 
 class POS_OTHER(Metric):
@@ -138,6 +148,7 @@ class POS_OTHER(Metric):
     name_en = "Incidence of Code-Switching"
 
     def count(doc):
-        search = [token for token in doc if token.pos_ == "X"]
-        result = incidence(doc, search)
-        return result, {}
+        search = [token.text for token in doc if token.pos_ == "X"]
+        result = ratio(len(search), len(doc.text.split()))
+        debug = {'TOKENS': search}  
+        return result, debug
