@@ -17,17 +17,17 @@ from spacy.language import Language
 from spacy.tokens import Doc
 
 from ..structures import Metric
-from .pl import pl_components
+from .de import de_components
 from .en import en_components
 from .en.custom_preprocessing import CustomPreprocessing as CP_en
-from .ukr import ukr_components
-from .ukr.custom_preprocessing import CustomPreprocessing as CP_ukr
+from .pl import pl_components
 from .ru import ru_components
 from .ru.custom_preprocessing import CustomPreprocessing as CP_ru
+from .ukr import ukr_components
+from .ukr.custom_preprocessing import CustomPreprocessing as CP_ukr
 
 
-
-@Language.factory('stylo_metrix')
+@Language.factory("stylo_metrix")
 def create_sm_component(nlp, name, metrics_ids, customization):
     return SMComponent(nlp, metrics_ids, customization)
 
@@ -38,18 +38,19 @@ class SMComponent:
         self.customization = customization
         lang = nlp.config["nlp"]["lang"]
 
-        if lang == 'pl':
+        if lang == "de":
+            components = de_components
+        elif lang == "pl":
             components = pl_components
-        elif lang == 'en':
+        elif lang == "en":
             components = en_components
             nlp.tokenizer = CP_en(nlp.tokenizer)
-        elif lang == 'uk':
+        elif lang == "uk":
             components = ukr_components
             nlp.tokenizer = CP_ukr(nlp.tokenizer)
-        elif lang == 'ru':
+        elif lang == "ru":
             components = ru_components
             nlp.tokenizer = CP_ru(nlp.tokenizer)
-
 
         self.components = [component(nlp) for component in components]
         Doc.set_extension("name", default=None, force=True)
@@ -76,11 +77,10 @@ class SMComponent:
                     doc._.metrics[metric] = metric(doc)
             except Exception as e:
                 doc._.metrics[metric] = None, []
-                print(str(e) + f'\n AT METRIC {metric.code}, TEXT: {doc[:10]}...')
+                print(str(e) + f"\n AT METRIC {metric.code}, TEXT: {doc[:10]}...")
                 # raise type(e)(str(e) + f'\n AT METRIC {metric.code}, TEXT: {doc[:10]}...')
         return doc
 
     def _assign_name(self, doc, name):
         doc._.name = name
         return doc
-    

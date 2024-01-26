@@ -14,8 +14,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-from .de import DeLang
-from .en import EnLang
-from .pl import PlLang
-from .ru import RuLang
-from .ukr import UkrLang
+from spacy_syllables import SpacySyllables
+from spacymoji import Emoji
+
+de_components = [
+    SpacySyllables,
+    Emoji,
+]
