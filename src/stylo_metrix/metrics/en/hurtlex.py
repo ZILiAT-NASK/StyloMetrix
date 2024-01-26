@@ -224,11 +224,13 @@ class Hurtlex(Category):
 
     lang = "en"
     name_en = "Hurtlex"
+    name_local = name_en
 
 
 class AN(Metric):
     category = Hurtlex
     name_en = "Animals"
+    name_local = name_en
 
     def count(doc):
         words = [word.strip() for word in ANIM]
@@ -241,6 +243,7 @@ class AN(Metric):
 class DDP(Metric):
     category = Hurtlex
     name_en = "cognitive disabilities and diversity"
+    name_local = name_en
 
     def count(doc):
         words = [word.strip() for word in DDP_]
@@ -253,6 +256,7 @@ class DDP(Metric):
 class SVP(Metric):
     category = Hurtlex
     name_en = "words related to the seven deadly sins of the Christian tradition"
+    name_local = name_en
 
     def count(doc):
         words = [word.strip() for word in SVP_]
@@ -265,6 +269,7 @@ class SVP(Metric):
 class CDS(Metric):
     category = Hurtlex
     name_en = "derogatory words"
+    name_local = name_en
 
     def count(doc):
         words = [word.strip() for word in CDS_]
@@ -277,6 +282,7 @@ class CDS(Metric):
 class DDF(Metric):
     category = Hurtlex
     name_en = "physical disabilities and diversity"
+    name_local = name_en
 
     def count(doc):
         words = [word.strip() for word in DDF_]
@@ -289,6 +295,7 @@ class DDF(Metric):
 class IS(Metric):
     category = Hurtlex
     name_en = "words related to social and economic disadvantage"
+    name_local = name_en
 
     def count(doc):
         words = [word.strip() for word in IS_]
@@ -301,6 +308,7 @@ class IS(Metric):
 class PS(Metric):
     category = Hurtlex
     name_en = "negative stereotypes ethnic slurs"
+    name_local = name_en
 
     def count(doc):
         words = [word.strip() for word in PS_]
@@ -313,6 +321,7 @@ class PS(Metric):
 class RE(Metric):
     category = Hurtlex
     name_en = "felonies and words related to crime and immoral behavior"
+    name_local = name_en
 
     def count(doc):
         words = [word.strip() for word in RE_]
@@ -325,6 +334,7 @@ class RE(Metric):
 class ASF(Metric):
     category = Hurtlex
     name_en = "female genitalia"
+    name_local = name_en
 
     def count(doc):
         words = [word.strip() for word in ASF_]
@@ -337,6 +347,7 @@ class ASF(Metric):
 class ASM(Metric):
     category = Hurtlex
     name_en = "male genitalia"
+    name_local = name_en
 
     def count(doc):
         words = [word.strip() for word in ASM_]
@@ -349,6 +360,7 @@ class ASM(Metric):
 class OM(Metric):
     category = Hurtlex
     name_en = "words related to homosexuality"
+    name_local = name_en
 
     def count(doc):
         words = [word.strip() for word in OM_]
@@ -361,6 +373,7 @@ class OM(Metric):
 class RCI(Metric):
     category = Hurtlex
     name_en = "locations and demonyms"
+    name_local = name_en
 
     def count(doc):
         words = [word.strip() for word in RCI_]
@@ -373,6 +386,7 @@ class RCI(Metric):
 class DMC(Metric):
     category = Hurtlex
     name_en = "moral and behavioral defects"
+    name_local = name_en
 
     def count(doc):
         words = [word.strip() for word in DMC_]
@@ -385,6 +399,7 @@ class DMC(Metric):
 class OR(Metric):
     category = Hurtlex
     name_en = "plants"
+    name_local = name_en
 
     def count(doc):
         words = [word.strip() for word in OR_]
@@ -397,6 +412,7 @@ class OR(Metric):
 class QAS(Metric):
     category = Hurtlex
     name_en = "with potential negative connotations"
+    name_local = name_en
 
     def count(doc):
         words = [word.strip() for word in QAS_]
@@ -409,6 +425,7 @@ class QAS(Metric):
 class PA(Metric):
     category = Hurtlex
     name_en = "professions and occupations"
+    name_local = name_en
 
     def count(doc):
         words = [word.strip() for word in PA_]
@@ -421,6 +438,7 @@ class PA(Metric):
 class PR(Metric):
     category = Hurtlex
     name_en = "words related to prostitution"
+    name_local = name_en
 
     def count(doc):
         words = [word.strip() for word in PR_]
