@@ -19,18 +19,30 @@ from ...utils import incidence
 
 
 class VerbFroms(Category):
-    lang = 'ukr'
+    lang = "ukr"
     name_en = "Verbs Forms"
+    name_local = name_en
+
 
 # Root verbs and conjunctions in imperfect form / дієслова недоконаного виду: [ROOT | Aspect=Imp] + [conj | Aspect=Imp]
 class VF_ROOT_VERB_IMPERFECT(Metric):
     category = VerbFroms
     name_en = "Incidence of root verbs in imperfect aspect"
+    name_local = name_en
 
     def count(doc):
-        verbs = [token.text for token in doc if token.dep_ == "ROOT" and "Aspect=Imp" in token.morph]
-        conj_verbs = [token for token in doc 
-                    if token.head.text in verbs and token.dep_ == "conj" and "Aspect=Imp" in token.morph]
+        verbs = [
+            token.text
+            for token in doc
+            if token.dep_ == "ROOT" and "Aspect=Imp" in token.morph
+        ]
+        conj_verbs = [
+            token
+            for token in doc
+            if token.head.text in verbs
+            and token.dep_ == "conj"
+            and "Aspect=Imp" in token.morph
+        ]
         root_imperfect_verbs = verbs + conj_verbs
         result = incidence(doc, root_imperfect_verbs)
         return result, {}
@@ -40,9 +52,16 @@ class VF_ROOT_VERB_IMPERFECT(Metric):
 class VF_ALL_VERB_IMPERFECT(Metric):
     category = VerbFroms
     name_en = "Incidence of all verbs in imperfect aspect, active voice"
+    name_local = name_en
 
     def count(doc):
-        verbs = [token.text for token in doc if token.pos_ == "VERB" and "Aspect=Imp" in token.morph and "Voice=Act" in token.morph]
+        verbs = [
+            token.text
+            for token in doc
+            if token.pos_ == "VERB"
+            and "Aspect=Imp" in token.morph
+            and "Voice=Act" in token.morph
+        ]
         result = incidence(doc, verbs)
         return result, {}
 
@@ -51,11 +70,21 @@ class VF_ALL_VERB_IMPERFECT(Metric):
 class VF_ROOT_VERB_PERFECT(Metric):
     category = VerbFroms
     name_en = "Incidence of root verbs in perfect form"
-    
+    name_local = name_en
+
     def count(doc):
-        verbs = [token.text for token in doc if token.dep_ == "ROOT" and "Aspect=Perf" in token.morph]
-        conj_verbs = [token for token in doc 
-                    if token.head.text in verbs and token.dep_ == "conj" and "Aspect=Perf" in token.morph]
+        verbs = [
+            token.text
+            for token in doc
+            if token.dep_ == "ROOT" and "Aspect=Perf" in token.morph
+        ]
+        conj_verbs = [
+            token
+            for token in doc
+            if token.head.text in verbs
+            and token.dep_ == "conj"
+            and "Aspect=Perf" in token.morph
+        ]
         root_perfect_verbs = verbs + conj_verbs
         result = incidence(doc, root_perfect_verbs)
         return result, {}
@@ -65,9 +94,14 @@ class VF_ROOT_VERB_PERFECT(Metric):
 class VF_ALL_VERB_PERFECT(Metric):
     category = VerbFroms
     name_en = "Incidence of all verbs in perfect form"
-    
+    name_local = name_en
+
     def count(doc):
-        verbs = [token.text for token in doc if token.pos_ == "VERB" and "Aspect=Perf" in token.morph]
+        verbs = [
+            token.text
+            for token in doc
+            if token.pos_ == "VERB" and "Aspect=Perf" in token.morph
+        ]
         result = incidence(doc, verbs)
         return result, {}
 
@@ -75,11 +109,20 @@ class VF_ALL_VERB_PERFECT(Metric):
 # Present tense, indicative mood, imperfect aspect / дієслова теперішнього недоконаного часу
 class VF_PRESENT_IND_IMPERFECT(Metric):
     category = VerbFroms
-    name_en = "Incidence of verbs in the present tense, indicative mood, imperfect aspect"
-    
+    name_en = (
+        "Incidence of verbs in the present tense, indicative mood, imperfect aspect"
+    )
+    name_local = name_en
+
     def count(doc):
-        verbs = [token.text for token in doc if "Aspect=Imp" in token.morph and "Tense=Pres" in token.morph
-             and "VerbForm=Fin" in token.morph and "Mood=Ind" in token.morph]
+        verbs = [
+            token.text
+            for token in doc
+            if "Aspect=Imp" in token.morph
+            and "Tense=Pres" in token.morph
+            and "VerbForm=Fin" in token.morph
+            and "Mood=Ind" in token.morph
+        ]
         result = incidence(doc, verbs)
         return result, {}
 
@@ -88,10 +131,17 @@ class VF_PRESENT_IND_IMPERFECT(Metric):
 class VF_PAST_IND_IMPERFECT(Metric):
     category = VerbFroms
     name_en = "Incidence of verbs in the past tense, indicative mood, imperfect aspect"
-    
+    name_local = name_en
+
     def count(doc):
-        verbs = [token.text for token in doc if "Aspect=Imp" in token.morph and "Tense=Past" in token.morph
-             and "VerbForm=Fin" in token.morph and "Mood=Ind" in token.morph]
+        verbs = [
+            token.text
+            for token in doc
+            if "Aspect=Imp" in token.morph
+            and "Tense=Past" in token.morph
+            and "VerbForm=Fin" in token.morph
+            and "Mood=Ind" in token.morph
+        ]
         result = incidence(doc, verbs)
         return result, {}
 
@@ -100,22 +150,36 @@ class VF_PAST_IND_IMPERFECT(Metric):
 class VF_PRESENT_IND_PERFECT(Metric):
     category = VerbFroms
     name_en = "Incidence of verbs in the present tense, indicative mood, perfect aspect"
-    
+    name_local = name_en
+
     def count(doc):
-        verbs = [token.text for token in doc if "Aspect=Perf" in token.morph and "Tense=Pres" in token.morph
-             and "VerbForm=Fin" in token.morph and "Mood=Ind" in token.morph]
+        verbs = [
+            token.text
+            for token in doc
+            if "Aspect=Perf" in token.morph
+            and "Tense=Pres" in token.morph
+            and "VerbForm=Fin" in token.morph
+            and "Mood=Ind" in token.morph
+        ]
         result = incidence(doc, verbs)
         return result, {}
-    
+
 
 # Past tense, indicative mood, perfect aspect / дієслова минулого доконаного часу
 class VF_PAST_IND_PERFECT(Metric):
     category = VerbFroms
     name_en = "Incidence of verbs in the past tense, indicative mood, perfect aspect"
-    
+    name_local = name_en
+
     def count(doc):
-        verbs = [token.text for token in doc if "Aspect=Perf" in token.morph and "Tense=Past" in token.morph
-             and "VerbForm=Fin" in token.morph and "Mood=Ind" in token.morph]
+        verbs = [
+            token.text
+            for token in doc
+            if "Aspect=Perf" in token.morph
+            and "Tense=Past" in token.morph
+            and "VerbForm=Fin" in token.morph
+            and "Mood=Ind" in token.morph
+        ]
         result = incidence(doc, verbs)
         return result, {}
 
@@ -124,10 +188,17 @@ class VF_PAST_IND_PERFECT(Metric):
 class VF_FUT_IND_PERFECT(Metric):
     category = VerbFroms
     name_en = "Incidence of verbs in the future tense, indicative mood, perfect aspect"
-    
+    name_local = name_en
+
     def count(doc):
-        verbs = [token.text for token in doc if "Aspect=Perf" in token.morph and "Tense=Fut" in token.morph
-             and "VerbForm=Fin" in token.morph and "Mood=Ind" in token.morph]
+        verbs = [
+            token.text
+            for token in doc
+            if "Aspect=Perf" in token.morph
+            and "Tense=Fut" in token.morph
+            and "VerbForm=Fin" in token.morph
+            and "Mood=Ind" in token.morph
+        ]
         result = incidence(doc, verbs)
         return result, {}
 
@@ -136,10 +207,18 @@ class VF_FUT_IND_PERFECT(Metric):
 class VF_FUT_IND_IMPERFECT_SIMPLE(Metric):
     category = VerbFroms
     name_en = "Incidence of verbs in the future tense, indicative mood, imperfect aspect, simple verb forms"
-    
+    name_local = name_en
+
     def count(doc):
-        verbs = [token.text for token in doc if "Aspect=Imp" in token.morph and "Tense=Fut" in token.morph
-             and "VerbForm=Fin" in token.morph and "Mood=Ind" in token.morph and token.pos_ != "AUX"]
+        verbs = [
+            token.text
+            for token in doc
+            if "Aspect=Imp" in token.morph
+            and "Tense=Fut" in token.morph
+            and "VerbForm=Fin" in token.morph
+            and "Mood=Ind" in token.morph
+            and token.pos_ != "AUX"
+        ]
         result = incidence(doc, verbs)
         return result, {}
 
@@ -147,11 +226,19 @@ class VF_FUT_IND_IMPERFECT_SIMPLE(Metric):
 # Future tense, indicative mood, complex verb forms / дієслова майбутнього недоконаного часу складеної форми
 class VF_FUT_IND_COMPLEX(Metric):
     category = VerbFroms
-    name_en = "Incidence of verbs in the future tense, indicative mood, complex verb forms"
-    
+    name_en = (
+        "Incidence of verbs in the future tense, indicative mood, complex verb forms"
+    )
+    name_local = name_en
+
     def count(doc):
-        verbs = [token.text for token in doc if "Aspect=Imp" in token.morph and "Tense=Fut" in token.morph 
-             and (token.dep_ == "cop" or token.dep_ == "aux")]
+        verbs = [
+            token.text
+            for token in doc
+            if "Aspect=Imp" in token.morph
+            and "Tense=Fut" in token.morph
+            and (token.dep_ == "cop" or token.dep_ == "aux")
+        ]
         conj = [token.head.text for token in doc if token.text in verbs]
         verb_list = verbs + conj
         result = incidence(doc, verb_list)
@@ -161,6 +248,7 @@ class VF_FUT_IND_COMPLEX(Metric):
 class VF_FIRST_CONJ(Metric):
     category = VerbFroms
     name_en = "Incidence of verbs in the first conjugation"
+    name_local = name_en
 
     def count(doc):
         search = [token for token in doc if token._.conjugation == "first"]
@@ -171,6 +259,7 @@ class VF_FIRST_CONJ(Metric):
 class VF_SECOND_CONJ(Metric):
     category = VerbFroms
     name_en = "Incidence of verbs in the second conjugation"
+    name_local = name_en
 
     def count(doc):
         search = [token for token in doc if token._.conjugation == "second"]
@@ -181,6 +270,7 @@ class VF_SECOND_CONJ(Metric):
 class VF_THIRD_CONJ(Metric):
     category = VerbFroms
     name_en = "Incidence of verbs in the third conjugation"
+    name_local = name_en
 
     def count(doc):
         search = [token for token in doc if token._.conjugation == "third"]
@@ -191,6 +281,7 @@ class VF_THIRD_CONJ(Metric):
 class VF_FOURTH_CONJ(Metric):
     category = VerbFroms
     name_en = "Incidence of verbs in the fourth conjugation"
+    name_local = name_en
 
     def count(doc):
         search = [token for token in doc if token._.conjugation == "fourth"]
@@ -201,6 +292,7 @@ class VF_FOURTH_CONJ(Metric):
 class VF_INFINITIVE(Metric):
     category = VerbFroms
     name_en = "Incidence of verbs in infinitive"
+    name_local = name_en
 
     def count(doc):
         tokens = [token for token in doc if "VerbForm=Inf" in token.morph]
@@ -211,9 +303,15 @@ class VF_INFINITIVE(Metric):
 class VF_PASSIVE(Metric):
     category = VerbFroms
     name_en = "Incidence of verbs in the passive form"
+    name_local = name_en
 
     def count(doc):
-        tokens = [token.head for token in doc if (token.pos_ == "AUX" and token.dep_ == "cop") and "Voice=Pass" in token.head.morph]
+        tokens = [
+            token.head
+            for token in doc
+            if (token.pos_ == "AUX" and token.dep_ == "cop")
+            and "Voice=Pass" in token.head.morph
+        ]
         result = incidence(doc, tokens)
         return result, {}
 
@@ -221,6 +319,7 @@ class VF_PASSIVE(Metric):
 class VF_TRANSITIVE(Metric):
     category = VerbFroms
     name_en = "Incidence of transitive verbs"
+    name_local = name_en
 
     def count(doc):
         search = [token for token in doc if token._.transitivity == "tr"]
@@ -231,6 +330,7 @@ class VF_TRANSITIVE(Metric):
 class VF_INTRANSITIVE(Metric):
     category = VerbFroms
     name_en = "Incidence of intransitive verbs"
+    name_local = name_en
 
     def count(doc):
         search = [token for token in doc if token._.transitivity == "intr"]
@@ -241,10 +341,18 @@ class VF_INTRANSITIVE(Metric):
 class VF_IMPERSONAL_VERBS(Metric):
     category = VerbFroms
     name_en = "Incidence of impersonal verbs"
+    name_local = name_en
 
     def count(doc):
-        tokens = [token for token in doc if token.pos_ == "VERB" and 
-              ("Gender=Neut" in token.morph or any(i for i in token.children if "Gender=Neut" in i.morph))]
+        tokens = [
+            token
+            for token in doc
+            if token.pos_ == "VERB"
+            and (
+                "Gender=Neut" in token.morph
+                or any(i for i in token.children if "Gender=Neut" in i.morph)
+            )
+        ]
         result = incidence(doc, tokens)
         return result, {}
 
@@ -252,9 +360,16 @@ class VF_IMPERSONAL_VERBS(Metric):
 class VF_PARTICIPLE_PASSIVE(Metric):
     category = VerbFroms
     name_en = "Incidence of passive participles"
+    name_local = name_en
 
     def count(doc):
-        tokens = [token for token in doc if token.pos_ == "ADJ" and  "VerbForm=Part" in token.morph and "Aspect=Perf" in token.morph]
+        tokens = [
+            token
+            for token in doc
+            if token.pos_ == "ADJ"
+            and "VerbForm=Part" in token.morph
+            and "Aspect=Perf" in token.morph
+        ]
         result = incidence(doc, tokens)
         return result, {}
 
@@ -262,9 +377,16 @@ class VF_PARTICIPLE_PASSIVE(Metric):
 class VF_PARTICIPLE_ACTIVE(Metric):
     category = VerbFroms
     name_en = "Incidence of active participles"
+    name_local = name_en
 
     def count(doc):
-        tokens = [token for token in doc if token.pos_ == "ADJ" and  "VerbForm=Part" in token.morph and "Aspect=Imp" in token.morph]
+        tokens = [
+            token
+            for token in doc
+            if token.pos_ == "ADJ"
+            and "VerbForm=Part" in token.morph
+            and "Aspect=Imp" in token.morph
+        ]
         result = incidence(doc, tokens)
         return result, {}
 
@@ -272,9 +394,16 @@ class VF_PARTICIPLE_ACTIVE(Metric):
 class VF_ADV_PRF_PART(Metric):
     category = VerbFroms
     name_en = "Incidence of adverbial perfect participles"
+    name_local = name_en
 
     def count(doc):
-        tokens = [token for token in doc if token.dep_ == "advcl" and "VerbForm=Conv" in token.morph and "Aspect=Perf" in token.morph]
+        tokens = [
+            token
+            for token in doc
+            if token.dep_ == "advcl"
+            and "VerbForm=Conv" in token.morph
+            and "Aspect=Perf" in token.morph
+        ]
         result = incidence(doc, tokens)
         return result, {}
 
@@ -282,8 +411,15 @@ class VF_ADV_PRF_PART(Metric):
 class VF_ADV_IMPRF_PART(Metric):
     category = VerbFroms
     name_en = "Incidence of adverbial imperfect participles"
+    name_local = name_en
 
     def count(doc):
-        tokens = [token for token in doc if token.dep_ == "advcl" and "VerbForm=Conv" in token.morph and "Aspect=Imp" in token.morph]
+        tokens = [
+            token
+            for token in doc
+            if token.dep_ == "advcl"
+            and "VerbForm=Conv" in token.morph
+            and "Aspect=Imp" in token.morph
+        ]
         result = incidence(doc, tokens)
         return result, {}

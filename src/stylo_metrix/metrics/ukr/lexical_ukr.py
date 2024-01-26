@@ -14,13 +14,16 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-from ...structures import Category, Metric
-from ...utils import incidence, log_incidence, ratio
 import math
 
+from ...structures import Category, Metric
+from ...utils import ratio
+
+
 class Lexical(Category):
-    lang = 'ukr'
+    lang = "ukr"
     name_en = "Lexical"
+    name_local = name_en
 
 
 # ---------------------------
@@ -31,6 +34,7 @@ class Lexical(Category):
 class L_TYPE_TOKEN_RATIO_LEMMAS(Metric):
     category = Lexical
     name_en = "Type-token ratio for words lemmas"
+    name_local = name_en
 
     def count(doc):
         search = set(token.lemma_ for token in doc if token.is_alpha)
@@ -38,28 +42,29 @@ class L_TYPE_TOKEN_RATIO_LEMMAS(Metric):
         debug = {"TOKENS": search}
         return result, debug
 
+    # class HERDAN_TTR(Metric):
+    #     category = Lexical
+    #     name_en = "Herdan's TTR"
+    #     name_local = name_en
 
-# class HERDAN_TTR(Metric):
-#     category = Lexical
-#     name_en = "Herdan's TTR"
+    #     def count(doc):
+    #         '''
+    #         Function to calculate Herdan's TTR for the Ukrainian language
+    #         param: doc - spacy doc object
+    #         return: float - Herdan's TTR score
+    #         '''
+    #         # get types and tokens
+    #         types = set([word.text for word in doc if word.is_alpha])
+    #         tokens = [word.text for word in doc if word.is_alpha]
+    #         calculation = log_incidence(len(types), len(tokens))
+    #         # calculate Herdan's TTR
+    #         return calculation, {}
 
-#     def count(doc):
-#         '''
-#         Function to calculate Herdan's TTR for the Ukrainian language
-#         param: doc - spacy doc object
-#         return: float - Herdan's TTR score
-#         '''
-#         # get types and tokens
-#         types = set([word.text for word in doc if word.is_alpha])
-#         tokens = [word.text for word in doc if word.is_alpha]
-#         calculation = log_incidence(len(types), len(tokens))
-#         # calculate Herdan's TTR
-#         return calculation, {}
+    # class MASS_TTR(Metric):
+    #     category = Lexical
+    #     name_en = "Mass TTR"
+    #     name_local = name_en
 
-
-# class MASS_TTR(Metric):
-#     category = Lexical
-#     name_en = "Mass TTR"
 
 #     def count(doc):
 #         '''
@@ -79,9 +84,11 @@ class L_TYPE_TOKEN_RATIO_LEMMAS(Metric):
 #         except ZeroDivisionError:
 #             return 0.0, {}
 
+
 class L_CONT_A(Metric):
     category = Lexical
     name_en = "Incidence of Content words"
+    name_local = name_en
 
     def count(doc):
         search = [token.text for token in doc if token._.is_content_word]
@@ -93,6 +100,7 @@ class L_CONT_A(Metric):
 class L_FUNC_A(Metric):
     category = Lexical
     name_en = "Incidence of Function words"
+    name_local = name_en
 
     def count(doc):
         search = [token.text for token in doc if token._.is_function_word]
@@ -104,6 +112,7 @@ class L_FUNC_A(Metric):
 class L_CONT_T(Metric):
     category = Lexical
     name_en = "Incidence of Content words types"
+    name_local = name_en
 
     def count(doc):
         search = set(token.text for token in doc if token._.is_content_word)
@@ -115,6 +124,7 @@ class L_CONT_T(Metric):
 class L_FUNC_T(Metric):
     category = Lexical
     name_en = "Incidence of Function words types"
+    name_local = name_en
 
     def count(doc):
         search = set(token.text for token in doc if token._.is_function_word)
@@ -127,12 +137,18 @@ class L_FUNC_T(Metric):
 # NOUNS
 # ---------------------------
 
+
 class L_PLURAL_NOUNS(Metric):
     category = Lexical
     name_en = "Incidence of nouns in plural"
+    name_local = name_en
 
     def count(doc):
-        nouns_plural = [token.text for token in doc if token.pos_ == "NOUN" and "Number=Plur" in token.morph]
+        nouns_plural = [
+            token.text
+            for token in doc
+            if token.pos_ == "NOUN" and "Number=Plur" in token.morph
+        ]
         result = ratio(len(nouns_plural), len(doc.text.split()))
         debug = {"TOKENS": nouns_plural}
         return result, debug
@@ -141,9 +157,14 @@ class L_PLURAL_NOUNS(Metric):
 class L_SINGULAR_NOUNS(Metric):
     category = Lexical
     name_en = "Incidence of nouns in singular"
+    name_local = name_en
 
     def count(doc):
-        nouns_sing = [token.text for token in doc if token.pos_ == "NOUN" and "Number=Sing" in token.morph]
+        nouns_sing = [
+            token.text
+            for token in doc
+            if token.pos_ == "NOUN" and "Number=Sing" in token.morph
+        ]
         result = ratio(len(nouns_sing), len(doc.text.split()))
         debug = {"TOKENS": nouns_sing}
         return result, debug
@@ -152,6 +173,7 @@ class L_SINGULAR_NOUNS(Metric):
 class L_PROPER_NAME(Metric):
     category = Lexical
     name_en = "Incidence of proper names"
+    name_local = name_en
 
     def count(doc):
         ents = [token.text for token in doc if token.pos_ == "PROPN"]
@@ -163,19 +185,26 @@ class L_PROPER_NAME(Metric):
 class L_PERSONAL_NAME(Metric):
     category = Lexical
     name_en = "Incidence of personal names"
+    name_local = name_en
 
     def count(doc):
-        ents = [ent.text for ent in doc.ents if ent.label_ == 'PER']
+        ents = [ent.text for ent in doc.ents if ent.label_ == "PER"]
         result = ratio(len(ents), len(doc.text.split()))
         debug = {"TOKENS": ents}
         return result, debug
 
+
 class L_ANIM_NOUN(Metric):
     category = Lexical
     name_en = "Incidence of animate nouns"
+    name_local = name_en
 
     def count(doc):
-        nouns = [token.text for token in doc if token.pos_ == 'NOUN' and "Animacy=Anim" in token.morph]
+        nouns = [
+            token.text
+            for token in doc
+            if token.pos_ == "NOUN" and "Animacy=Anim" in token.morph
+        ]
         result = ratio(len(nouns), len(doc.text.split()))
         debug = {"TOKENS": nouns}
         return result, debug
@@ -184,9 +213,14 @@ class L_ANIM_NOUN(Metric):
 class L_INANIM_NOUN(Metric):
     category = Lexical
     name_en = "Incidence of inanimate nouns"
-    
+    name_local = name_en
+
     def count(doc):
-        nouns = [token.text for token in doc if token.pos_ == 'NOUN' and "Animacy=Inan" in token.morph]
+        nouns = [
+            token.text
+            for token in doc
+            if token.pos_ == "NOUN" and "Animacy=Inan" in token.morph
+        ]
         result = ratio(len(nouns), len(doc.text.split()))
         debug = {"TOKENS": nouns}
         return result, debug
@@ -195,10 +229,15 @@ class L_INANIM_NOUN(Metric):
 class L_NOUN_NEUTRAL(Metric):
     category = Lexical
     name_en = "Incidence of neutral nouns"
+    name_local = name_en
 
     def count(doc):
-        nouns = [token.text for token in doc if token.pos_ == 'NOUN' and "Gender=Neut" in token.morph]
-        result =  ratio(len(nouns), len(doc.text.split()))
+        nouns = [
+            token.text
+            for token in doc
+            if token.pos_ == "NOUN" and "Gender=Neut" in token.morph
+        ]
+        result = ratio(len(nouns), len(doc.text.split()))
         debug = {"TOKENS": nouns}
         return result, debug
 
@@ -206,9 +245,14 @@ class L_NOUN_NEUTRAL(Metric):
 class L_NOUN_FAMININE(Metric):
     category = Lexical
     name_en = "Incidence of feminine nouns"
+    name_local = name_en
 
     def count(doc):
-        nouns = [token.text for token in doc if token.pos_ == 'NOUN' and "Gender=Fem" in token.morph]
+        nouns = [
+            token.text
+            for token in doc
+            if token.pos_ == "NOUN" and "Gender=Fem" in token.morph
+        ]
         result = ratio(len(nouns), len(doc.text.split()))
         debug = {"TOKENS": nouns}
         return result, debug
@@ -217,9 +261,14 @@ class L_NOUN_FAMININE(Metric):
 class L_NOUN_MASCULINE(Metric):
     category = Lexical
     name_en = "Incidence of masculine nouns"
+    name_local = name_en
 
     def count(doc):
-        nouns = [token.text for token in doc if token.pos_ == 'NOUN' and "Gender=Masc" in token.morph]
+        nouns = [
+            token.text
+            for token in doc
+            if token.pos_ == "NOUN" and "Gender=Masc" in token.morph
+        ]
         result = ratio(len(nouns), len(doc.text.split()))
         debug = {"TOKENS": nouns}
         return result, debug
@@ -228,10 +277,16 @@ class L_NOUN_MASCULINE(Metric):
 class L_FEMININE_NAMES(Metric):
     category = Lexical
     name_en = "Incidence of feminine proper nouns"
+    name_local = name_en
 
     def count(doc):
-        nouns = [token.text for token in doc if token.pos_ == "PROPN" and ("Animacy=Anim" in token.morph and "Gender=Fem" in token.morph)]
-        result =  ratio(len(nouns), len(doc.text.split()))
+        nouns = [
+            token.text
+            for token in doc
+            if token.pos_ == "PROPN"
+            and ("Animacy=Anim" in token.morph and "Gender=Fem" in token.morph)
+        ]
+        result = ratio(len(nouns), len(doc.text.split()))
         debug = {"TOKENS": nouns}
         return result, debug
 
@@ -239,9 +294,15 @@ class L_FEMININE_NAMES(Metric):
 class L_MASCULINE_NAMES(Metric):
     category = Lexical
     name_en = "Incidence of masculine proper nouns"
+    name_local = name_en
 
     def count(doc):
-        nouns = [token.text for token in doc if token.pos_ == "PROPN" and ("Animacy=Anim" in token.morph and "Gender=Masc" in token.morph)]
+        nouns = [
+            token.text
+            for token in doc
+            if token.pos_ == "PROPN"
+            and ("Animacy=Anim" in token.morph and "Gender=Masc" in token.morph)
+        ]
         result = ratio(len(nouns), len(doc.text.split()))
         debug = {"TOKENS": nouns}
         return result, debug
@@ -250,9 +311,14 @@ class L_MASCULINE_NAMES(Metric):
 class L_SURNAMES(Metric):
     category = Lexical
     name_en = "Incidence of surnames"
+    name_local = name_en
 
     def count(doc):
-        names = [token.text for token in doc if token.pos_ == "PROPN" and "NameType=Sur" in token.morph]
+        names = [
+            token.text
+            for token in doc
+            if token.pos_ == "PROPN" and "NameType=Sur" in token.morph
+        ]
         result = ratio(len(names), len(doc.text.split()))
         debug = {"TOKENS": names}
         return result, debug
@@ -261,9 +327,14 @@ class L_SURNAMES(Metric):
 class L_GIVEN_NAMES(Metric):
     category = Lexical
     name_en = "Incidence of given names"
+    name_local = name_en
 
     def count(doc):
-        names = [token.text for token in doc if token.pos_ == "PROPN" and "NameType=Giv" in token.morph]
+        names = [
+            token.text
+            for token in doc
+            if token.pos_ == "PROPN" and "NameType=Giv" in token.morph
+        ]
         result = ratio(len(names), len(doc.text.split()))
         debug = {"TOKENS": names}
         return result, debug
@@ -271,14 +342,16 @@ class L_GIVEN_NAMES(Metric):
 
 # https://universaldependencies.org/u/dep/flat.html
 
+
 class L_FLAT_MULTIWORD(Metric):
     category = Lexical
     name_en = "Incidence of flat multiwords expressions"
+    name_local = name_en
 
     def count(doc):
         flat = [[token.head.text, token.text] for token in doc if "flat" in token.dep_]
         flatten = [token for i in flat for token in i]
-        result =  ratio(len(flatten), len(doc.text.split()))
+        result = ratio(len(flatten), len(doc.text.split()))
         debug = {"TOKENS": flatten}
         return result, debug
 
@@ -286,11 +359,16 @@ class L_FLAT_MULTIWORD(Metric):
 class L_DIMINUTIVES(Metric):
     category = Lexical
     name_en = "Incidence of diminutives"
+    name_local = name_en
 
     def count(doc):
         suffixes = ["еньк", "есеньк", "ісіньк", "юсіньк"]
-        dimin = [token.text for token in doc if any(token for i in suffixes if i in token.text)]
-        result =  ratio(len(dimin), len(doc.text.split()))
+        dimin = [
+            token.text
+            for token in doc
+            if any(token for i in suffixes if i in token.text)
+        ]
+        result = ratio(len(dimin), len(doc.text.split()))
         debug = {"TOKENS": dimin}
         return result, debug
 
@@ -298,10 +376,11 @@ class L_DIMINUTIVES(Metric):
 class L_DIRECT_OBJ(Metric):
     category = Lexical
     name_en = "Incidence of direct objects"
+    name_local = name_en
 
     def count(doc):
         obj = [token.text for token in doc if token.dep_ == "obj"]
-        result =  ratio(len(obj), len(doc.text.split()))
+        result = ratio(len(obj), len(doc.text.split()))
         debug = {"TOKENS": obj}
         return result, debug
 
@@ -309,9 +388,12 @@ class L_DIRECT_OBJ(Metric):
 class L_INDIRECT_OBJ(Metric):
     category = Lexical
     name_en = "Incidence of indirect objects"
+    name_local = name_en
 
     def count(doc):
-        iobj = [token.text for token in doc if token.dep_ == "iobj" or token.dep_ == "obl"]
+        iobj = [
+            token.text for token in doc if token.dep_ == "iobj" or token.dep_ == "obl"
+        ]
         result = ratio(len(iobj), len(doc.text.split()))
         debug = {"TOKENS": iobj}
         return result, debug
@@ -325,10 +407,15 @@ class L_INDIRECT_OBJ(Metric):
 class L_NOM_CASE(Metric):
     category = Lexical
     name_en = "Incidence of nouns in Nominative case"
+    name_local = name_en
 
     def count(doc):
-        nouns = [token.text for token in doc if token.pos_ == "NOUN" and "Case=Nom" in token.morph]
-        result =  ratio(len(nouns), len(doc.text.split()))
+        nouns = [
+            token.text
+            for token in doc
+            if token.pos_ == "NOUN" and "Case=Nom" in token.morph
+        ]
+        result = ratio(len(nouns), len(doc.text.split()))
         debug = {"TOKENS": nouns}
         return result, debug
 
@@ -336,10 +423,15 @@ class L_NOM_CASE(Metric):
 class L_GEN_CASE(Metric):
     category = Lexical
     name_en = "Incidence of nouns in Genitive case"
+    name_local = name_en
 
     def count(doc):
-        nouns = [token.text for token in doc if token.pos_ == "NOUN" and "Case=Gen" in token.morph]
-        result =  ratio(len(nouns), len(doc.text.split()))
+        nouns = [
+            token.text
+            for token in doc
+            if token.pos_ == "NOUN" and "Case=Gen" in token.morph
+        ]
+        result = ratio(len(nouns), len(doc.text.split()))
         debug = {"TOKENS": nouns}
         return result, debug
 
@@ -347,10 +439,15 @@ class L_GEN_CASE(Metric):
 class L_DAT_CASE(Metric):
     category = Lexical
     name_en = "Incidence of nouns in Dative case"
+    name_local = name_en
 
     def count(doc):
-        nouns = [token.text for token in doc if token.pos_ == "NOUN" and "Case=Dat" in token.morph]
-        result =  ratio(len(nouns), len(doc.text.split()))
+        nouns = [
+            token.text
+            for token in doc
+            if token.pos_ == "NOUN" and "Case=Dat" in token.morph
+        ]
+        result = ratio(len(nouns), len(doc.text.split()))
         debug = {"TOKENS": nouns}
         return result, debug
 
@@ -358,9 +455,14 @@ class L_DAT_CASE(Metric):
 class L_ACC_CASE(Metric):
     category = Lexical
     name_en = "Incidence of nouns in Accusative case"
+    name_local = name_en
 
     def count(doc):
-        nouns = [token.text for token in doc if token.pos_ == "NOUN" and "Case=Acc" in token.morph]
+        nouns = [
+            token.text
+            for token in doc
+            if token.pos_ == "NOUN" and "Case=Acc" in token.morph
+        ]
         result = ratio(len(nouns), len(doc.text.split()))
         debug = {"TOKENS": nouns}
         return result, debug
@@ -369,9 +471,14 @@ class L_ACC_CASE(Metric):
 class L_INS_CASE(Metric):
     category = Lexical
     name_en = "Incidence of nouns in Instrumental case"
+    name_local = name_en
 
     def count(doc):
-        nouns = [token.text for token in doc if token.pos_ == "NOUN" and "Case=Ins" in token.morph]
+        nouns = [
+            token.text
+            for token in doc
+            if token.pos_ == "NOUN" and "Case=Ins" in token.morph
+        ]
         result = ratio(len(nouns), len(doc.text.split()))
         debug = {"TOKENS": nouns}
         return result, debug
@@ -380,36 +487,50 @@ class L_INS_CASE(Metric):
 class L_LOC_CASE(Metric):
     category = Lexical
     name_en = "Incidence of nouns in Locative case"
+    name_local = name_en
 
     def count(doc):
-        nouns = [token.text for token in doc if token.pos_ == "NOUN" and "Case=Loc" in token.morph]
+        nouns = [
+            token.text
+            for token in doc
+            if token.pos_ == "NOUN" and "Case=Loc" in token.morph
+        ]
         result = ratio(len(nouns), len(doc.text.split()))
         debug = {"TOKENS": nouns}
         return result, debug
 
+
 class L_VOC_CASE(Metric):
     category = Lexical
     name_en = "Incidence of nouns in Vocative case"
+    name_local = name_en
 
     def count(doc):
-        nouns = [token.text for token in doc if (token.pos_ == "NOUN" or token.pos_ == "PROPN") 
-        and "Case=Voc" in token.morph]
+        nouns = [
+            token.text
+            for token in doc
+            if (token.pos_ == "NOUN" or token.pos_ == "PROPN")
+            and "Case=Voc" in token.morph
+        ]
         result = ratio(len(nouns), len(doc.text.split()))
         debug = {"TOKENS": nouns}
         return result, debug
 
 
 # ---------------------------
-# ADJECTIVES 
+# ADJECTIVES
 # ---------------------------
 
 
 class L_QULITATIVE_ADJ_P(Metric):
     category = Lexical
     name_en = "Incidence of qualitative adj positive"
+    name_local = name_en
 
     def count(doc):
-        adj = [adj.text for adj in doc if adj.pos_ == "ADJ" and "Degree=Pos" in adj.morph]
+        adj = [
+            adj.text for adj in doc if adj.pos_ == "ADJ" and "Degree=Pos" in adj.morph
+        ]
         result = ratio(len(adj), len(doc.text.split()))
         debug = {"TOKENS": adj}
         return result, debug
@@ -418,11 +539,15 @@ class L_QULITATIVE_ADJ_P(Metric):
 class L_RELATIVE_ADJ(Metric):
     category = Lexical
     name_en = "Incidence of relative adj"
+    name_local = name_en
 
     def count(doc):
         degrees = ["Degree=Pos", "Degree=Cmp", "Degree=Sup"]
-        adj = [adj.text for adj in doc if adj.pos_ == "ADJ" 
-        and not any(adj for i in degrees if i in adj.morph)]
+        adj = [
+            adj.text
+            for adj in doc
+            if adj.pos_ == "ADJ" and not any(adj for i in degrees if i in adj.morph)
+        ]
         result = ratio(len(adj), len(doc.text.split()))
         debug = {"TOKENS": adj}
         return result, debug
@@ -431,20 +556,26 @@ class L_RELATIVE_ADJ(Metric):
 class L_QUALITATIVE_ADJ_CMP(Metric):
     category = Lexical
     name_en = "Incidence of qualitative comparative adj"
+    name_local = name_en
 
     def count(doc):
-        adj = [adj.text for adj in doc if adj.pos_ == "ADJ" and "Degree=Cmp" in adj.morph]
-        result =  ratio(len(adj), len(doc.text.split()))
-        debug  = {"TOKENS": adj}
+        adj = [
+            adj.text for adj in doc if adj.pos_ == "ADJ" and "Degree=Cmp" in adj.morph
+        ]
+        result = ratio(len(adj), len(doc.text.split()))
+        debug = {"TOKENS": adj}
         return result, debug
 
 
 class L_QUALITATIVE_ADJ_SUP(Metric):
     category = Lexical
     name_en = "Incidence of qualitative superlative adj"
+    name_local = name_en
 
     def count(doc):
-        adj = [adj.text for adj in doc if adj.pos_ == "ADJ" and "Degree=Sup" in adj.morph]
+        adj = [
+            adj.text for adj in doc if adj.pos_ == "ADJ" and "Degree=Sup" in adj.morph
+        ]
         result = ratio(len(adj), len(doc.text.split()))
         debug = {"TOKENS": adj}
         return result, debug
@@ -453,11 +584,18 @@ class L_QUALITATIVE_ADJ_SUP(Metric):
 class L_DIRECT_ADJ(Metric):
     category = Lexical
     name_en = "Incidence of direct adjective"
+    name_local = name_en
 
     def count(doc):
         adj = []
         direct = [adj.text for adj in doc if adj.pos_ == "ADJ" and adj.dep_ == "amod"]
-        conj = [token.text for token in doc if token.pos_ == "ADJ" and token.dep_ == "conj" and token.head.dep_ == "amod"]
+        conj = [
+            token.text
+            for token in doc
+            if token.pos_ == "ADJ"
+            and token.dep_ == "conj"
+            and token.head.dep_ == "amod"
+        ]
         adj = direct + conj
         result = ratio(len(adj), len(doc.text.split()))
         debug = {"TOKENS": adj}
@@ -467,11 +605,21 @@ class L_DIRECT_ADJ(Metric):
 class L_INDIRECT_ADJ(Metric):
     category = Lexical
     name_en = "Incidence of indirect adjective"
+    name_local = name_en
 
     def count(doc):
         adj = []
-        indirect = [adj.text for adj in doc if adj.pos_ == "ADJ" and (adj.dep_ != "amod" and adj.dep_ != "conj")]
-        conj = [token.text for token in doc if token.dep_ == "conj" and (token.head.dep_ != "amod" and token.head.pos_ == "ADJ")]
+        indirect = [
+            adj.text
+            for adj in doc
+            if adj.pos_ == "ADJ" and (adj.dep_ != "amod" and adj.dep_ != "conj")
+        ]
+        conj = [
+            token.text
+            for token in doc
+            if token.dep_ == "conj"
+            and (token.head.dep_ != "amod" and token.head.pos_ == "ADJ")
+        ]
         adj = indirect + conj
         result = ratio(len(adj), len(doc.text.split()))
         debug = {"TOKENS": adj}
@@ -486,6 +634,7 @@ class L_INDIRECT_ADJ(Metric):
 class L_PUNCT(Metric):
     category = Lexical
     name_en = "Incidence of punctuation"
+    name_local = name_en
 
     def count(doc):
         ents = [token.text for token in doc if token.pos_ == "PUNCT"]
@@ -497,6 +646,7 @@ class L_PUNCT(Metric):
 class L_PUNCT_DOT(Metric):
     category = Lexical
     name_en = "Incidence of dots"
+    name_local = name_en
 
     def count(doc):
         ents = [token.text for token in doc if token.text == "."]
@@ -508,6 +658,7 @@ class L_PUNCT_DOT(Metric):
 class L_PUNCT_COM(Metric):
     category = Lexical
     name_en = "Incidence of comma"
+    name_local = name_en
 
     def count(doc):
         ents = [token.text for token in doc if token.text == ","]
@@ -519,6 +670,7 @@ class L_PUNCT_COM(Metric):
 class L_PUNCT_SEMC(Metric):
     category = Lexical
     name_en = "Incidence of semicolon"
+    name_local = name_en
 
     def count(doc):
         ents = [token.text for token in doc if token.text == ";"]
@@ -530,6 +682,7 @@ class L_PUNCT_SEMC(Metric):
 class L_PUNCT_COL(Metric):
     category = Lexical
     name_en = "Incidence of colon"
+    name_local = name_en
 
     def count(doc):
         ents = [token.text for token in doc if token.text == ":"]
@@ -541,18 +694,22 @@ class L_PUNCT_COL(Metric):
 class L_PUNCT_DASH(Metric):
     category = Lexical
     name_en = "Incidence of dashes"
+    name_local = name_en
 
     def count(doc):
         ents = [token.text for token in doc if token.text == "—"]
         result = ratio(len(ents), len(doc.text.split()))
         debug = {"TOKENS": ents}
         return result, debug
+
+
 # ---------------------------
 # NUMERALS
 # ---------------------------
 class L_NUM_CARD(Metric):
     category = Lexical
     name_en = "Incidence of numerals cardinals"
+    name_local = name_en
 
     def count(doc):
         tokens = [token.text for token in doc if "NumType=Card" in token.morph]
@@ -564,18 +721,22 @@ class L_NUM_CARD(Metric):
 class L_NUM_ORD(Metric):
     category = Lexical
     name_en = "Incidence of numerals ordinals"
+    name_local = name_en
 
     def count(doc):
         tokens = [token.text for token in doc if "NumType=Ord" in token.morph]
         result = ratio(len(tokens), len(doc.text.split()))
         debug = {"TOKENS": tokens}
         return result, debug
+
+
 # ---------------------------
 # PRONOUNS
 # ---------------------------
 class L_PRON_DEM(Metric):
     category = Lexical
     name_en = "Incidence of demonstrative pronouns"
+    name_local = name_en
 
     def count(doc):
         tokens = [token.text for token in doc if "PronType=Dem" in token.morph]
@@ -587,6 +748,7 @@ class L_PRON_DEM(Metric):
 class L_PRON_PRS(Metric):
     category = Lexical
     name_en = "Incidence of personal pronouns"
+    name_local = name_en
 
     def count(doc):
         tokens = [token.text for token in doc if "PronType=Prs" in token.morph]
@@ -598,6 +760,7 @@ class L_PRON_PRS(Metric):
 class L_PRON_TOT(Metric):
     category = Lexical
     name_en = "Incidence of total pronouns"
+    name_local = name_en
 
     def count(doc):
         tokens = [token.text for token in doc if "PronType=Tot" in token.morph]
@@ -609,6 +772,7 @@ class L_PRON_TOT(Metric):
 class L_PRON_REL(Metric):
     category = Lexical
     name_en = "Incidence of relative pronouns"
+    name_local = name_en
 
     def count(doc):
         tokens = [token.text for token in doc if "PronType=Rel" in token.morph]
@@ -620,6 +784,7 @@ class L_PRON_REL(Metric):
 class L_PRON_INT(Metric):
     category = Lexical
     name_en = "Incidence of indexical pronouns"
+    name_local = name_en
 
     def count(doc):
         tokens = [token.text for token in doc if "PronType=Int" in token.morph]
@@ -631,9 +796,14 @@ class L_PRON_INT(Metric):
 class L_PRON_RELATIVE(Metric):
     category = Lexical
     name_en = "Incidence of relative pronoun 'що'"
+    name_local = name_en
 
     def count(doc):
-        tokens = [token.text for token in doc if token.pos_ == "SCONJ" and token.dep_ == "mark"]
+        tokens = [
+            token.text
+            for token in doc
+            if token.pos_ == "SCONJ" and token.dep_ == "mark"
+        ]
         result = ratio(len(tokens), len(doc.text.split()))
         debug = {"TOKENS": tokens}
         return result, debug
@@ -642,9 +812,14 @@ class L_PRON_RELATIVE(Metric):
 class L_PRON_RFL(Metric):
     category = Lexical
     name_en = "Incidence of reflexive pronoun"
+    name_local = name_en
 
     def count(doc):
-        tokens = [token.text for token in doc if "Reflex=Yes" in token.morph and "PronType=Prs" in token.morph]
+        tokens = [
+            token.text
+            for token in doc
+            if "Reflex=Yes" in token.morph and "PronType=Prs" in token.morph
+        ]
         result = ratio(len(tokens), len(doc.text.split()))
         debug = {"TOKENS": tokens}
         return result, debug
@@ -653,9 +828,14 @@ class L_PRON_RFL(Metric):
 class L_PRON_POS(Metric):
     category = Lexical
     name_en = "Incidence of posessive pronoun"
+    name_local = name_en
 
     def count(doc):
-        tokens = [token.text for token in doc if "Poss=Yes" in token.morph and "PronType=Prs" in token.morph]
+        tokens = [
+            token.text
+            for token in doc
+            if "Poss=Yes" in token.morph and "PronType=Prs" in token.morph
+        ]
         result = ratio(len(tokens), len(doc.text.split()))
         debug = {"TOKENS": tokens}
         return result, debug
@@ -664,6 +844,7 @@ class L_PRON_POS(Metric):
 class L_PRON_NEG(Metric):
     category = Lexical
     name_en = "Incidence of negative pronoun"
+    name_local = name_en
 
     def count(doc):
         tokens = [token.text for token in doc if "PronType=Neg" in token.morph]
@@ -671,16 +852,23 @@ class L_PRON_NEG(Metric):
         debug = {"TOKENS": tokens}
         return result, debug
 
+
 # ---------------------------
 # ADVERBS
 # ---------------------------
 
+
 class L_ADV_POS(Metric):
     category = Lexical
     name_en = "Incidence of positive adverbs"
+    name_local = name_en
 
     def count(doc):
-        tokens = [token.text for token in doc if "Degree=Pos" in token.morph and token.pos_ == "ADV"]
+        tokens = [
+            token.text
+            for token in doc
+            if "Degree=Pos" in token.morph and token.pos_ == "ADV"
+        ]
         result = ratio(len(tokens), len(doc.text.split()))
         debug = {"TOKENS": tokens}
         return result, debug
@@ -689,9 +877,14 @@ class L_ADV_POS(Metric):
 class L_ADV_CMP(Metric):
     category = Lexical
     name_en = "Incidence of comparative adverbs"
+    name_local = name_en
 
     def count(doc):
-        tokens = [token.text for token in doc if "Degree=Cmp" in token.morph and token.pos_ == "ADV"]
+        tokens = [
+            token.text
+            for token in doc
+            if "Degree=Cmp" in token.morph and token.pos_ == "ADV"
+        ]
         result = ratio(len(tokens), len(doc.text.split()))
         debug = {"TOKENS": tokens}
         return result, debug
@@ -700,9 +893,14 @@ class L_ADV_CMP(Metric):
 class L_ADV_SUP(Metric):
     category = Lexical
     name_en = "Incidence of superlative adverbs"
+    name_local = name_en
 
     def count(doc):
-        tokens = [token.text for token in doc if "Degree=Sup" in token.morph and token.pos_ == "ADV"]
+        tokens = [
+            token.text
+            for token in doc
+            if "Degree=Sup" in token.morph and token.pos_ == "ADV"
+        ]
         result = ratio(len(tokens), len(doc.text.split()))
         debug = {"TOKENS": tokens}
         return result, debug

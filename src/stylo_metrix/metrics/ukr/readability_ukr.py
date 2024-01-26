@@ -18,8 +18,9 @@ from ...structures import Category, Metric
 
 
 class READABILITY(Category):
-    lang = 'ukr'
+    lang = "ukr"
     name_en = "Readability scores"
+    name_local = name_en
 
 
 # ---------------------------
@@ -30,9 +31,10 @@ class READABILITY(Category):
 class FKR(Metric):
     category = READABILITY
     name_en = "Flesch–Kincaid readability score for the Ukrainian language"
+    name_local = name_en
 
     def count(doc):
-        '''
+        """
         Function to calculate Flesch–Kincaid readability score for the Ukrainian language
         param: doc - spacy doc object
         return: float - readability score
@@ -53,55 +55,68 @@ class FKR(Metric):
         50.0–30.0	- College	Difficult to read.
         30.0–10.0	- College graduate	Very difficult to read. Best understood by university graduates.
         10.0–0.0	- Professional Extremely difficult to read. Best understood by university graduates.
-        '''
+        """
         #  if the length of the text is less than 100 characters, return 0
         if len(doc.text) < 100:
             return 0.0, {}
 
-        # total number of words in the whole document 
+        # total number of words in the whole document
         total_words_count = len([word.text for word in doc if word.is_alpha])
         # total number of sentences in the whole document
         sentences = len([sent for sent in doc.sents])
         # sum of mean of words per sentence
         words_per_sentence = 0
         for sent in doc.sents:
-            words_per_sentence += len([word.text for word in sent if word.is_alpha]) / sentences
+            words_per_sentence += (
+                len([word.text for word in sent if word.is_alpha]) / sentences
+            )
 
         # total number of syllables in the whole document
         syllables = sum([word._.syllables_count for word in doc if word.is_alpha])
 
         # Flesch–Kincaid readability score
-        fkr_score = abs(206.835 - 1.015 * (words_per_sentence) - 84.6 * (syllables / total_words_count))
+        fkr_score = abs(
+            206.835
+            - 1.015 * (words_per_sentence)
+            - 84.6 * (syllables / total_words_count)
+        )
 
         return fkr_score, {}
-    
+
 
 class FKGL(Metric):
     category = READABILITY
-    name_en = "Function to calculate automated readability score for the Ukrainian language"
+    name_en = (
+        "Function to calculate automated readability score for the Ukrainian language"
+    )
+    name_local = name_en
 
     def count(doc):
-        '''
+        """
         Function to calculate readability score for the Ukrainian language
         param: doc - spacy doc object
         return: float - readability score
 
         If readability score >= 5.0, the text is considered to be easy to read
-        '''
+        """
 
         # alpha parameter in readability equation. always 0.4 for Ukrainian
         ALPHA = 0.4
-        # total number of words in the whole document 
+        # total number of words in the whole document
         total_words_count = [word.text for word in doc if word.is_alpha]
         # second parameter for readability score
-        second_param = len([w for w in total_words_count if len(w) >= 3]) / len(total_words_count)
+        second_param = len([w for w in total_words_count if len(w) >= 3]) / len(
+            total_words_count
+        )
         # total number of sentences in the whole document
         sentences = len([sent for sent in doc.sents])
 
         # sum of mean of words per sentence
         words_per_sentence = 0
         for sent in doc.sents:
-            words_per_sentence += len([word.text for word in sent if word.is_alpha]) / sentences
-        rb_score = (words_per_sentence + second_param) * ALPHA 
+            words_per_sentence += (
+                len([word.text for word in sent if word.is_alpha]) / sentences
+            )
+        rb_score = (words_per_sentence + second_param) * ALPHA
 
         return rb_score, {}
