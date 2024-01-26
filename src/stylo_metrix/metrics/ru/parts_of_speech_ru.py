@@ -14,17 +14,20 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-from ...structures import Metric, Category
+from ...structures import Category, Metric
 from ...utils import ratio
 
 
 class PartOfSpeech(Category):
-    lang = 'ru'
+    lang = "ru"
     name_en = "Parts of speech"
+    name_local = name_en
+
 
 class POS_VERB(Metric):
     category = PartOfSpeech
     name_en = "Incidence of Verbs"
+    name_local = name_en
 
     def count(doc):
         search = [token.text for token in doc if token.pos_ == "VERB"]
@@ -36,6 +39,7 @@ class POS_VERB(Metric):
 class POS_NOUN(Metric):
     category = PartOfSpeech
     name_en = "Incidence of Nouns"
+    name_local = name_en
 
     def count(doc):
         search = [token.text for token in doc if token.pos_ == "NOUN"]
@@ -47,6 +51,7 @@ class POS_NOUN(Metric):
 class POS_ADJ(Metric):
     category = PartOfSpeech
     name_en = "Incidence of Adjectives"
+    name_local = name_en
 
     def count(doc):
         search = [token.text for token in doc if token.pos_ == "ADJ"]
@@ -58,6 +63,7 @@ class POS_ADJ(Metric):
 class POS_ADV(Metric):
     category = PartOfSpeech
     name_en = "Incidence of Adverbs"
+    name_local = name_en
 
     def count(doc):
         search = [token.text for token in doc if token.pos_ == "ADV"]
@@ -69,6 +75,7 @@ class POS_ADV(Metric):
 class POS_DET(Metric):
     category = PartOfSpeech
     name_en = "Incidence of Determiners"
+    name_local = name_en
 
     def count(doc):
         search = [token.text for token in doc if token.pos_ == "DET"]
@@ -80,6 +87,7 @@ class POS_DET(Metric):
 class POS_INTJ(Metric):
     category = PartOfSpeech
     name_en = "Incidence of Interjections"
+    name_local = name_en
 
     def count(doc):
         search = [token.text for token in doc if token.pos_ == "INTJ"]
@@ -91,6 +99,7 @@ class POS_INTJ(Metric):
 class POS_CONJ(Metric):
     category = PartOfSpeech
     name_en = "Incidence of Conjunctions"
+    name_local = name_en
 
     def count(doc):
         search = [token.text for token in doc if token.pos_ in ["SCONJ", "CCONJ"]]
@@ -102,6 +111,7 @@ class POS_CONJ(Metric):
 class POS_PART(Metric):
     category = PartOfSpeech
     name_en = "Incidence of Particles"
+    name_local = name_en
 
     def count(doc):
         search = [token.text for token in doc if token.pos_ == "PART"]
@@ -113,6 +123,7 @@ class POS_PART(Metric):
 class POS_NUM(Metric):
     category = PartOfSpeech
     name_en = "Incidence of Numerals"
+    name_local = name_en
 
     def count(doc):
         search = [token.text for token in doc if token.pos_ == "NUM"]
@@ -124,6 +135,7 @@ class POS_NUM(Metric):
 class POS_PREP(Metric):
     category = PartOfSpeech
     name_en = "Incidence of Prepositions"
+    name_local = name_en
 
     def count(doc):
         search = [token.text for token in doc if token.pos_ == "ADP"]
@@ -135,6 +147,7 @@ class POS_PREP(Metric):
 class POS_PRO(Metric):
     category = PartOfSpeech
     name_en = "Incidence of Pronouns"
+    name_local = name_en
 
     def count(doc):
         search = [token.text for token in doc if token.pos_ == "PRON"]
@@ -146,6 +159,7 @@ class POS_PRO(Metric):
 class POS_OTHER(Metric):
     category = PartOfSpeech
     name_en = "Incidence of Code-Switching"
+    name_local = name_en
 
     def count(doc):
         search = [token.text for token in doc if token.pos_ == "X"]

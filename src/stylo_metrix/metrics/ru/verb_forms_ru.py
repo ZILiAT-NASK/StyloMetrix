@@ -19,21 +19,32 @@ from ...utils import ratio
 
 
 class Grammar(Category):
-    lang = 'ru'
+    lang = "ru"
     name_en = "Grammar"
-    
+    name_local = name_en
+
 
 class G_ROOT_VERB_IMPERFECT(Metric):
     category = Grammar
     name_en = "Incidence of root verbs in imperfect aspect"
+    name_local = name_en
 
     def count(doc):
-        verbs = [token.text for token in doc if token.dep_ == "ROOT" and "Aspect=Imp" in token.morph]
-        conj_verbs = [token.text for token in doc 
-                    if token.head.text in verbs and token.dep_ == "conj" and "Aspect=Imp" in token.morph]
+        verbs = [
+            token.text
+            for token in doc
+            if token.dep_ == "ROOT" and "Aspect=Imp" in token.morph
+        ]
+        conj_verbs = [
+            token.text
+            for token in doc
+            if token.head.text in verbs
+            and token.dep_ == "conj"
+            and "Aspect=Imp" in token.morph
+        ]
         root_imperfect_verbs = verbs + conj_verbs
         result = ratio(len(root_imperfect_verbs), len(doc.text.split()))
-        debug = {'TOKENS': root_imperfect_verbs}
+        debug = {"TOKENS": root_imperfect_verbs}
         return result, debug
 
 
@@ -41,11 +52,16 @@ class G_ROOT_VERB_IMPERFECT(Metric):
 class G_ALL_VERB_IMPERFECT(Metric):
     category = Grammar
     name_en = "Incidence of all verbs in imperfect aspect, active voice"
+    name_local = name_en
 
     def count(doc):
-        verbs = [token.text for token in doc if token.pos_ == "VERB" and "Aspect=Imp" in token.morph]
+        verbs = [
+            token.text
+            for token in doc
+            if token.pos_ == "VERB" and "Aspect=Imp" in token.morph
+        ]
         result = ratio(len(verbs), len(doc.text.split()))
-        debug = {'TOKENS': verbs}
+        debug = {"TOKENS": verbs}
         return result, debug
 
 
@@ -53,14 +69,24 @@ class G_ALL_VERB_IMPERFECT(Metric):
 class G_ROOT_VERB_PERFECT(Metric):
     category = Grammar
     name_en = "Incidence of root verbs in perfect form"
-    
+    name_local = name_en
+
     def count(doc):
-        verbs = [token.text for token in doc if token.dep_ == "ROOT" and "Aspect=Perf" in token.morph]
-        conj_verbs = [token.text for token in doc 
-                    if token.head.text in verbs and token.dep_ == "conj" and "Aspect=Perf" in token.morph]
+        verbs = [
+            token.text
+            for token in doc
+            if token.dep_ == "ROOT" and "Aspect=Perf" in token.morph
+        ]
+        conj_verbs = [
+            token.text
+            for token in doc
+            if token.head.text in verbs
+            and token.dep_ == "conj"
+            and "Aspect=Perf" in token.morph
+        ]
         root_perfect_verbs = verbs + conj_verbs
         result = ratio(len(root_perfect_verbs), len(doc.text.split()))
-        debug = {'TOKENS': root_perfect_verbs}
+        debug = {"TOKENS": root_perfect_verbs}
         return result, debug
 
 
@@ -68,24 +94,38 @@ class G_ROOT_VERB_PERFECT(Metric):
 class G_ALL_VERB_PERFECT(Metric):
     category = Grammar
     name_en = "Incidence of all verbs in perfect form"
-    
+    name_local = name_en
+
     def count(doc):
-        verbs = [token.text for token in doc if token.pos_ == "VERB" and "Aspect=Perf" in token.morph]
+        verbs = [
+            token.text
+            for token in doc
+            if token.pos_ == "VERB" and "Aspect=Perf" in token.morph
+        ]
         result = ratio(len(verbs), len(doc.text.split()))
-        debug = {'TOKENS': verbs}
-        return result, debug 
+        debug = {"TOKENS": verbs}
+        return result, debug
 
 
 # Present tense, indicative mood, imperfect aspect / дієслова теперішнього недоконаного часу
 class G_PRESENT_IND_IMPERFECT(Metric):
     category = Grammar
-    name_en = "Incidence of verbs in the present tense, indicative mood, imperfect aspect"
-    
+    name_en = (
+        "Incidence of verbs in the present tense, indicative mood, imperfect aspect"
+    )
+    name_local = name_en
+
     def count(doc):
-        verbs = [token.text for token in doc if "Aspect=Imp" in token.morph and "Tense=Pres" in token.morph
-             and "VerbForm=Fin" in token.morph and "Mood=Ind" in token.morph]
+        verbs = [
+            token.text
+            for token in doc
+            if "Aspect=Imp" in token.morph
+            and "Tense=Pres" in token.morph
+            and "VerbForm=Fin" in token.morph
+            and "Mood=Ind" in token.morph
+        ]
         result = ratio(len(verbs), len(doc.text.split()))
-        debug = {'TOKENS': verbs}
+        debug = {"TOKENS": verbs}
         return result, debug
 
 
@@ -93,25 +133,39 @@ class G_PRESENT_IND_IMPERFECT(Metric):
 class G_PAST_IND_IMPERFECT(Metric):
     category = Grammar
     name_en = "Incidence of verbs in the past tense, indicative mood, imperfect aspect"
-    
+    name_local = name_en
+
     def count(doc):
-        verbs = [token.text for token in doc if "Aspect=Imp" in token.morph and "Tense=Past" in token.morph
-             and "VerbForm=Fin" in token.morph and "Mood=Ind" in token.morph]
+        verbs = [
+            token.text
+            for token in doc
+            if "Aspect=Imp" in token.morph
+            and "Tense=Past" in token.morph
+            and "VerbForm=Fin" in token.morph
+            and "Mood=Ind" in token.morph
+        ]
         result = ratio(len(verbs), len(doc.text.split()))
-        debug = {'TOKENS': verbs}
+        debug = {"TOKENS": verbs}
         return result, debug
-    
+
 
 # Past tense, indicative mood, perfect aspect / дієслова минулого доконаного часу
 class G_PAST_IND_PERFECT(Metric):
     category = Grammar
     name_en = "Incidence of verbs in the past tense, indicative mood, perfect aspect"
-    
+    name_local = name_en
+
     def count(doc):
-        verbs = [token.text for token in doc if "Aspect=Perf" in token.morph and "Tense=Past" in token.morph
-             and "VerbForm=Fin" in token.morph and "Mood=Ind" in token.morph]
+        verbs = [
+            token.text
+            for token in doc
+            if "Aspect=Perf" in token.morph
+            and "Tense=Past" in token.morph
+            and "VerbForm=Fin" in token.morph
+            and "Mood=Ind" in token.morph
+        ]
         result = ratio(len(verbs), len(doc.text.split()))
-        debug = {'TOKENS': verbs}
+        debug = {"TOKENS": verbs}
         return result, debug
 
 
@@ -119,141 +173,219 @@ class G_PAST_IND_PERFECT(Metric):
 class G_FUT_IND_PERFECT(Metric):
     category = Grammar
     name_en = "Incidence of verbs in the future tense, indicative mood, perfect aspect"
-    
+    name_local = name_en
+
     def count(doc):
-        verbs = [token.text for token in doc if "Aspect=Perf" in token.morph and "Tense=Fut" in token.morph
-             and "VerbForm=Fin" in token.morph and "Mood=Ind" in token.morph]
+        verbs = [
+            token.text
+            for token in doc
+            if "Aspect=Perf" in token.morph
+            and "Tense=Fut" in token.morph
+            and "VerbForm=Fin" in token.morph
+            and "Mood=Ind" in token.morph
+        ]
         result = ratio(len(verbs), len(doc.text.split()))
-        debug = {'TOKENS': verbs}
-        return result, debug 
+        debug = {"TOKENS": verbs}
+        return result, debug
 
 
 # Future tense, indicative mood, imperfect aspect, simple verb form / дієслова майбутнього недоконаного часу простої форми
 class G_FUT_IND_IMPERFECT_SIMPLE(Metric):
     category = Grammar
     name_en = "Incidence of verbs in the future tense, indicative mood, imperfect aspect, simple verb forms"
-    
+    name_local = name_en
+
     def count(doc):
-        verbs = [token.text for token in doc if "Aspect=Imp" in token.morph and "Tense=Fut" in token.morph
-             and "VerbForm=Fin" in token.morph and "Mood=Ind" in token.morph and token.pos_ != "AUX"]
+        verbs = [
+            token.text
+            for token in doc
+            if "Aspect=Imp" in token.morph
+            and "Tense=Fut" in token.morph
+            and "VerbForm=Fin" in token.morph
+            and "Mood=Ind" in token.morph
+            and token.pos_ != "AUX"
+        ]
         result = ratio(len(verbs), len(doc.text.split()))
-        debug = {'TOKENS': verbs}
-        return result, debug 
+        debug = {"TOKENS": verbs}
+        return result, debug
 
 
 # Future tense, indicative mood, complex verb forms / дієслова майбутнього недоконаного часу складеної форми
 class G_FUT_IND_COMPLEX(Metric):
     category = Grammar
-    name_en = "Incidence of verbs in the future tense, indicative mood, complex verb forms"
-    
+    name_en = (
+        "Incidence of verbs in the future tense, indicative mood, complex verb forms"
+    )
+    name_local = name_en
+
     def count(doc):
-        verbs = [token.text for token in doc if "Aspect=Imp" in token.morph and token.lemma_ == "быть"
-                and (token.dep_ == "cop" or token.dep_ == "aux")]
+        verbs = [
+            token.text
+            for token in doc
+            if "Aspect=Imp" in token.morph
+            and token.lemma_ == "быть"
+            and (token.dep_ == "cop" or token.dep_ == "aux")
+        ]
         conj = [token.head.text for token in doc if token.text in verbs]
         verb_list = verbs + conj
         result = ratio(len(verb_list), len(doc.text.split()))
-        debug = {'TOKENS': verb_list}
+        debug = {"TOKENS": verb_list}
         return result, debug
 
 
 class G_INFINITIVE(Metric):
     category = Grammar
     name_en = "Incidence of verbs in infinitive"
+    name_local = name_en
 
     def count(doc):
         tokens = [token.text for token in doc if "VerbForm=Inf" in token.morph]
         result = ratio(len(tokens), len(doc.text.split()))
-        debug = {'TOKENS': tokens}
+        debug = {"TOKENS": tokens}
         return result, debug
+
 
 class G_PASSIVE(Metric):
     category = Grammar
     name_en = "Incidence of verbs in the passive form"
+    name_local = name_en
 
     def count(doc):
-        tokens = [token.head.text for token in doc if token.pos_ == "VERB" and ("Aspect=Perf" in token.morph and "Voice=Pass" in token.morph)]
+        tokens = [
+            token.head.text
+            for token in doc
+            if token.pos_ == "VERB"
+            and ("Aspect=Perf" in token.morph and "Voice=Pass" in token.morph)
+        ]
         result = ratio(len(tokens), len(doc.text.split()))
-        debug = {'TOKENS': tokens}
+        debug = {"TOKENS": tokens}
         return result, debug
 
 
 class G_TRANSITIVE(Metric):
     category = Grammar
     name_en = "Incidence of transitive verbs"
+    name_local = name_en
 
     def count(doc):
         pos = ["NOUN", "PRON", "PROPN"]
-        token = [token.text for token in doc if any(child for child in token.children if child.pos_ in pos) 
-                and token.pos_ == "VERB" and "VerbForm=Inf" not in token.morph]
+        token = [
+            token.text
+            for token in doc
+            if any(child for child in token.children if child.pos_ in pos)
+            and token.pos_ == "VERB"
+            and "VerbForm=Inf" not in token.morph
+        ]
         result = ratio(len(token), len(doc.text.split()))
-        debug = {'TOKENS': token}
+        debug = {"TOKENS": token}
         return result, debug
 
 
 class G_INTRANSITIVE(Metric):
     category = Grammar
     name_en = "Incidence of intransitive verbs"
+    name_local = name_en
 
     def count(doc):
         pos = ["NOUN", "PRON", "PROPN"]
-        token = [token.text for token in doc if not any(child for child in token.children if child.pos_ in pos) 
-             and token.pos_ == "VERB"]
+        token = [
+            token.text
+            for token in doc
+            if not any(child for child in token.children if child.pos_ in pos)
+            and token.pos_ == "VERB"
+        ]
         result = ratio(len(token), len(doc.text.split()))
-        debug = {'TOKENS': token}
+        debug = {"TOKENS": token}
         return result, debug
 
 
 class G_IMPERSONAL_VERBS(Metric):
     category = Grammar
     name_en = "Incidence of impersonal verbs"
+    name_local = name_en
 
     def count(doc):
-        tokens = [token.text for token in doc if token.pos_ == "VERB" and 
-              ("Gender=Neut" in token.morph or any(i for i in token.children if "Gender=Neut" in i.morph))]
+        tokens = [
+            token.text
+            for token in doc
+            if token.pos_ == "VERB"
+            and (
+                "Gender=Neut" in token.morph
+                or any(i for i in token.children if "Gender=Neut" in i.morph)
+            )
+        ]
         result = ratio(len(tokens), len(doc.text.split()))
-        debug = {'TOKENS': tokens}
+        debug = {"TOKENS": tokens}
         return result, debug
 
 
 class G_PARTICIPLE_PASSIVE(Metric):
     category = Grammar
     name_en = "Incidence of passive participles"
+    name_local = name_en
 
     def count(doc):
-        tokens = [token.text for token in doc if token.pos_ == "ADJ" and  "VerbForm=Part" in token.morph and "Aspect=Perf" in token.morph]
+        tokens = [
+            token.text
+            for token in doc
+            if token.pos_ == "ADJ"
+            and "VerbForm=Part" in token.morph
+            and "Aspect=Perf" in token.morph
+        ]
         result = ratio(len(tokens), len(doc.text.split()))
-        debug = {'TOKENS': tokens}
-        return result, debug 
+        debug = {"TOKENS": tokens}
+        return result, debug
 
 
 class G_PARTICIPLE_ACTIVE(Metric):
     category = Grammar
     name_en = "Incidence of active participles"
+    name_local = name_en
 
     def count(doc):
-        tokens = [token.text for token in doc if token.pos_ == "ADJ" and  "VerbForm=Part" in token.morph and "Aspect=Imp" in token.morph]
+        tokens = [
+            token.text
+            for token in doc
+            if token.pos_ == "ADJ"
+            and "VerbForm=Part" in token.morph
+            and "Aspect=Imp" in token.morph
+        ]
         result = ratio(len(tokens), len(doc.text.split()))
-        debug = {'TOKENS': tokens}
+        debug = {"TOKENS": tokens}
         return result, debug
 
 
 class G_ADV_PRF_PART(Metric):
     category = Grammar
     name_en = "Incidence of adverbial perfect participles"
+    name_local = name_en
 
     def count(doc):
-        tokens = [token.text for token in doc if token.dep_ == "advcl" and "VerbForm=Conv" in token.morph and "Aspect=Perf" in token.morph]
+        tokens = [
+            token.text
+            for token in doc
+            if token.dep_ == "advcl"
+            and "VerbForm=Conv" in token.morph
+            and "Aspect=Perf" in token.morph
+        ]
         result = ratio(len(tokens), len(doc.text.split()))
-        debug = {'TOKENS': tokens}
+        debug = {"TOKENS": tokens}
         return result, debug
 
 
 class G_ADV_IMPRF_PART(Metric):
     category = Grammar
     name_en = "Incidence of adverbial imperfect participles"
+    name_local = name_en
 
     def count(doc):
-        tokens = [token.text for token in doc if token.dep_ == "advcl" and "VerbForm=Conv" in token.morph and "Aspect=Imp" in token.morph]
+        tokens = [
+            token.text
+            for token in doc
+            if token.dep_ == "advcl"
+            and "VerbForm=Conv" in token.morph
+            and "Aspect=Imp" in token.morph
+        ]
         result = ratio(len(tokens), len(doc.text.split()))
-        debug = {'TOKENS': tokens}
+        debug = {"TOKENS": tokens}
         return result, debug
