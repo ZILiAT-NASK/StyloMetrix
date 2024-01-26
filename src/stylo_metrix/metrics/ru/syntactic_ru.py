@@ -25,11 +25,13 @@ from ...utils import incidence, ratio, start_end_quote
 class Syntactic(Category):
     lang = "ru"
     name_en = "Syntactic"
+    name_local = name_en
 
 
 class SY_DIRECT_SPEECH(Metric):
     category = Syntactic
     name_en = "Number of words in direct speech"
+    name_local = name_en
 
     def count(doc):
         start, end = start_end_quote(doc)
@@ -46,6 +48,7 @@ class SY_DIRECT_SPEECH(Metric):
 class SY_NARRATIVE(Metric):
     category = Syntactic
     name_en = "Number of words in narrative sentences"
+    name_local = name_en
 
     def count(doc):
         sents = [
@@ -62,6 +65,7 @@ class SY_NARRATIVE(Metric):
 class SY_NEGATIVE(Metric):
     category = Syntactic
     name_en = "Number of words in negative sentences"
+    name_local = name_en
 
     def count(doc):
         neg = [
@@ -81,6 +85,7 @@ class SY_NEGATIVE(Metric):
 class SY_PARATAXIS(Metric):
     category = Syntactic
     name_en = "Number of words in parataxis sentences"
+    name_local = name_en
 
     def count(doc):
         prt = [
@@ -99,6 +104,7 @@ class SY_PARATAXIS(Metric):
 class SY_NON_FINITE(Metric):
     category = Syntactic
     name_en = "Number of words in sentences that do not have any root verbs"
+    name_local = name_en
 
     def count(doc):
         sent = [
@@ -115,6 +121,7 @@ class SY_NON_FINITE(Metric):
 class SY_QUOTATIONS(Metric):
     category = Syntactic
     name_en = "Number of words in sentences with quotation marks"
+    name_local = name_en
 
     def count(doc):
         sent = [
@@ -133,6 +140,7 @@ class SY_QUOTATIONS(Metric):
 class SY_EXCLAMATION(Metric):
     category = Syntactic
     name_en = "Number of words in exclamatory sentences"
+    name_local = name_en
 
     def count(doc):
         sent = [
@@ -150,6 +158,7 @@ class SY_EXCLAMATION(Metric):
 class SY_QUESTION(Metric):
     category = Syntactic
     name_en = "Number of words in interrogative sentences"
+    name_local = name_en
 
     def count(doc):
         sentences = [
@@ -196,6 +205,7 @@ QUESTION_WORDS = [
 class SY_QUESTION_GENERAL(Metric):
     category = Syntactic
     name_en = "Number of words in general questions"
+    name_local = name_en
 
     def count(doc):
         sentences = []
@@ -229,6 +239,7 @@ class SY_QUESTION_GENERAL(Metric):
 class SY_QUESTION_SPECIAL(Metric):
     category = Syntactic
     name_en = "Number of words in special questions"
+    name_local = name_en
 
     def count(doc):
         sentences = [
@@ -250,6 +261,7 @@ class SY_QUESTION_SPECIAL(Metric):
 class SY_QUESTION_ALTERNATIVE(Metric):
     category = Syntactic
     name_en = "Number of words in alternative questions"
+    name_local = name_en
 
     def count(doc):
         sentences = [
@@ -267,6 +279,7 @@ class SY_QUESTION_ALTERNATIVE(Metric):
 class SY_QUESTION_TAG(Metric):
     category = Syntactic
     name_en = "Number of words in tag questions"
+    name_local = name_en
 
     def count(doc):
         sentences = [
@@ -284,6 +297,7 @@ class SY_QUESTION_TAG(Metric):
 class SY_ELLIPSES(Metric):
     category = Syntactic
     name_en = "Number of words in elliptic sentences"
+    name_local = name_en
 
     def count(doc):
         sents = [
@@ -322,6 +336,7 @@ class SY_POSITIONING(Metric):
 class SY_CONDITIONAL(Metric):
     category = Syntactic
     name_en = "Number of words in conditional sentences"
+    name_local = name_en
 
     def count(doc):
         tokens = [
@@ -338,6 +353,7 @@ class SY_CONDITIONAL(Metric):
 class SY_IMPERATIVE(Metric):
     category = Syntactic
     name_en = "Number of words in imperative sentences"
+    name_local = name_en
 
     def count(doc):
         tokens = [
@@ -355,6 +371,7 @@ class SY_IMPERATIVE(Metric):
 class SY_AMPLIFIED_SENT(Metric):
     category = Syntactic
     name_en = "Number of words in amplified sentences"
+    name_local = name_en
 
     def count(doc):
         tokens = [
