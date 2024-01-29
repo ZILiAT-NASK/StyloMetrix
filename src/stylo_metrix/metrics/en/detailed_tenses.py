@@ -640,6 +640,7 @@ class VT_COULD_PROGRESSIVE(Metric):
 class VT_COULD_PERFECT(Metric):
     category = VerbTenses
     name_en = "Could + perfect infinitive"
+    name_local = name_en
 
     def count(doc):
         debug = [token.text for token in doc if token._.modal_verbs == "could_perf"]

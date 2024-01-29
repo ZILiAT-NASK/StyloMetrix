@@ -185,6 +185,7 @@ class SY_ELLIPSES(Metric):
 class SY_POSITIONING(Metric):
     category = Syntactic
     name_en = "Number of positionings (прикладка)"
+    name_local = name_en
 
     def count(doc):
         debug = []
