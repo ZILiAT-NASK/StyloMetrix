@@ -30,9 +30,9 @@ class VF_INFINITIVE(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token for token in doc if "VerbForm=Inf" in token.morph]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if "VerbForm=Inf" in token.morph]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -53,9 +53,9 @@ class G_PASSIVE(Metric):
             "future_progr_passive",
             "future_perf_passive",
         ]
-        search = [token for token in doc if token._.verb_tense in label_list]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token._.verb_tense in label_list]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -81,9 +81,9 @@ class G_ACTIVE(Metric):
             "future_perfect",
             "future_perfect_cont",
         ]
-        search = [token for token in doc if token._.verb_tense in label_list]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token._.verb_tense in label_list]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -103,9 +103,9 @@ class G_PRESENT(Metric):
             "present_cont_passive",
             "present_perfect_passive",
         ]
-        search = [token for token in doc if token._.verb_tense in label_list]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token._.verb_tense in label_list]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -125,9 +125,9 @@ class G_PAST(Metric):
             "past_cont_passive",
             "past_perf_passive",
         ]
-        search = [token for token in doc if token._.verb_tense in label_list]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token._.verb_tense in label_list]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -146,9 +146,9 @@ class G_FUTURE(Metric):
             "future_progr_passive",
             "future_perf_passive",
         ]
-        search = [token for token in doc if token._.verb_tense in label_list]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token._.verb_tense in label_list]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -176,9 +176,9 @@ class G_MODALS_SIMPLE(Metric):
             "may_ind_passive",
             "might_ind_passive",
         ]
-        search = [token for token in doc if token._.modal_verbs in label_list]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token._.modal_verbs in label_list]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -196,9 +196,9 @@ class G_MODALS_CONT(Metric):
             "could_cont",
             "may_cont",
         ]
-        search = [token for token in doc if token._.modal_verbs in label_list]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token._.modal_verbs in label_list]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -222,7 +222,7 @@ class G_MODALS_PERFECT(Metric):
             "must_perf_passive",
             "may_perf_passive",
         ]
-        search = [token for token in doc if token._.modal_verbs in label_list]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token._.modal_verbs in label_list]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug

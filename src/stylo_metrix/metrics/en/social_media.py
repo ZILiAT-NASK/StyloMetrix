@@ -53,7 +53,7 @@ class DIGIT(Metric):
     name_local = name_en
 
     def count(doc):
-        debug = [token for token in doc if token.is_digit == True]
+        debug = [token.text for token in doc if token.is_digit == True]
         result = incidence(doc, debug)
         return result, debug
 
@@ -275,7 +275,7 @@ class INCR(Metric):
             "very",
         ]
 
-        debug = [token for token in doc if token.text in lexicon]
+        debug = [token.text for token in doc if token.text in lexicon]
 
         result = incidence(doc, debug)
         return result, debug

@@ -119,7 +119,7 @@ class TestSyntacticUKR(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -132,7 +132,7 @@ class TestSyntacticUKR(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -145,7 +145,7 @@ class TestSyntacticUKR(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -185,7 +185,7 @@ class TestSyntacticUKR(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -210,7 +210,7 @@ class TestSyntacticUKR(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -237,7 +237,7 @@ class TestSyntacticUKR(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -250,7 +250,7 @@ class TestSyntacticUKR(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -263,7 +263,7 @@ class TestSyntacticUKR(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -278,7 +278,7 @@ class TestSyntacticUKR(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token.text for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -291,7 +291,7 @@ class TestSyntacticUKR(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -304,7 +304,7 @@ class TestSyntacticUKR(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -330,7 +330,7 @@ class TestSyntacticUKR(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -343,7 +343,7 @@ class TestSyntacticUKR(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)

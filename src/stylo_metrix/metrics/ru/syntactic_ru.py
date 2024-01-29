@@ -56,9 +56,9 @@ class SY_NARRATIVE(Metric):
             for sent in doc.sents
             if sent[-1].text == "."
         ]
-        flatten = list(itertools.chain.from_iterable(sents))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(sents))
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -74,9 +74,8 @@ class SY_NEGATIVE(Metric):
             for token in sent
             if "Polarity=Neg" in token.morph
         ]
-        flatten = list(itertools.chain.from_iterable(neg))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(neg))
+        result = ratio(len(debug), len(doc.text.split()))
 
         return result, debug
 
@@ -94,9 +93,8 @@ class SY_PARATAXIS(Metric):
             for token in sent
             if "parataxis" in token.dep_
         ]
-        flatten = list(itertools.chain.from_iterable(prt))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(prt))
+        result = ratio(len(debug), len(doc.text.split()))
 
         return result, debug
 
@@ -112,9 +110,9 @@ class SY_NON_FINITE(Metric):
             for sent in doc.sents
             if not any(token for token in sent if token.pos_ == "VERB")
         ]
-        flatten = list(itertools.chain.from_iterable(sent))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(sent))
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -130,9 +128,8 @@ class SY_QUOTATIONS(Metric):
             for token in sent
             if token.text == '"' or token.text == "'"
         ]
-        flatten = list(itertools.chain.from_iterable(sent))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(sent))
+        result = ratio(len(debug), len(doc.text.split()))
 
         return result, debug
 
@@ -149,9 +146,9 @@ class SY_EXCLAMATION(Metric):
             for token in sent
             if token.text == "!"
         ]
-        flatten = list(itertools.chain.from_iterable(sent))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(sent))
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -166,9 +163,9 @@ class SY_QUESTION(Metric):
             for sent in doc.sents
             if sent[-1].text == "?"
         ]
-        flatten = list(itertools.chain.from_iterable(sentences))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(sentences))
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -230,9 +227,9 @@ class SY_QUESTION_GENERAL(Metric):
                 )
             ):
                 sentences.append([item.text for item in sent if not item.is_punct])
-        flatten = list(itertools.chain.from_iterable(sentences))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(sentences))
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -252,9 +249,9 @@ class SY_QUESTION_SPECIAL(Metric):
                 if token in QUESTION_WORDS
             )
         ]
-        flatten = list(itertools.chain.from_iterable(sentences))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(sentences))
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -270,9 +267,9 @@ class SY_QUESTION_ALTERNATIVE(Metric):
             if sent[-1].text == "?"
             and any(token for token in sent if token.text == "или")
         ]
-        flatten = list(itertools.chain.from_iterable(sentences))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(sentences))
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -288,9 +285,9 @@ class SY_QUESTION_TAG(Metric):
             if sent[-1].text == "?"
             and any(token for token in sent if token.text in DISQUNCTIONS[:-1])
         ]
-        flatten = list(itertools.chain.from_iterable(sentences))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(sentences))
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -306,9 +303,9 @@ class SY_ELLIPSES(Metric):
             for token in sent
             if token.dep_ == "orphan"
         ]
-        flatten = list(itertools.chain.from_iterable(sents))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(sents))
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -317,7 +314,7 @@ class SY_POSITIONING(Metric):
     name_en = "Number of positionings (прикладка)"
 
     def count(doc):
-        tokens = []
+        debug = []
         matcher = Matcher(doc.vocab)
         pattern = [
             {"POS": "ADJ"},
@@ -327,10 +324,10 @@ class SY_POSITIONING(Metric):
         matcher.add("positioning", [pattern])
         matches = matcher(doc)
         for match_id, start, end in matches:
-            tokens.append(doc[start:end])
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
-        return result, debug
+            debug.append(doc[start:end])
+        result = ratio(len(debug), len(doc.text.split()))
+
+        return result, [item.text for item in debug]
 
 
 class SY_CONDITIONAL(Metric):
@@ -344,9 +341,9 @@ class SY_CONDITIONAL(Metric):
             for token in doc
             if token.dep_ == "aux" and "Mood=Cnd" in token.morph
         ]
-        flatten = [token.text for i in tokens for token in i]
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = [token.text for i in tokens for token in i]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -362,9 +359,9 @@ class SY_IMPERATIVE(Metric):
             for token in sent
             if "Mood=Imp" in token.morph and token.pos_ == "VERB"
         ]
-        flatten = list(itertools.chain.from_iterable(tokens))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(tokens))
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -379,7 +376,7 @@ class SY_AMPLIFIED_SENT(Metric):
             for sent in doc.sents
             if sent.text[-2:] == "?!"
         ]
-        flatten = list(itertools.chain.from_iterable(tokens))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(tokens))
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug

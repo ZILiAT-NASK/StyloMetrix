@@ -43,8 +43,8 @@ class VF_ROOT_VERB_IMPERFECT(Metric):
             and token.dep_ == "conj"
             and "Aspect=Imp" in token.morph
         ]
-        root_imperfect_verbs = verbs + conj_verbs
-        result = incidence(doc, root_imperfect_verbs)
+        debug = verbs + conj_verbs
+        result = incidence(doc, debug)
         return result, {}
 
 

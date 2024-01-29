@@ -234,9 +234,9 @@ class AN(Metric):
 
     def count(doc):
         words = [word.strip() for word in ANIM]
-        search = [token for token in doc if token.lemma_.lower() in words]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.lemma_.lower() in words]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -247,9 +247,9 @@ class DDP(Metric):
 
     def count(doc):
         words = [word.strip() for word in DDP_]
-        search = [token for token in doc if token.lemma_.lower() in words]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.lemma_.lower() in words]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -260,9 +260,9 @@ class SVP(Metric):
 
     def count(doc):
         words = [word.strip() for word in SVP_]
-        search = [token for token in doc if token.lemma_.lower() in words]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.lemma_.lower() in words]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -273,9 +273,9 @@ class CDS(Metric):
 
     def count(doc):
         words = [word.strip() for word in CDS_]
-        search = [token for token in doc if token.lemma_.lower() in words]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.lemma_.lower() in words]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -286,9 +286,9 @@ class DDF(Metric):
 
     def count(doc):
         words = [word.strip() for word in DDF_]
-        search = [token for token in doc if token.lemma_.lower() in words]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.lemma_.lower() in words]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -299,9 +299,9 @@ class IS(Metric):
 
     def count(doc):
         words = [word.strip() for word in IS_]
-        search = [token for token in doc if token.lemma_.lower() in words]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.lemma_.lower() in words]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -312,9 +312,9 @@ class PS(Metric):
 
     def count(doc):
         words = [word.strip() for word in PS_]
-        search = [token for token in doc if token.lemma_.lower() in words]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.lemma_.lower() in words]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -325,9 +325,9 @@ class RE(Metric):
 
     def count(doc):
         words = [word.strip() for word in RE_]
-        search = [token for token in doc if token.lemma_.lower() in words]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.lemma_.lower() in words]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -338,9 +338,9 @@ class ASF(Metric):
 
     def count(doc):
         words = [word.strip() for word in ASF_]
-        search = [token for token in doc if token.lemma_.lower() in words]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.lemma_.lower() in words]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -351,9 +351,9 @@ class ASM(Metric):
 
     def count(doc):
         words = [word.strip() for word in ASM_]
-        search = [token for token in doc if token.lemma_.lower() in words]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.lemma_.lower() in words]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -364,9 +364,9 @@ class OM(Metric):
 
     def count(doc):
         words = [word.strip() for word in OM_]
-        search = [token for token in doc if token.lemma_.lower() in words]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.lemma_.lower() in words]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -377,9 +377,9 @@ class RCI(Metric):
 
     def count(doc):
         words = [word.strip() for word in RCI_]
-        search = [token for token in doc if token.lemma_.lower() in words]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.lemma_.lower() in words]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -390,9 +390,9 @@ class DMC(Metric):
 
     def count(doc):
         words = [word.strip() for word in DMC_]
-        search = [token for token in doc if token.lemma_.lower() in words]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.lemma_.lower() in words]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -403,9 +403,9 @@ class OR(Metric):
 
     def count(doc):
         words = [word.strip() for word in OR_]
-        search = [token for token in doc if token.lemma_.lower() in words]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.lemma_.lower() in words]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -416,9 +416,9 @@ class QAS(Metric):
 
     def count(doc):
         words = [word.strip() for word in QAS_]
-        search = [token for token in doc if token.lemma_.lower() in words]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.lemma_.lower() in words]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -429,9 +429,9 @@ class PA(Metric):
 
     def count(doc):
         words = [word.strip() for word in PA_]
-        search = [token for token in doc if token.lemma_.lower() in words]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.lemma_.lower() in words]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -442,7 +442,7 @@ class PR(Metric):
 
     def count(doc):
         words = [word.strip() for word in PR_]
-        search = [token for token in doc if token.lemma_.lower() in words]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.lemma_.lower() in words]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug

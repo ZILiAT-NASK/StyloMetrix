@@ -30,9 +30,9 @@ class POS_VERB(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token for token in doc if token.pos_ in ["VERB", "AUX"]]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.pos_ in ["VERB", "AUX"]]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -42,9 +42,9 @@ class POS_NOUN(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token for token in doc if token.pos_ == "NOUN"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.pos_ == "NOUN"]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -54,9 +54,9 @@ class POS_ADJ(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token for token in doc if token.pos_ == "ADJ"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.pos_ == "ADJ"]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -66,9 +66,9 @@ class POS_ADV(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token for token in doc if token.pos_ == "ADV"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.pos_ == "ADV"]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -78,9 +78,9 @@ class POS_DET(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token for token in doc if token.pos_ == "DET"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.pos_ == "DET"]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -90,9 +90,9 @@ class POS_INTJ(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token for token in doc if token.pos_ == "INTJ"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.pos_ == "INTJ"]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -102,9 +102,9 @@ class POS_CONJ(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token for token in doc if token.pos_ in ["SCONJ", "CCONJ"]]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.pos_ in ["SCONJ", "CCONJ"]]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -114,9 +114,9 @@ class POS_PART(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token for token in doc if token.pos_ == "PART"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.pos_ == "PART"]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -126,9 +126,9 @@ class POS_NUM(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token for token in doc if token.pos_ == "NUM"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.pos_ == "NUM"]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -138,9 +138,9 @@ class POS_PREP(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token for token in doc if token.tag_ == "IN"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.tag_ == "IN"]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -150,7 +150,7 @@ class POS_PRO(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token for token in doc if token.pos_ == "PRON"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.pos_ == "PRON"]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug

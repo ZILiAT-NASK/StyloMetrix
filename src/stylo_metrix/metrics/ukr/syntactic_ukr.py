@@ -52,9 +52,9 @@ class SY_NARRATIVE(Metric):
 
     def count(doc):
         sents = [sent.text.split() for sent in doc.sents if sent[-1].text == "."]
-        flatten = list(itertools.chain.from_iterable(sents))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(sents))
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -70,9 +70,8 @@ class SY_NEGATIVE(Metric):
             for token in sent
             if "Polarity=Neg" in token.morph
         ]
-        flatten = list(itertools.chain.from_iterable(neg))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(neg))
+        result = ratio(len(debug), len(doc.text.split()))
 
         return result, debug
 
@@ -89,9 +88,8 @@ class SY_PARATAXIS(Metric):
             for token in doc
             if "parataxis" in token.dep_
         ]
-        flatten = list(itertools.chain.from_iterable(prt))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(prt))
+        result = ratio(len(debug), len(doc.text.split()))
 
         return result, debug
 
@@ -107,9 +105,9 @@ class SY_NON_FINITE(Metric):
             for sent in doc.sents
             if not any(token for token in sent if token.pos_ == "VERB")
         ]
-        flatten = list(itertools.chain.from_iterable(sent))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(sent))
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -125,9 +123,8 @@ class SY_QUOTATIONS(Metric):
             for token in sent
             if token.text == '"' or token.text == "'"
         ]
-        flatten = list(itertools.chain.from_iterable(sent))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(sent))
+        result = ratio(len(debug), len(doc.text.split()))
 
         return result, debug
 
@@ -144,9 +141,9 @@ class SY_EXCLAMATION(Metric):
             for token in sent
             if token.text == "!"
         ]
-        flatten = list(itertools.chain.from_iterable(sent))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(sent))
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -161,9 +158,9 @@ class SY_QUESTION(Metric):
             for sent in doc.sents
             if sent[-1].text == "?"
         ]
-        flatten = list(itertools.chain.from_iterable(sentences))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(sentences))
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -179,9 +176,9 @@ class SY_ELLIPSES(Metric):
             for token in sent
             if token.dep_ == "orphan"
         ]
-        flatten = list(itertools.chain.from_iterable(sents))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(sents))
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -190,7 +187,7 @@ class SY_POSITIONING(Metric):
     name_en = "Number of positionings (прикладка)"
 
     def count(doc):
-        tokens = []
+        debug = []
         matcher = Matcher(doc.vocab)
         pattern = [
             {"POS": "ADJ"},
@@ -200,9 +197,9 @@ class SY_POSITIONING(Metric):
         matcher.add("positioning", [pattern])
         matches = matcher(doc)
         for match_id, start, end in matches:
-            tokens.append(doc[start:end])
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+            debug.append(doc[start:end].text)
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -217,9 +214,9 @@ class SY_CONDITIONAL(Metric):
             for token in doc
             if token.dep_ == "aux" and "Mood=Cnd" in token.morph
         ]
-        flatten = [token.text for i in tokens for token in i]
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = [token.text for i in tokens for token in i]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -235,9 +232,9 @@ class SY_IMPERATIVE(Metric):
             for token in sent
             if "Mood=Imp" in token.morph and token.pos_ == "VERB"
         ]
-        flatten = list(itertools.chain.from_iterable(tokens))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(tokens))
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -248,9 +245,9 @@ class SY_AMPLIFIED_SENT(Metric):
 
     def count(doc):
         tokens = [sent.text.split() for sent in doc.sents if sent.text[-2:] == "?!"]
-        flatten = list(itertools.chain.from_iterable(tokens))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(tokens))
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -285,9 +282,8 @@ class SY_NOUN_PHRASES(Metric):
 
                     chunks.append(ph)
             noun_phrases.append(chunks)
-        flatten_np = list(itertools.chain(*noun_phrases))
-        ft = [item for sublist in flatten_np for item in sublist]
-        result = ratio(len(ft), len(doc.text.split()))
-        debug = {"TOKENS": ft}
+        debug_np = list(itertools.chain(*noun_phrases))
+        debug = [item for sublist in debug_np for item in sublist]
+        result = ratio(len(debug), len(doc.text.split()))
 
         return result, debug

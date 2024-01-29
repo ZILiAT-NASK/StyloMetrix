@@ -33,9 +33,9 @@ class SY_QUESTION(Metric):
 
     def count(doc):
         sentences = [sent.text.split() for sent in doc.sents if sent.text.endswith("?")]
-        flatten = list(itertools.chain.from_iterable(sentences))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(sentences))
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -46,9 +46,9 @@ class SY_NARRATIVE(Metric):
 
     def count(doc):
         sents = [sent.text.split() for sent in doc.sents if sent.text.endswith(".")]
-        flatten = list(itertools.chain.from_iterable(sents))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain.from_iterable(sents))
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -96,10 +96,10 @@ class SY_NEGATIVE_QUESTIONS(Metric):
                 ]
                 general_question.append(middle)
 
-        flatten = list(itertools.chain(*general_question))
-        search = list(itertools.chain(*flatten))
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = list(itertools.chain(*general_question))
+        debug = list(itertools.chain(*debug))
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -134,9 +134,9 @@ class SY_SPECIAL_QUESTIONS(Metric):
             for sent in doc.sents
         ]
         nested = list(itertools.chain(*root))
-        flatten = list(itertools.chain(*nested))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain(*nested))
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -170,9 +170,9 @@ class SY_TAG_QUESTIONS(Metric):
             and not any(token for token in sent if token.text.lower() in QUESTION_WORDS)
             and any(token for token in sent if token.dep_ == "aux")
         ]
-        flatten = list(itertools.chain(*tag_question))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain(*tag_question))
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -220,10 +220,10 @@ class SY_GENERAL_QUESTIONS(Metric):
                 ]
                 general_question.append(middle)
 
-        flatten = list(itertools.chain(*general_question))
-        search = set(itertools.chain(*flatten))
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = list(itertools.chain(*general_question))
+        debug = set(itertools.chain(*debug))
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -239,9 +239,9 @@ class SY_EXCLAMATION(Metric):
             for token in sent
             if sent.text.endswith("!")
         ]
-        flatten = set(itertools.chain.from_iterable(sent))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = set(itertools.chain.from_iterable(sent))
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -256,9 +256,9 @@ class SY_IMPERATIVE(Metric):
             for sent in doc.sents
             if "VerbForm=Inf" in sent[0].morph and sent[0].tag_ == "VB"
         ]
-        flatten = set(itertools.chain.from_iterable(sentence_tokens))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = set(itertools.chain.from_iterable(sentence_tokens))
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -273,9 +273,9 @@ class SY_SUBORD_SENT(Metric):
             for sent in doc.sents
             if any(token.pos_ == "SCONJ" or token.tag_ == "WDT" for token in sent)
         ]
-        join_sents = [*itertools.chain(*subord_sentences)]
-        result = ratio(len(join_sents), len(doc.text.split()))
-        debug = {"TOKENS": join_sents}
+        debug = [*itertools.chain(*subord_sentences)]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -288,10 +288,10 @@ class SY_SUBORD_SENT_PUNCT(Metric):
         sub_sent_punct = [
             sent for sent in doc.sents if any(token.pos_ == "SCONJ" for token in sent)
         ]
-        join_sents = itertools.chain(*sub_sent_punct)
-        sent_tok = [tkn.text for tkn in join_sents if tkn.pos_ in "PUNCT"]
-        result = ratio(len(sent_tok), len(doc.text.split()))
-        debug = {"TOKENS": sent_tok}
+        debug = itertools.chain(*sub_sent_punct)
+        debug = [tkn.text for tkn in debug if tkn.pos_ in "PUNCT"]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -306,9 +306,9 @@ class SY_COORD_SENT(Metric):
             for sent in doc.sents
             if any("ConjType=Cmp" in token.morph for token in sent)
         ]
-        join_sents = [*itertools.chain(*coord_sentences)]
-        result = ratio(len(join_sents), len(doc.text.split()))
-        debug = {"TOKENS": join_sents}
+        debug = [*itertools.chain(*coord_sentences)]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -321,10 +321,10 @@ class SY_COORD_SENT_PUNCT(Metric):
         coord_sent_punct = [
             sent for sent in doc.sents if any(token.pos_ == "CCONJ" for token in sent)
         ]
-        join_sents = itertools.chain(*coord_sent_punct)
-        sent_tok = [tkn.text for tkn in join_sents if tkn.pos_ in "PUNCT"]
-        result = ratio(len(sent_tok), len(doc.text.split()))
-        debug = {"TOKENS": sent_tok}
+        debug = itertools.chain(*coord_sent_punct)
+        debug = [tkn.text for tkn in debug if tkn.pos_ in "PUNCT"]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -343,9 +343,9 @@ class SY_SIMPLE_SENT(Metric):
                 if (token.pos_ == "SCONJ" or token.pos_ == "CCONJ")
             )
         ]
-        join_sent = [*itertools.chain(*simple_sent)]
-        result = ratio(len(join_sent), len(doc.text.split()))
-        debug = {"TOKENS": join_sent}
+        debug = [*itertools.chain(*simple_sent)]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -358,10 +358,9 @@ class SY_DIRECT_SPEECH(Metric):
         start, end = start_end_quote(doc)
         if start != None and end != None:
             span = doc[start:end]
-            span_words = [token for token in span]
-            result = ratio(len(span_words), len(doc.text.split()))
-            # print(span_words)
-            debug = {"TOKENS": span_words}
+            debug = [token.text for token in span]
+            result = ratio(len(debug), len(doc.text.split()))
+            
             return result, debug
         else:
             result = ratio(len(doc), 0)
@@ -415,9 +414,9 @@ class SY_INVERSE_PATTERNS(Metric):
         ]
 
         patterns = pattern_1 + pattern_2 + pattern_3 + pattern_4 + pattern_5
-        join_sent = [*itertools.chain(*patterns)]
-        result = len(join_sent) / len(doc.text.split())
-        debug = {"TOKENS": join_sent}
+        debug = [*itertools.chain(*patterns)]
+        result = len(debug) / len(doc.text.split())
+        
         return result, debug
 
 
@@ -446,9 +445,9 @@ class FOS_SIMILE(Metric):
             and token.head.pos_ in ["ADJ", "NOUN"]
         ]
         tokens = prep_tokens + as_as
-        search = list(itertools.chain(*tokens))
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = list(itertools.chain(*tokens))
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -458,7 +457,7 @@ class FOS_FRONTING(Metric):
     name_local = name_en
 
     def count(doc):
-        search = []
+        debug = []
         heads = ["nsubj", "aux", "ROOT", "nsubjpass", "auxpass"]
         tags = ["prep", "pobj", "amod", "dobj"]
 
@@ -469,13 +468,13 @@ class FOS_FRONTING(Metric):
                     tokens.append(token.dep_)
                 else:
                     break
-            search.append(
+            debug.append(
                 sent.text.split() if any(tag in tokens for tag in tags) else []
             )
-        toks = list(itertools.chain(*search))
-        search = list(itertools.chain(*search))
-        result = len(search) / len(doc.text.split())
-        debug = {"TOKENS": search}
+
+        debug = list(itertools.chain(*debug))
+        result = len(debug) / len(doc.text.split())
+        
         return result, debug
 
 
@@ -488,9 +487,7 @@ class PS_SYNTACTIC_IRRITATION(Metric):
         words = ["constantly", "continuously", "always", "all the time", "every time"]
         sents = []
 
-        search = [
-            sents.append(sent.text.split())
-            for sent in doc.sents
+        for sent in doc.sents:
             if any(
                 token
                 for token in sent
@@ -498,12 +495,12 @@ class PS_SYNTACTIC_IRRITATION(Metric):
                 or token._.verb_tense == "past_cont"
                 or token._.verb_tense == "present_perfect_cont"
                 or token._.verb_tense == "past_perfect_cont"
-            )
-            and any(token for token in sent if token.text in words)
-        ]
-        flatten = list(itertools.chain(*sents))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+            ) and any(token for token in sent if token.text in words):
+                sents.append(sent.text.split())
+
+        debug = list(itertools.chain(*sents))
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -534,7 +531,7 @@ class SY_INTENSIFIER(Metric):
                     )
                 ):
                     sents.append(list(itertools.chain(sent.text.split())))
-        flatten = list(itertools.chain(*sents))
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = list(itertools.chain(*sents))
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug

@@ -37,9 +37,9 @@ class L_TYPE_TOKEN_RATIO_LEMMAS(Metric):
     name_local = name_en
 
     def count(doc):
-        search = set(token.lemma_ for token in doc if token.is_alpha)
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = set(token.lemma_ for token in doc if token.is_alpha)
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
     # class HERDAN_TTR(Metric):
@@ -91,9 +91,9 @@ class L_CONT_A(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token.text for token in doc if token._.is_content_word]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token._.is_content_word]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -103,9 +103,9 @@ class L_FUNC_A(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token.text for token in doc if token._.is_function_word]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token._.is_function_word]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -115,9 +115,9 @@ class L_CONT_T(Metric):
     name_local = name_en
 
     def count(doc):
-        search = set(token.text for token in doc if token._.is_content_word)
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = set(token.text for token in doc if token._.is_content_word)
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -127,9 +127,9 @@ class L_FUNC_T(Metric):
     name_local = name_en
 
     def count(doc):
-        search = set(token.text for token in doc if token._.is_function_word)
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = set(token.text for token in doc if token._.is_function_word)
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -144,13 +144,13 @@ class L_PLURAL_NOUNS(Metric):
     name_local = name_en
 
     def count(doc):
-        nouns_plural = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "NOUN" and "Number=Plur" in token.morph
         ]
-        result = ratio(len(nouns_plural), len(doc.text.split()))
-        debug = {"TOKENS": nouns_plural}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -160,13 +160,13 @@ class L_SINGULAR_NOUNS(Metric):
     name_local = name_en
 
     def count(doc):
-        nouns_sing = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "NOUN" and "Number=Sing" in token.morph
         ]
-        result = ratio(len(nouns_sing), len(doc.text.split()))
-        debug = {"TOKENS": nouns_sing}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -176,9 +176,9 @@ class L_PROPER_NAME(Metric):
     name_local = name_en
 
     def count(doc):
-        ents = [token.text for token in doc if token.pos_ == "PROPN"]
-        result = ratio(len(ents), len(doc.text.split()))
-        debug = {"TOKENS": ents}
+        debug = [token.text for token in doc if token.pos_ == "PROPN"]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -188,9 +188,9 @@ class L_PERSONAL_NAME(Metric):
     name_local = name_en
 
     def count(doc):
-        ents = [ent.text for ent in doc.ents if ent.label_ == "PER"]
-        result = ratio(len(ents), len(doc.text.split()))
-        debug = {"TOKENS": ents}
+        debug = [ent.text for ent in doc.ents if ent.label_ == "PER"]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -200,13 +200,13 @@ class L_ANIM_NOUN(Metric):
     name_local = name_en
 
     def count(doc):
-        nouns = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "NOUN" and "Animacy=Anim" in token.morph
         ]
-        result = ratio(len(nouns), len(doc.text.split()))
-        debug = {"TOKENS": nouns}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -216,13 +216,13 @@ class L_INANIM_NOUN(Metric):
     name_local = name_en
 
     def count(doc):
-        nouns = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "NOUN" and "Animacy=Inan" in token.morph
         ]
-        result = ratio(len(nouns), len(doc.text.split()))
-        debug = {"TOKENS": nouns}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -232,13 +232,13 @@ class L_NOUN_NEUTRAL(Metric):
     name_local = name_en
 
     def count(doc):
-        nouns = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "NOUN" and "Gender=Neut" in token.morph
         ]
-        result = ratio(len(nouns), len(doc.text.split()))
-        debug = {"TOKENS": nouns}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -248,13 +248,13 @@ class L_NOUN_FAMININE(Metric):
     name_local = name_en
 
     def count(doc):
-        nouns = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "NOUN" and "Gender=Fem" in token.morph
         ]
-        result = ratio(len(nouns), len(doc.text.split()))
-        debug = {"TOKENS": nouns}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -264,13 +264,13 @@ class L_NOUN_MASCULINE(Metric):
     name_local = name_en
 
     def count(doc):
-        nouns = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "NOUN" and "Gender=Masc" in token.morph
         ]
-        result = ratio(len(nouns), len(doc.text.split()))
-        debug = {"TOKENS": nouns}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -280,14 +280,14 @@ class L_FEMININE_NAMES(Metric):
     name_local = name_en
 
     def count(doc):
-        nouns = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "PROPN"
             and ("Animacy=Anim" in token.morph and "Gender=Fem" in token.morph)
         ]
-        result = ratio(len(nouns), len(doc.text.split()))
-        debug = {"TOKENS": nouns}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -297,14 +297,14 @@ class L_MASCULINE_NAMES(Metric):
     name_local = name_en
 
     def count(doc):
-        nouns = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "PROPN"
             and ("Animacy=Anim" in token.morph and "Gender=Masc" in token.morph)
         ]
-        result = ratio(len(nouns), len(doc.text.split()))
-        debug = {"TOKENS": nouns}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -314,13 +314,13 @@ class L_SURNAMES(Metric):
     name_local = name_en
 
     def count(doc):
-        names = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "PROPN" and "NameType=Sur" in token.morph
         ]
-        result = ratio(len(names), len(doc.text.split()))
-        debug = {"TOKENS": names}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -330,13 +330,13 @@ class L_GIVEN_NAMES(Metric):
     name_local = name_en
 
     def count(doc):
-        names = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "PROPN" and "NameType=Giv" in token.morph
         ]
-        result = ratio(len(names), len(doc.text.split()))
-        debug = {"TOKENS": names}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -350,9 +350,9 @@ class L_FLAT_MULTIWORD(Metric):
 
     def count(doc):
         flat = [[token.head.text, token.text] for token in doc if "flat" in token.dep_]
-        flatten = [token for i in flat for token in i]
-        result = ratio(len(flatten), len(doc.text.split()))
-        debug = {"TOKENS": flatten}
+        debug = [token for i in flat for token in i]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -363,13 +363,13 @@ class L_DIMINUTIVES(Metric):
 
     def count(doc):
         suffixes = ["еньк", "есеньк", "ісіньк", "юсіньк"]
-        dimin = [
+        debug = [
             token.text
             for token in doc
             if any(token for i in suffixes if i in token.text)
         ]
-        result = ratio(len(dimin), len(doc.text.split()))
-        debug = {"TOKENS": dimin}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -379,9 +379,9 @@ class L_DIRECT_OBJ(Metric):
     name_local = name_en
 
     def count(doc):
-        obj = [token.text for token in doc if token.dep_ == "obj"]
-        result = ratio(len(obj), len(doc.text.split()))
-        debug = {"TOKENS": obj}
+        debug = [token.text for token in doc if token.dep_ == "obj"]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -391,11 +391,11 @@ class L_INDIRECT_OBJ(Metric):
     name_local = name_en
 
     def count(doc):
-        iobj = [
+        debug = [
             token.text for token in doc if token.dep_ == "iobj" or token.dep_ == "obl"
         ]
-        result = ratio(len(iobj), len(doc.text.split()))
-        debug = {"TOKENS": iobj}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -410,13 +410,13 @@ class L_NOM_CASE(Metric):
     name_local = name_en
 
     def count(doc):
-        nouns = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "NOUN" and "Case=Nom" in token.morph
         ]
-        result = ratio(len(nouns), len(doc.text.split()))
-        debug = {"TOKENS": nouns}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -426,13 +426,13 @@ class L_GEN_CASE(Metric):
     name_local = name_en
 
     def count(doc):
-        nouns = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "NOUN" and "Case=Gen" in token.morph
         ]
-        result = ratio(len(nouns), len(doc.text.split()))
-        debug = {"TOKENS": nouns}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -442,13 +442,13 @@ class L_DAT_CASE(Metric):
     name_local = name_en
 
     def count(doc):
-        nouns = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "NOUN" and "Case=Dat" in token.morph
         ]
-        result = ratio(len(nouns), len(doc.text.split()))
-        debug = {"TOKENS": nouns}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -458,13 +458,13 @@ class L_ACC_CASE(Metric):
     name_local = name_en
 
     def count(doc):
-        nouns = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "NOUN" and "Case=Acc" in token.morph
         ]
-        result = ratio(len(nouns), len(doc.text.split()))
-        debug = {"TOKENS": nouns}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -474,13 +474,13 @@ class L_INS_CASE(Metric):
     name_local = name_en
 
     def count(doc):
-        nouns = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "NOUN" and "Case=Ins" in token.morph
         ]
-        result = ratio(len(nouns), len(doc.text.split()))
-        debug = {"TOKENS": nouns}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -490,13 +490,13 @@ class L_LOC_CASE(Metric):
     name_local = name_en
 
     def count(doc):
-        nouns = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "NOUN" and "Case=Loc" in token.morph
         ]
-        result = ratio(len(nouns), len(doc.text.split()))
-        debug = {"TOKENS": nouns}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -506,14 +506,14 @@ class L_VOC_CASE(Metric):
     name_local = name_en
 
     def count(doc):
-        nouns = [
+        debug = [
             token.text
             for token in doc
             if (token.pos_ == "NOUN" or token.pos_ == "PROPN")
             and "Case=Voc" in token.morph
         ]
-        result = ratio(len(nouns), len(doc.text.split()))
-        debug = {"TOKENS": nouns}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -528,11 +528,11 @@ class L_QULITATIVE_ADJ_P(Metric):
     name_local = name_en
 
     def count(doc):
-        adj = [
+        debug = [
             adj.text for adj in doc if adj.pos_ == "ADJ" and "Degree=Pos" in adj.morph
         ]
-        result = ratio(len(adj), len(doc.text.split()))
-        debug = {"TOKENS": adj}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -543,13 +543,13 @@ class L_RELATIVE_ADJ(Metric):
 
     def count(doc):
         degrees = ["Degree=Pos", "Degree=Cmp", "Degree=Sup"]
-        adj = [
+        debug = [
             adj.text
             for adj in doc
             if adj.pos_ == "ADJ" and not any(adj for i in degrees if i in adj.morph)
         ]
-        result = ratio(len(adj), len(doc.text.split()))
-        debug = {"TOKENS": adj}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -559,11 +559,11 @@ class L_QUALITATIVE_ADJ_CMP(Metric):
     name_local = name_en
 
     def count(doc):
-        adj = [
+        debug = [
             adj.text for adj in doc if adj.pos_ == "ADJ" and "Degree=Cmp" in adj.morph
         ]
-        result = ratio(len(adj), len(doc.text.split()))
-        debug = {"TOKENS": adj}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -573,11 +573,11 @@ class L_QUALITATIVE_ADJ_SUP(Metric):
     name_local = name_en
 
     def count(doc):
-        adj = [
+        debug = [
             adj.text for adj in doc if adj.pos_ == "ADJ" and "Degree=Sup" in adj.morph
         ]
-        result = ratio(len(adj), len(doc.text.split()))
-        debug = {"TOKENS": adj}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -587,7 +587,7 @@ class L_DIRECT_ADJ(Metric):
     name_local = name_en
 
     def count(doc):
-        adj = []
+        debug = []
         direct = [adj.text for adj in doc if adj.pos_ == "ADJ" and adj.dep_ == "amod"]
         conj = [
             token.text
@@ -596,9 +596,9 @@ class L_DIRECT_ADJ(Metric):
             and token.dep_ == "conj"
             and token.head.dep_ == "amod"
         ]
-        adj = direct + conj
-        result = ratio(len(adj), len(doc.text.split()))
-        debug = {"TOKENS": adj}
+        debug = direct + conj
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -608,7 +608,7 @@ class L_INDIRECT_ADJ(Metric):
     name_local = name_en
 
     def count(doc):
-        adj = []
+        debug = []
         indirect = [
             adj.text
             for adj in doc
@@ -620,9 +620,9 @@ class L_INDIRECT_ADJ(Metric):
             if token.dep_ == "conj"
             and (token.head.dep_ != "amod" and token.head.pos_ == "ADJ")
         ]
-        adj = indirect + conj
-        result = ratio(len(adj), len(doc.text.split()))
-        debug = {"TOKENS": adj}
+        debug = indirect + conj
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -637,9 +637,9 @@ class L_PUNCT(Metric):
     name_local = name_en
 
     def count(doc):
-        ents = [token.text for token in doc if token.pos_ == "PUNCT"]
-        result = ratio(len(ents), len(doc.text.split()))
-        debug = {"TOKENS": ents}
+        debug = [token.text for token in doc if token.pos_ == "PUNCT"]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -649,9 +649,9 @@ class L_PUNCT_DOT(Metric):
     name_local = name_en
 
     def count(doc):
-        ents = [token.text for token in doc if token.text == "."]
-        result = ratio(len(ents), len(doc.text.split()))
-        debug = {"TOKENS": ents}
+        debug = [token.text for token in doc if token.text == "."]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -661,9 +661,9 @@ class L_PUNCT_COM(Metric):
     name_local = name_en
 
     def count(doc):
-        ents = [token.text for token in doc if token.text == ","]
-        result = ratio(len(ents), len(doc.text.split()))
-        debug = {"TOKENS": ents}
+        debug = [token.text for token in doc if token.text == ","]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -673,9 +673,9 @@ class L_PUNCT_SEMC(Metric):
     name_local = name_en
 
     def count(doc):
-        ents = [token.text for token in doc if token.text == ";"]
-        result = ratio(len(ents), len(doc.text.split()))
-        debug = {"TOKENS": ents}
+        debug = [token.text for token in doc if token.text == ";"]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -685,9 +685,9 @@ class L_PUNCT_COL(Metric):
     name_local = name_en
 
     def count(doc):
-        ents = [token.text for token in doc if token.text == ":"]
-        result = ratio(len(ents), len(doc.text.split()))
-        debug = {"TOKENS": ents}
+        debug = [token.text for token in doc if token.text == ":"]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -697,9 +697,9 @@ class L_PUNCT_DASH(Metric):
     name_local = name_en
 
     def count(doc):
-        ents = [token.text for token in doc if token.text == "—"]
-        result = ratio(len(ents), len(doc.text.split()))
-        debug = {"TOKENS": ents}
+        debug = [token.text for token in doc if token.text == "—"]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -712,9 +712,9 @@ class L_NUM_CARD(Metric):
     name_local = name_en
 
     def count(doc):
-        tokens = [token.text for token in doc if "NumType=Card" in token.morph]
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+        debug = [token.text for token in doc if "NumType=Card" in token.morph]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -724,9 +724,9 @@ class L_NUM_ORD(Metric):
     name_local = name_en
 
     def count(doc):
-        tokens = [token.text for token in doc if "NumType=Ord" in token.morph]
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+        debug = [token.text for token in doc if "NumType=Ord" in token.morph]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -739,9 +739,9 @@ class L_PRON_DEM(Metric):
     name_local = name_en
 
     def count(doc):
-        tokens = [token.text for token in doc if "PronType=Dem" in token.morph]
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+        debug = [token.text for token in doc if "PronType=Dem" in token.morph]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -751,9 +751,9 @@ class L_PRON_PRS(Metric):
     name_local = name_en
 
     def count(doc):
-        tokens = [token.text for token in doc if "PronType=Prs" in token.morph]
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+        debug = [token.text for token in doc if "PronType=Prs" in token.morph]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -763,9 +763,9 @@ class L_PRON_TOT(Metric):
     name_local = name_en
 
     def count(doc):
-        tokens = [token.text for token in doc if "PronType=Tot" in token.morph]
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+        debug = [token.text for token in doc if "PronType=Tot" in token.morph]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -775,9 +775,9 @@ class L_PRON_REL(Metric):
     name_local = name_en
 
     def count(doc):
-        tokens = [token.text for token in doc if "PronType=Rel" in token.morph]
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+        debug = [token.text for token in doc if "PronType=Rel" in token.morph]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -787,9 +787,9 @@ class L_PRON_INT(Metric):
     name_local = name_en
 
     def count(doc):
-        tokens = [token.text for token in doc if "PronType=Int" in token.morph]
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+        debug = [token.text for token in doc if "PronType=Int" in token.morph]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -799,13 +799,13 @@ class L_PRON_RELATIVE(Metric):
     name_local = name_en
 
     def count(doc):
-        tokens = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "SCONJ" and token.dep_ == "mark"
         ]
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -815,13 +815,13 @@ class L_PRON_RFL(Metric):
     name_local = name_en
 
     def count(doc):
-        tokens = [
+        debug = [
             token.text
             for token in doc
             if "Reflex=Yes" in token.morph and "PronType=Prs" in token.morph
         ]
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -831,13 +831,13 @@ class L_PRON_POS(Metric):
     name_local = name_en
 
     def count(doc):
-        tokens = [
+        debug = [
             token.text
             for token in doc
             if "Poss=Yes" in token.morph and "PronType=Prs" in token.morph
         ]
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -847,9 +847,9 @@ class L_PRON_NEG(Metric):
     name_local = name_en
 
     def count(doc):
-        tokens = [token.text for token in doc if "PronType=Neg" in token.morph]
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+        debug = [token.text for token in doc if "PronType=Neg" in token.morph]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -864,13 +864,13 @@ class L_ADV_POS(Metric):
     name_local = name_en
 
     def count(doc):
-        tokens = [
+        debug = [
             token.text
             for token in doc
             if "Degree=Pos" in token.morph and token.pos_ == "ADV"
         ]
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -880,13 +880,13 @@ class L_ADV_CMP(Metric):
     name_local = name_en
 
     def count(doc):
-        tokens = [
+        debug = [
             token.text
             for token in doc
             if "Degree=Cmp" in token.morph and token.pos_ == "ADV"
         ]
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -896,11 +896,11 @@ class L_ADV_SUP(Metric):
     name_local = name_en
 
     def count(doc):
-        tokens = [
+        debug = [
             token.text
             for token in doc
             if "Degree=Sup" in token.morph and token.pos_ == "ADV"
         ]
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug

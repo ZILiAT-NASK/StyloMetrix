@@ -14,6 +14,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
+import itertools
 import math
 
 import regex as re
@@ -39,9 +40,9 @@ class L_REF(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token.text for token in doc if token.text.startswith("@")]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.text.startswith("@")]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -51,9 +52,9 @@ class L_HASHTAG(Metric):
     name_local = name_en
 
     def count(doc):
-        search = re.findall(r"#\w+", doc.text)
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = re.findall(r"#\w+", doc.text)
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -63,13 +64,13 @@ class L_MENTION(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [
+        debug = [
             token.text
             for token in doc
             if token.text.startswith("@") and len(token.text) > 1
         ]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -79,11 +80,11 @@ class L_RT(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [
+        debug = [
             token.text for token in doc if token.text == "RT" or token.text == "rt"
         ]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -94,11 +95,11 @@ class L_LINKS(Metric):
 
     def count(doc):
         expr = r"\w+\.\w+.com\/.*"
-        search = re.findall(r"https?://[^\s\n\r]+", doc.text) + re.findall(
+        debug = re.findall(r"https?://[^\s\n\r]+", doc.text) + re.findall(
             expr, doc.text
         )
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -108,11 +109,11 @@ class L_CONT_A(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [
+        debug = [
             token.text for token in doc if token._.is_content_word and token.is_alpha
         ]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -122,9 +123,9 @@ class L_FUNC_A(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token.text for token in doc if token._.is_function_word]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token._.is_function_word]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -134,10 +135,10 @@ class L_CONT_T(Metric):
     name_local = name_en
 
     def count(doc):
-        search = set(
+        debug = set(
             token.text for token in doc if token._.is_content_word and token.is_alpha
         )
-        result = ratio(len(search), len(doc.text.split()))
+        result = ratio(len(debug), len(doc.text.split()))
         return result, {}
 
 
@@ -147,8 +148,8 @@ class L_FUNC_T(Metric):
     name_local = name_en
 
     def count(doc):
-        search = set(token.text for token in doc if token._.is_function_word)
-        result = ratio(len(search), len(doc.text.split()))
+        debug = set(token.text for token in doc if token._.is_function_word)
+        result = ratio(len(debug), len(doc.text.split()))
         return result, {}
 
 
@@ -161,13 +162,13 @@ class L_PLURAL_NOUNS(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [
-            token
+        debug = [
+            token.text
             for token in doc
             if token.pos_ == "NOUN" and "Number=Plur" in token.morph
         ]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -177,13 +178,13 @@ class L_SINGULAR_NOUNS(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [
-            token
+        debug = [
+            token.text
             for token in doc
             if token.pos_ == "NOUN" and "Number=Sing" in token.morph
         ]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -193,9 +194,9 @@ class L_PROPER_NAME(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token for token in doc if token.pos_ == "PROPN"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.pos_ == "PROPN"]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -206,10 +207,10 @@ class L_PERSONAL_NAME(Metric):
 
     def count(doc):
         ents = [list(ent) for ent in doc.ents if ent.label_ == "PERSON"]
-        search = sum(ents, [])
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
-        return result, debug
+        debug = list(itertools.chain(*ents))
+        result = ratio(len(debug), len(doc.text.split()))
+
+        return result, [token.text for token in debug]
 
 
 class L_NOUN_PHRASES(Metric):
@@ -219,9 +220,9 @@ class L_NOUN_PHRASES(Metric):
 
     def count(doc):
         phrases = [noun_phrase for noun_phrase in doc.noun_chunks]
-        search = [noun for phrase in phrases for noun in phrase]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [noun.text for phrase in phrases for noun in phrase]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -234,9 +235,9 @@ class L_PUNCT(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token for token in doc if token.pos_ == "PUNCT"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.pos_ == "PUNCT"]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -246,9 +247,9 @@ class L_PUNCT_DOT(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token for token in doc if token.text == "."]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.text == "."]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -258,9 +259,9 @@ class L_PUNCT_COM(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token for token in doc if token.text == ","]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.text == ","]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -270,9 +271,9 @@ class L_PUNCT_SEMC(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token for token in doc if token.text == ";"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.text == ";"]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -282,9 +283,9 @@ class L_PUNCT_COL(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token for token in doc if token.text == ":"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.text == ":"]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -294,9 +295,9 @@ class L_PUNCT_DASH(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token for token in doc if token.text == "—"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token.text == "—"]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -311,11 +312,11 @@ class L_POSSESSIVES(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [
-            token for token in doc if token.pos_ == "PART" and token.dep_ == "case"
+        debug = [
+            token.text for token in doc if token.pos_ == "PART" and token.dep_ == "case"
         ]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -330,15 +331,15 @@ class L_ADJ_POSITIVE(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [
-            token
+        debug = [
+            token.text
             for token in doc
             if token.pos_ == "ADJ"
             and "Degree=Pos" in token.morph
             and token.tag_ == "JJ"
         ]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -348,15 +349,15 @@ class L_ADJ_COMPARATIVE(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [
-            token
+        debug = [
+            token.text
             for token in doc
             if (token.pos_ == "ADJ" or token.pos_ == "ADV")
             and ("Degree=Cmp" in token.morph or token.dep_ == "acomp")
             and (token.tag_ == "JJ" or token.tag_ == "RBR" or token.tag_ == "JJR")
         ]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -366,15 +367,15 @@ class L_ADJ_SUPERLATIVE(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [
-            token
+        debug = [
+            token.text
             for token in doc
             if (token.pos_ == "ADJ" or token.pos_ == "ADV")
             and "Degree=Sup" in token.morph
             and (token.tag_ == "JJS" or token.tag_ == "RBS")
         ]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -384,9 +385,9 @@ class L_ADV_POSITIVE(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token for token in doc if token._.adverbs == "positive_adverb"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token._.adverbs == "positive_adverb"]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -396,15 +397,15 @@ class L_ADV_COMPARATIVE(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [
-            token
+        debug = [
+            token.text
             for token in doc
             if token.pos_ == "ADV"
             and ("Degree=Cmp" in token.morph or token.tag_ == "RB")
             and token.dep_ == "advmod"
         ]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -414,15 +415,15 @@ class L_ADV_SUPERLATIVE(Metric):
     name_local = name_en
 
     def count(doc):
-        search = search = [
-            token
+        debug = debug = [
+            token.text
             for token in doc
             if (token.pos_ == "ADJ" or token.pos_ == "ADV")
             and (token.tag_ == "RB" or "Degree=Sup" in token.morph)
             and (token.dep_ == "advmod" or token.dep_ == "attr")
         ]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -437,11 +438,11 @@ class PS_CONTRADICTION(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [
+        debug = [
             token.text for token in doc if token._.linking_words == "contradiction"
         ]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -451,9 +452,9 @@ class PS_AGREEMENT(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token.text for token in doc if token._.linking_words == "agreement"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token._.linking_words == "agreement"]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -463,9 +464,9 @@ class PS_EXAMPLES(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token.text for token in doc if token._.linking_words == "examples"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token._.linking_words == "examples"]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -475,9 +476,9 @@ class PS_CONSEQUENCE(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token.text for token in doc if token._.linking_words == "cosequence"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token._.linking_words == "cosequence"]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -488,11 +489,11 @@ class PS_CAUSE(Metric):
 
     def count(doc):
         words = [word.split() for word in LW_CAUSE_PURPOSE]
-        search = [
-            token for token in doc for word in words if token.text.lower() in word
+        debug = [
+            token.text for token in doc for word in words if token.text.lower() in word
         ]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -502,9 +503,9 @@ class PS_LOCATION(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token.text for token in doc if token._.linking_words == "space"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token._.linking_words == "space"]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -514,9 +515,9 @@ class PS_TIME(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token.text for token in doc if token._.linking_words == "time"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token._.linking_words == "time"]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -526,9 +527,9 @@ class PS_CONDITION(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token.text for token in doc if token._.linking_words == "condition"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token._.linking_words == "condition"]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug
 
 
@@ -538,7 +539,7 @@ class PS_MANNER(Metric):
     name_local = name_en
 
     def count(doc):
-        search = [token.text for token in doc if token._.linking_words == "manner"]
-        result = ratio(len(search), len(doc.text.split()))
-        debug = {"TOKENS": search}
+        debug = [token.text for token in doc if token._.linking_words == "manner"]
+        result = ratio(len(debug), len(doc.text.split()))
+
         return result, debug

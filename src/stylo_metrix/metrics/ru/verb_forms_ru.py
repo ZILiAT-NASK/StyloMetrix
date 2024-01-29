@@ -42,9 +42,9 @@ class G_ROOT_VERB_IMPERFECT(Metric):
             and token.dep_ == "conj"
             and "Aspect=Imp" in token.morph
         ]
-        root_imperfect_verbs = verbs + conj_verbs
-        result = ratio(len(root_imperfect_verbs), len(doc.text.split()))
-        debug = {"TOKENS": root_imperfect_verbs}
+        debug = verbs + conj_verbs
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -55,13 +55,13 @@ class G_ALL_VERB_IMPERFECT(Metric):
     name_local = name_en
 
     def count(doc):
-        verbs = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "VERB" and "Aspect=Imp" in token.morph
         ]
-        result = ratio(len(verbs), len(doc.text.split()))
-        debug = {"TOKENS": verbs}
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -84,9 +84,9 @@ class G_ROOT_VERB_PERFECT(Metric):
             and token.dep_ == "conj"
             and "Aspect=Perf" in token.morph
         ]
-        root_perfect_verbs = verbs + conj_verbs
-        result = ratio(len(root_perfect_verbs), len(doc.text.split()))
-        debug = {"TOKENS": root_perfect_verbs}
+        debug = verbs + conj_verbs
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -97,13 +97,13 @@ class G_ALL_VERB_PERFECT(Metric):
     name_local = name_en
 
     def count(doc):
-        verbs = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "VERB" and "Aspect=Perf" in token.morph
         ]
-        result = ratio(len(verbs), len(doc.text.split()))
-        debug = {"TOKENS": verbs}
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -116,7 +116,7 @@ class G_PRESENT_IND_IMPERFECT(Metric):
     name_local = name_en
 
     def count(doc):
-        verbs = [
+        debug = [
             token.text
             for token in doc
             if "Aspect=Imp" in token.morph
@@ -124,8 +124,8 @@ class G_PRESENT_IND_IMPERFECT(Metric):
             and "VerbForm=Fin" in token.morph
             and "Mood=Ind" in token.morph
         ]
-        result = ratio(len(verbs), len(doc.text.split()))
-        debug = {"TOKENS": verbs}
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -136,7 +136,7 @@ class G_PAST_IND_IMPERFECT(Metric):
     name_local = name_en
 
     def count(doc):
-        verbs = [
+        debug = [
             token.text
             for token in doc
             if "Aspect=Imp" in token.morph
@@ -144,8 +144,8 @@ class G_PAST_IND_IMPERFECT(Metric):
             and "VerbForm=Fin" in token.morph
             and "Mood=Ind" in token.morph
         ]
-        result = ratio(len(verbs), len(doc.text.split()))
-        debug = {"TOKENS": verbs}
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -156,7 +156,7 @@ class G_PAST_IND_PERFECT(Metric):
     name_local = name_en
 
     def count(doc):
-        verbs = [
+        debug = [
             token.text
             for token in doc
             if "Aspect=Perf" in token.morph
@@ -164,8 +164,8 @@ class G_PAST_IND_PERFECT(Metric):
             and "VerbForm=Fin" in token.morph
             and "Mood=Ind" in token.morph
         ]
-        result = ratio(len(verbs), len(doc.text.split()))
-        debug = {"TOKENS": verbs}
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -176,7 +176,7 @@ class G_FUT_IND_PERFECT(Metric):
     name_local = name_en
 
     def count(doc):
-        verbs = [
+        debug = [
             token.text
             for token in doc
             if "Aspect=Perf" in token.morph
@@ -184,8 +184,8 @@ class G_FUT_IND_PERFECT(Metric):
             and "VerbForm=Fin" in token.morph
             and "Mood=Ind" in token.morph
         ]
-        result = ratio(len(verbs), len(doc.text.split()))
-        debug = {"TOKENS": verbs}
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -196,7 +196,7 @@ class G_FUT_IND_IMPERFECT_SIMPLE(Metric):
     name_local = name_en
 
     def count(doc):
-        verbs = [
+        debug = [
             token.text
             for token in doc
             if "Aspect=Imp" in token.morph
@@ -205,8 +205,8 @@ class G_FUT_IND_IMPERFECT_SIMPLE(Metric):
             and "Mood=Ind" in token.morph
             and token.pos_ != "AUX"
         ]
-        result = ratio(len(verbs), len(doc.text.split()))
-        debug = {"TOKENS": verbs}
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -227,9 +227,9 @@ class G_FUT_IND_COMPLEX(Metric):
             and (token.dep_ == "cop" or token.dep_ == "aux")
         ]
         conj = [token.head.text for token in doc if token.text in verbs]
-        verb_list = verbs + conj
-        result = ratio(len(verb_list), len(doc.text.split()))
-        debug = {"TOKENS": verb_list}
+        debug = verbs + conj
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -239,9 +239,9 @@ class G_INFINITIVE(Metric):
     name_local = name_en
 
     def count(doc):
-        tokens = [token.text for token in doc if "VerbForm=Inf" in token.morph]
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+        debug = [token.text for token in doc if "VerbForm=Inf" in token.morph]
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -251,14 +251,14 @@ class G_PASSIVE(Metric):
     name_local = name_en
 
     def count(doc):
-        tokens = [
+        debug = [
             token.head.text
             for token in doc
             if token.pos_ == "VERB"
             and ("Aspect=Perf" in token.morph and "Voice=Pass" in token.morph)
         ]
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -269,15 +269,15 @@ class G_TRANSITIVE(Metric):
 
     def count(doc):
         pos = ["NOUN", "PRON", "PROPN"]
-        token = [
+        debug = [
             token.text
             for token in doc
             if any(child for child in token.children if child.pos_ in pos)
             and token.pos_ == "VERB"
             and "VerbForm=Inf" not in token.morph
         ]
-        result = ratio(len(token), len(doc.text.split()))
-        debug = {"TOKENS": token}
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -288,14 +288,14 @@ class G_INTRANSITIVE(Metric):
 
     def count(doc):
         pos = ["NOUN", "PRON", "PROPN"]
-        token = [
+        debug = [
             token.text
             for token in doc
             if not any(child for child in token.children if child.pos_ in pos)
             and token.pos_ == "VERB"
         ]
-        result = ratio(len(token), len(doc.text.split()))
-        debug = {"TOKENS": token}
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -305,7 +305,7 @@ class G_IMPERSONAL_VERBS(Metric):
     name_local = name_en
 
     def count(doc):
-        tokens = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "VERB"
@@ -314,8 +314,8 @@ class G_IMPERSONAL_VERBS(Metric):
                 or any(i for i in token.children if "Gender=Neut" in i.morph)
             )
         ]
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -325,15 +325,15 @@ class G_PARTICIPLE_PASSIVE(Metric):
     name_local = name_en
 
     def count(doc):
-        tokens = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "ADJ"
             and "VerbForm=Part" in token.morph
             and "Aspect=Perf" in token.morph
         ]
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -343,15 +343,15 @@ class G_PARTICIPLE_ACTIVE(Metric):
     name_local = name_en
 
     def count(doc):
-        tokens = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "ADJ"
             and "VerbForm=Part" in token.morph
             and "Aspect=Imp" in token.morph
         ]
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -361,15 +361,15 @@ class G_ADV_PRF_PART(Metric):
     name_local = name_en
 
     def count(doc):
-        tokens = [
+        debug = [
             token.text
             for token in doc
             if token.dep_ == "advcl"
             and "VerbForm=Conv" in token.morph
             and "Aspect=Perf" in token.morph
         ]
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
 
 
@@ -379,13 +379,13 @@ class G_ADV_IMPRF_PART(Metric):
     name_local = name_en
 
     def count(doc):
-        tokens = [
+        debug = [
             token.text
             for token in doc
             if token.dep_ == "advcl"
             and "VerbForm=Conv" in token.morph
             and "Aspect=Imp" in token.morph
         ]
-        result = ratio(len(tokens), len(doc.text.split()))
-        debug = {"TOKENS": tokens}
+        result = ratio(len(debug), len(doc.text.split()))
+        
         return result, debug
