@@ -327,7 +327,7 @@ class G_OTHER(Metric):
 
     def count(doc):
         debug = [
-            token
+            token.text
             for token in doc
             if token.pos_ == "X" and str(token.morph.get("Abbr")) != "['Yes']"
         ]

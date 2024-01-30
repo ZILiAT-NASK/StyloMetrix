@@ -93,7 +93,7 @@ class Metric(metaclass=MetricMeta):
             "name_local": cls.name_local,
         }
 
-        return json.dumps(json_dict)
+        return json_dict
 
     @classmethod
     def set_nlp(cls, nlp):

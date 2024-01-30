@@ -76,7 +76,7 @@ class DESC_ADJ(Metric):
         matcher.add("nazwa", [pattern])
         matches = matcher(doc)
         debug = [
-            token
+            token.text
             for match in matches
             for _, start, end in [match]
             for token in doc[start:end]
@@ -103,7 +103,7 @@ class DESC_ADV(Metric):
         matcher.add("nazwa", [pattern])
         matches = matcher(doc)
         debug = [
-            token
+            token.text
             for match in matches
             for _, start, end in [match]
             for token in doc[start:end]

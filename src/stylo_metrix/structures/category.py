@@ -1,4 +1,4 @@
- # Copyright (C) 2022  NASK PIB
+# Copyright (C) 2022  NASK PIB
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,10 +28,11 @@ class CategoryMeta(type):
 
     def __call__(cls, *args, **kwargs):
         return cls
-    
+
 
 class Category(metaclass=CategoryMeta):
     _all_categories = dict()
+
     def __init_subclass__(cls):
         cls.id = Category._get_new_id()
         cls._metrics = list()
@@ -44,7 +45,7 @@ class Category(metaclass=CategoryMeta):
 
     def _get_new_id():
         if Category._all_categories:
-            return max(Category._all_categories)+1
+            return max(Category._all_categories) + 1
         else:
             return 0
 
@@ -90,7 +91,7 @@ class Category(metaclass=CategoryMeta):
     @classmethod
     def _register_to_lang(cls, lang):
         old_category = lang.contains_category_name(cls)
-        
+
         if old_category:
             for metric in old_category.get_metrics():
                 metric.set_category(cls)
@@ -101,10 +102,10 @@ class Category(metaclass=CategoryMeta):
     @classmethod
     def to_json(cls):
         json_dict = {
-            'id': cls.id,
-            'name_en': cls.name_en,
-            'name_local': cls.name_local,
-            'metrics': [metric.to_json() for metric in cls._metrics]
+            "id": cls.id,
+            "name_en": cls.name_en,
+            "name_local": cls.name_local,
+            "metrics": [metric.to_json() for metric in cls._metrics],
         }
 
-        return json.dumps(json_dict)
+        return json_dict

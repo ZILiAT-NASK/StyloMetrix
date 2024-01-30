@@ -402,9 +402,9 @@ class L_TTR_IA(Metric):
     name_local = "Type-token ratio dla wyrazów w odmianach"
 
     def count(doc):
-        result = set([token.text.lower() for token in doc if token.is_punct == False])
-        debug = {"FOUND": result}
-        return ratio(len(result), len(doc)), debug
+        debug = set([token.text.lower() for token in doc if token.is_punct == False])
+
+        return ratio(len(debug), len(doc)), debug
 
 
 class L_TTR_LA(Metric):
@@ -413,9 +413,9 @@ class L_TTR_LA(Metric):
     name_local = "Type-token ratio dla wyrazów zlematyzowanych"
 
     def count(doc):
-        result = set([token.lemma_.lower() for token in doc if token.is_punct == False])
-        debug = {"FOUND": result}
-        return ratio(len(result), len(doc)), debug
+        debug = set([token.lemma_.lower() for token in doc if token.is_punct == False])
+
+        return ratio(len(debug), len(doc)), debug
 
 
 class L_CONT_A(Metric):
