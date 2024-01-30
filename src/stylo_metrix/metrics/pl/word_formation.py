@@ -14,9 +14,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-from utils import incidence
-
 from ...structures import Category, Metric
+from ...utils import incidence
 
 
 class WordFormation(Category):

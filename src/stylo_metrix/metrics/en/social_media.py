@@ -14,19 +14,23 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import re
-from ...structures import Metric, Category
+
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+
+from ...structures import Category, Metric
 from ...utils import incidence
 
 
 class Social_Media(Category):
-    lang = 'en'
+    lang = "en"
     name_en = "Social Media"
+    name_local = name_en
 
 
 class MASKED(Metric):
     category = Social_Media
     name_en = "Including characters masking real meaning of words"
+    name_local = name_en
 
     def count(doc):
         debug = []
@@ -41,43 +45,48 @@ class MASKED(Metric):
 
         result = incidence(doc, debug)
         return result, debug
-    
+
 
 class DIGIT(Metric):
     category = Social_Media
     name_en = "Including urls"
+    name_local = name_en
 
     def count(doc):
-        debug = [token for token in doc if token.is_digit == True]
+        debug = [token.text for token in doc if token.is_digit == True]
         result = incidence(doc, debug)
         return result, debug
+
 
 class POSITIV(Metric):
     category = Social_Media
     name_en = "Positive words based on VADER Sentiment"
+    name_local = name_en
 
     def count(doc):
         debug = []
         analyzer = SentimentIntensityAnalyzer()
         for token in doc:
             vs = analyzer.polarity_scores(token.text)
-            score = vs['compound']
+            score = vs["compound"]
             if score >= 0.05:
                 debug.append(token.text)
 
         result = incidence(doc, debug)
         return result, debug
 
+
 class NEGATIV(Metric):
     category = Social_Media
     name_en = "Negative words based on VADER Sentiment"
+    name_local = name_en
 
     def count(doc):
         debug = []
         analyzer = SentimentIntensityAnalyzer()
         for token in doc:
             vs = analyzer.polarity_scores(token.text)
-            score = vs['compound']
+            score = vs["compound"]
             if score <= -0.05:
                 debug.append(token.text)
 
@@ -88,13 +97,14 @@ class NEGATIV(Metric):
 class NEUTRAL(Metric):
     category = Social_Media
     name_en = "Neutral words based on VADER Sentiment"
+    name_local = name_en
 
     def count(doc):
         debug = []
         analyzer = SentimentIntensityAnalyzer()
         for token in doc:
             vs = analyzer.polarity_scores(token.text)
-            score = vs['compound']
+            score = vs["compound"]
             if score > -0.05 and score < 0.05:
                 debug.append(token.text)
         result = incidence(doc, debug)
@@ -104,161 +114,168 @@ class NEUTRAL(Metric):
 class DECR(Metric):
     category = Social_Media
     name_en = "DECR Intensifiers"
+    name_local = name_en
 
     def count(doc):
-
-        lexicon = ['almost',
-                   'barely',
-                   'difficult',
-                   'few',
-                   'fewer',
-                   'fewest',
-                   'hardly',
-                   'just',
-                   'enough',
-                   'kind of',
-                   'kinda',
-                   'kindof',
-                   'kind-of',
-                   'less',
-                   'little',
-                   'little',
-                   'low',
-                   'lower',
-                   'lowest',
-                   'marginal',
-                   'marginally',
-                   'minor',
-                   'occasional',
-                   'occasionally',
-                   'only',
-                   'partly',
-                   'relatively',
-                   'ridiculously',
-                   'scarce',
-                   'scarcely',
-                   'slight',
-                   'slightly',
-                   'small',
-                   'somewhat',
-                   'sort of',
-                   'sorta',
-                   'sortof',
-                   'sort-of']
-
-        exception = [
-            'sort',
-            'kind'
+        lexicon = [
+            "almost",
+            "barely",
+            "difficult",
+            "few",
+            "fewer",
+            "fewest",
+            "hardly",
+            "just",
+            "enough",
+            "kind of",
+            "kinda",
+            "kindof",
+            "kind-of",
+            "less",
+            "little",
+            "little",
+            "low",
+            "lower",
+            "lowest",
+            "marginal",
+            "marginally",
+            "minor",
+            "occasional",
+            "occasionally",
+            "only",
+            "partly",
+            "relatively",
+            "ridiculously",
+            "scarce",
+            "scarcely",
+            "slight",
+            "slightly",
+            "small",
+            "somewhat",
+            "sort of",
+            "sorta",
+            "sortof",
+            "sort-of",
         ]
+
+        exception = ["sort", "kind"]
         debug = []
         for token in doc:
             if token.lemma in lexicon:
                 debug.append(token.text)
-            elif token.i < len(doc) - 1 and token.text in exception and token.nbor().text == 'of':
+            elif (
+                token.i < len(doc) - 1
+                and token.text in exception
+                and token.nbor().text == "of"
+            ):
                 debug.append(token.text)
-                debug.append('of')
+                debug.append("of")
 
         result = incidence(doc, debug)
         return result, debug
 
+
 class INCR(Metric):
     category = Social_Media
     name_en = "INCR Intensifiers"
+    name_local = name_en
 
     def count(doc):
-        lexicon = ['absolute',
-                   'absolutely',
-                   'amazingly',
-                   'awfully',
-                   'big',
-                   'bigger',
-                   'biggest',
-                   'certainly',
-                   'complete',
-                   'completely',
-                   'considerable',
-                   'considerably',
-                   'decidedly',
-                   'deeply',
-                   'definitely',
-                   'effing',
-                   'enormous',
-                   'enormously',
-                   'entirely',
-                   'especially',
-                   'exceedingly',
-                   'exceptional',
-                   'exceptionally',
-                   'extra',
-                   'extraordinarily',
-                   'extreme',
-                   'extremely',
-                   'fabulously',
-                   'fairly',
-                   'flippin',
-                   'flipping',
-                   'frackin',
-                   'fracking',
-                   'frickin',
-                   'fricking',
-                   'friggin',
-                   'frigging',
-                   'fuckin',
-                   'fucking',
-                   'fuggin',
-                   'fugging',
-                   'fully',
-                   'great',
-                   'greatly',
-                   'hella',
-                   'high',
-                   'higher',
-                   'highest',
-                   'highly',
-                   'huge',
-                   'hugely',
-                   'immensely',
-                   'incredible',
-                   'incredibly',
-                   'intensely',
-                   'lot',
-                   'major',
-                   'majorly',
-                   'more',
-                   'most',
-                   'much',
-                   'obviously',
-                   'particularly',
-                   'perfectly',
-                   'pretty',
-                   'purely',
-                   'quite',
-                   'rather',
-                   'real',
-                   'really',
-                   'remarkably',
-                   'significantly',
-                   'so',
-                   'some',
-                   'strongly',
-                   'substantially',
-                   'such',
-                   'super',
-                   'terribly',
-                   'thoroughly',
-                   'total',
-                   'totally',
-                   'tremendous',
-                   'tremendously',
-                   'uber',
-                   'unbelievably',
-                   'unusually',
-                   'utter',
-                   'utterly',
-                   'vastly',
-                   'very']
+        lexicon = [
+            "absolute",
+            "absolutely",
+            "amazingly",
+            "awfully",
+            "big",
+            "bigger",
+            "biggest",
+            "certainly",
+            "complete",
+            "completely",
+            "considerable",
+            "considerably",
+            "decidedly",
+            "deeply",
+            "definitely",
+            "effing",
+            "enormous",
+            "enormously",
+            "entirely",
+            "especially",
+            "exceedingly",
+            "exceptional",
+            "exceptionally",
+            "extra",
+            "extraordinarily",
+            "extreme",
+            "extremely",
+            "fabulously",
+            "fairly",
+            "flippin",
+            "flipping",
+            "frackin",
+            "fracking",
+            "frickin",
+            "fricking",
+            "friggin",
+            "frigging",
+            "fuckin",
+            "fucking",
+            "fuggin",
+            "fugging",
+            "fully",
+            "great",
+            "greatly",
+            "hella",
+            "high",
+            "higher",
+            "highest",
+            "highly",
+            "huge",
+            "hugely",
+            "immensely",
+            "incredible",
+            "incredibly",
+            "intensely",
+            "lot",
+            "major",
+            "majorly",
+            "more",
+            "most",
+            "much",
+            "obviously",
+            "particularly",
+            "perfectly",
+            "pretty",
+            "purely",
+            "quite",
+            "rather",
+            "real",
+            "really",
+            "remarkably",
+            "significantly",
+            "so",
+            "some",
+            "strongly",
+            "substantially",
+            "such",
+            "super",
+            "terribly",
+            "thoroughly",
+            "total",
+            "totally",
+            "tremendous",
+            "tremendously",
+            "uber",
+            "unbelievably",
+            "unusually",
+            "utter",
+            "utterly",
+            "vastly",
+            "very",
+        ]
 
-        debug = [token for token in doc if token.text in lexicon]
+        debug = [token.text for token in doc if token.text in lexicon]
 
         result = incidence(doc, debug)
         return result, debug

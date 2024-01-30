@@ -14,9 +14,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-from utils import incidence, ratio, select
-
 from ...structures import Category, Metric
+from ...utils import incidence, ratio, select
 
 
 class GrammaticalForms(Category):
