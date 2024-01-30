@@ -411,6 +411,6 @@ class G_OTHER(Metric):
     name_local = "Andere Wortarten"
 
     def count(doc):
-        debug = [token for token in doc if token.pos_ == "X"]
+        debug = [token.text for token in doc if token.pos_ == "X"]
         result = len(debug)
         return ratio(result, len(doc)), debug

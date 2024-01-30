@@ -39,7 +39,7 @@ class GR_EMOT(Metric):
             token.text if token.text in emoticons else token.text_with_ws.strip()
             for token in doc
         ]
-        debug = [token for token in found_emoticons if token in emoticons]
+        debug = [token.text for token in found_emoticons if token in emoticons]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
