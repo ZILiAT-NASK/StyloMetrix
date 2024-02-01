@@ -289,9 +289,9 @@ class TestSyntacticPL(unittest.TestCase):
 
     def test_SY_QUOT(self):
         metric = "SY_QUOT"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Byliśmy wczoraj w kinie na filmie 'Różowa pantera'"
+        expected_debug = ["Różowa", "pantera"]
+        expected_out = 0.2
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -302,9 +302,9 @@ class TestSyntacticPL(unittest.TestCase):
 
     def test_SY_SIMILE_ADJ(self):
         metric = "SY_SIMILE_ADJ"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "On jest głupi jak but"
+        expected_debug = ["głupi jak but"]
+        expected_out = 0.6
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -316,7 +316,7 @@ class TestSyntacticPL(unittest.TestCase):
     def test_SY_SIMILE_NP(self):
         metric = "SY_SIMILE_NP"
         test_text = "x"
-        expected_debug = []  # TODO
+        expected_debug = []  # TODO # MOIM ZDANIEM DO USUNIĘCIA
         expected_out = 0
 
         out, debug = self.sm.transform([test_text])
@@ -328,9 +328,9 @@ class TestSyntacticPL(unittest.TestCase):
 
     def test_SY_S_IN(self):
         metric = "SY_S_IN"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Pójdziemy do kina?"
+        expected_debug = ["Pójdziemy", "do", "kina", "?"]
+        expected_out = 1.0
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -341,9 +341,9 @@ class TestSyntacticPL(unittest.TestCase):
 
     def test_SY_S_INF(self):
         metric = "SY_S_INF"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Wytępić całe to bydło!"
+        expected_debug = ["Wytępić", "całe", "to", "bydło", "!"]
+        expected_out = 1.0
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]

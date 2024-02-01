@@ -11,11 +11,9 @@ class TestGraphicalPL(unittest.TestCase):
 
     def test_GR_UPPER(self):
         metric = "GR_UPPER"
-        test_text = (
-            ". W córce Stolnika zakochał się niegdyś znany awanturnik - Jacek Soplica."
-        )
-        expected_debug = ["W"]
-        expected_out = 0.07692307692307693
+        test_text = "On został CEO dużej firmy"
+        expected_debug = ["CEO"]
+        expected_out = 0.2
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -41,9 +39,9 @@ class TestGraphicalPL(unittest.TestCase):
 
     def test_GR_EMOJI(self):
         metric = "GR_EMOJI"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Ale śmieszne, hehe 😃"
+        expected_debug = ["😃"]
+        expected_out = 0.2
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -54,9 +52,9 @@ class TestGraphicalPL(unittest.TestCase):
 
     def test_GR_EMOT(self):
         metric = "GR_EMOT"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Ale słodki kotek :*"
+        expected_debug = [":*"]
+        expected_out = 0.25
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -67,9 +65,9 @@ class TestGraphicalPL(unittest.TestCase):
 
     def test_GR_HASH(self):
         metric = "GR_HASH"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Jestem nieszczęśliwy #zalesie"
+        expected_debug = ["#zalesie"]
+        expected_out = 0.25
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -80,9 +78,9 @@ class TestGraphicalPL(unittest.TestCase):
 
     def test_GR_LENNY(self):
         metric = "GR_LENNY"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Nie ufam politykom ¯\\\\_(ツ)\\_"
+        expected_debug = ["¯\\\\_(ツ)\\_"]
+        expected_out = 0.2
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -93,9 +91,9 @@ class TestGraphicalPL(unittest.TestCase):
 
     def test_GR_MENTION(self):
         metric = "GR_MENTION"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "@USERNAME, czytaj ze zrozumieniem"
+        expected_debug = ["@USERNAME"]
+        expected_out = 0.2
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]

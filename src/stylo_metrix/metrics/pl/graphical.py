@@ -45,11 +45,8 @@ class GR_EMOT(Metric):
     name_local = "Emotikony"
 
     def count(doc):
-        found_emoticons = [
-            token.text if token.text in emoticons else token.text_with_ws.strip()
-            for token in doc
-        ]
-        debug = [token.text for token in found_emoticons if token in emoticons]
+        emoticons_pattern = "|".join(map(re.escape, emoticons))
+        debug = re.findall(emoticons_pattern, doc.text)
         result = len(debug)
         return ratio(result, len(doc)), debug
 
