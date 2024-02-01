@@ -15,7 +15,7 @@
 
 
 from ...structures import Category, Metric
-from ...utils import incidence, ratio
+from ...utils import ratio
 
 
 class PartOfSpeech(Category):
@@ -32,7 +32,7 @@ class POS_VERB(Metric):
     def count(doc):
         debug = [token.text for token in doc if token.pos_ in ["VERB", "AUX"]]
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -44,7 +44,7 @@ class POS_NOUN(Metric):
     def count(doc):
         debug = [token.text for token in doc if token.pos_ == "NOUN"]
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -56,7 +56,7 @@ class POS_ADJ(Metric):
     def count(doc):
         debug = [token.text for token in doc if token.pos_ == "ADJ"]
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -68,7 +68,7 @@ class POS_ADV(Metric):
     def count(doc):
         debug = [token.text for token in doc if token.pos_ == "ADV"]
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -80,7 +80,7 @@ class POS_DET(Metric):
     def count(doc):
         debug = [token.text for token in doc if token.pos_ == "DET"]
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -92,7 +92,7 @@ class POS_INTJ(Metric):
     def count(doc):
         debug = [token.text for token in doc if token.pos_ == "INTJ"]
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -104,7 +104,7 @@ class POS_CONJ(Metric):
     def count(doc):
         debug = [token.text for token in doc if token.pos_ in ["SCONJ", "CCONJ"]]
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -116,7 +116,7 @@ class POS_PART(Metric):
     def count(doc):
         debug = [token.text for token in doc if token.pos_ == "PART"]
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -128,7 +128,7 @@ class POS_NUM(Metric):
     def count(doc):
         debug = [token.text for token in doc if token.pos_ == "NUM"]
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -140,7 +140,7 @@ class POS_PREP(Metric):
     def count(doc):
         debug = [token.text for token in doc if token.tag_ == "IN"]
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -152,5 +152,5 @@ class POS_PRO(Metric):
     def count(doc):
         debug = [token.text for token in doc if token.pos_ == "PRON"]
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug

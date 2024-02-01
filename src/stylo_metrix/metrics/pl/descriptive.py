@@ -40,7 +40,7 @@ class G_ADJ_CP(Metric):
         double_debug = []
 
         for match_id, start, end in matches:
-            match_text = doc[start:end].text
+            match_text = doc[start:end]
             if match_id == nlp.vocab.strings["triple"]:
                 triple_debug.append(match_text)
             elif match_id == nlp.vocab.strings["double"]:
@@ -49,13 +49,24 @@ class G_ADJ_CP(Metric):
         filtered_double_debug = [
             double
             for double in double_debug
-            if all(double not in triple for triple in triple_debug)
+            if all(double.text not in triple.text for triple in triple_debug)
         ]
 
-        bi_gram_count = len(filtered_double_debug) * 3
-        tri_gram_count = len(triple_debug) * 5
-        result = bi_gram_count + tri_gram_count
-        return ratio(result, len(doc)), filtered_double_debug + triple_debug
+        filtered = filtered_double_debug + triple_debug
+        morph_cases = [
+            [
+                token.morph.get("Case")[0]
+                for token in item
+                if token.morph.get("Case") != []
+            ]
+            for item in filtered
+        ]
+        same_cases = [len(set(item)) == 1 for item in morph_cases]
+
+        filtered = [filtered[i] for i in range(len(filtered)) if same_cases[i]]
+        debug = [item.text for item in filtered]
+        result = sum([len([token for token in item]) for item in filtered])
+        return ratio(result, len(doc)), debug
 
 
 class DESC_ADJ(Metric):
@@ -75,12 +86,18 @@ class DESC_ADJ(Metric):
         ]
         matcher.add("nazwa", [pattern])
         matches = matcher(doc)
-        debug = [
-            token.text
-            for match in matches
-            for _, start, end in [match]
-            for token in doc[start:end]
+        filtered = [[token for token in doc[start:end]] for _, start, end in matches]
+        morph_cases = [
+            [
+                token.morph.get("Case")[0]
+                for token in item
+                if token.morph.get("Case") != []
+            ]
+            for item in filtered
         ]
+        same_cases = [len(set(item)) == 1 for item in morph_cases]
+        filtered = [filtered[i] for i in range(len(filtered)) if same_cases[i]]
+        debug = sum(filtered, [])  # flat list
         result = len(debug)
         return ratio(result, len(doc)), debug
 

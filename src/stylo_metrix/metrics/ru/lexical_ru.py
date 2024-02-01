@@ -17,7 +17,7 @@
 import math
 
 from ...structures import Category, Metric
-from ...utils import incidence, log_incidence, ratio
+from ...utils import ratio
 
 
 class Lexical(Category):

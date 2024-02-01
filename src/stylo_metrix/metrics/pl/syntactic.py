@@ -335,7 +335,7 @@ class SY_INIT(Metric):
 
 class SY_QUOT(Metric):
     category = Syntactic
-    name_en = "Number of words in quotation marks"
+    name_en = "Words in quotation marks"
     name_local = "Słowa w cudzysłowie"
 
     def count(doc):
