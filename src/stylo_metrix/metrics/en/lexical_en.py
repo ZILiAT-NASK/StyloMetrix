@@ -21,7 +21,7 @@ import regex as re
 from spacy_syllables import SpacySyllables
 
 from ...structures import Category, Metric
-from ...utils import incidence, log_incidence, ratio
+from ...utils import ratio
 
 LW_CAUSE_PURPOSE = """in the event that, granted that, provided that, in case, in the event, as long as, for the purpose of, with the intention, with this in mind, in the hope that, to the end that, for fear that, in order to, seeing, being that, in view of, whenever, lest, in case, privided that, given that, only, even if, so that, so as to, owing to, due to, inasmuch as""".strip().split(
     ", "
