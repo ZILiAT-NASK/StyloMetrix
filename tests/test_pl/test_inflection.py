@@ -739,9 +739,9 @@ class TestInflectionPL(unittest.TestCase):
 
     def test_IN_ADV_SUP(self):
         metric = "IN_ADV_SUP"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Najtrudniej wykonać pierwszy krok, potem łatwo mija rok."
+        expected_debug = ["Najtrudniej"]
+        expected_out = 0.1
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -752,9 +752,9 @@ class TestInflectionPL(unittest.TestCase):
 
     def test_IN_PRO_1P(self):
         metric = "IN_PRO_1P"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Za naszą i waszą wolność trzeba nam walczyć"
+        expected_debug = ["naszą", "nam"]
+        expected_out = 0.25
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -765,9 +765,9 @@ class TestInflectionPL(unittest.TestCase):
 
     def test_IN_PRO_2P(self):
         metric = "IN_PRO_2P"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Za naszą i waszą wolność trzeba wam walczyć"
+        expected_debug = ["waszą", "wam"]
+        expected_out = 0.25
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -778,9 +778,9 @@ class TestInflectionPL(unittest.TestCase):
 
     def test_IN_PRO_2S(self):
         metric = "IN_PRO_2S"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Nie rozumiem ciebie i tych twoich wyimaginowanych problemów"
+        expected_debug = ["ciebie", "twoich"]
+        expected_out = 0.25
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -791,9 +791,9 @@ class TestInflectionPL(unittest.TestCase):
 
     def test_IN_V_1S(self):
         metric = "IN_V_1S"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Siedzę i myślę, myślę i myślę, czego naprawdę mi brak"
+        expected_debug = ["Siedzę", "myślę", "myślę", "myślę"]
+        expected_out = 0.3333333333333333
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -804,9 +804,9 @@ class TestInflectionPL(unittest.TestCase):
 
     def test_IN_V_2P(self):
         metric = "IN_V_2P"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Będziecie kiedyś całkiem sami i pożałujecie tej decyzji"
+        expected_debug = ["Będziecie", "pożałujecie"]
+        expected_out = 0.25
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -817,9 +817,15 @@ class TestInflectionPL(unittest.TestCase):
 
     def test_IN_V_FUTC(self):
         metric = "IN_V_FUTC"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Będziesz zbierać kwiaty, będziesz się uśmiechać, będziesz liczyć gwiazdy, będziesz na mnie czekać"
+        expected_debug = [
+            (
+                ["Będziesz", "będziesz", "będziesz", "będziesz"],
+                ["zbierać"],
+                ["uśmiechać", "liczyć", "czekać"],
+            )
+        ]
+        expected_out = 0.5
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -830,9 +836,9 @@ class TestInflectionPL(unittest.TestCase):
 
     def test_IN_V_IMPERS_IMPERF(self):
         metric = "IN_V_IMPERS_IMPERF"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "W dawnych czasach mieszkano na wsi w kurnych chatach."
+        expected_debug = ["mieszkano"]
+        expected_out = 0.1
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -843,9 +849,9 @@ class TestInflectionPL(unittest.TestCase):
 
     def test_IN_V_MOD(self):
         metric = "IN_V_MOD"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Powinniśmy skończyć ten projekt przed terminem, ale chcielibyśmy negocjować warunki."
+        expected_debug = ["Powinniśmy", "chcielibyśmy"]
+        expected_out = 0.16666666666666666
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]

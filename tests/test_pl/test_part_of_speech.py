@@ -276,24 +276,11 @@ class TestPartofSpeechPL(unittest.TestCase):
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
-    def test_APOS_ADJ(self):
-        metric = "APOS_ADJ"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
-
-        out, debug = self.sm.transform([test_text])
-        out = out[metric][0]
-        debug = debug[metric][0]
-
-        self.assertEqual(expected_out, out)
-        self.assertSequenceEqual(expected_debug, debug)
-
     def test_G_ABBR(self):
         metric = "G_ABBR"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Tzw. akt Ribbentrop-Mołotow został podpisany został w 1939 roku."
+        expected_debug = ["Tzw"]
+        expected_out = 0.07692307692307693
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -304,9 +291,9 @@ class TestPartofSpeechPL(unittest.TestCase):
 
     def test_G_INTJ(self):
         metric = "G_INTJ"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Hej, hej, hej, hej sokoły, omijajcie góry, lasy, doły!"
+        expected_debug = ["Hej", "hej", "hej", "hej"]
+        expected_out = 0.25
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -317,9 +304,9 @@ class TestPartofSpeechPL(unittest.TestCase):
 
     def test_G_OTHER(self):
         metric = "G_OTHER"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Spytał ją, czy parlez vous francais."
+        expected_debug = ["parlez", "vous", "francais"]
+        expected_out = 0.375
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -330,9 +317,11 @@ class TestPartofSpeechPL(unittest.TestCase):
 
     def test_G_SYM(self):
         metric = "G_SYM"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = (
+            "12$ tylko nie płacz, proszę, do domu przynoszę, tylko nie płacz, proszę"
+        )
+        expected_debug = ["$"]
+        expected_out = 0.058823529411764705
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]

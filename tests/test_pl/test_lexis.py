@@ -351,7 +351,7 @@ class TestLexisPL(unittest.TestCase):
     def test_L_ADVPHR(self):
         metric = "L_ADVPHR"
         test_text = "Trwają przygotowania do uczty, w czasie której ma nastąpić zakończenie sporu."
-        expected_debug = ["w czas"]
+        expected_debug = ["w czas"]  # TODO
         expected_out = 0.15384615384615385
 
         out, debug = self.sm.transform([test_text])
@@ -416,7 +416,7 @@ class TestLexisPL(unittest.TestCase):
     def test_L_ERROR(self):
         metric = "L_ERROR"
         test_text = "Znudzona tym wszystkim Telimena proponuje spacer po lesie połączony z grzybobraniem."
-        expected_debug = ["a propo"]
+        expected_debug = ["a propo"]  # TODO
         expected_out = 0.16666666666666666
 
         out, debug = self.sm.transform([test_text])
@@ -458,9 +458,9 @@ class TestLexisPL(unittest.TestCase):
 
     def test_L_ADV_DUR(self):
         metric = "L_ADV_DUR"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Cały czas mnie denerwujesz"
+        expected_debug = ["cały czas"]
+        expected_out = 0.5
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -471,9 +471,9 @@ class TestLexisPL(unittest.TestCase):
 
     def test_L_ADV_FREQ(self):
         metric = "L_ADV_FREQ"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Wielokrotnie nadużyła już swoich przywilejów"
+        expected_debug = ["wielokrotnie"]
+        expected_out = 0.2
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -484,9 +484,9 @@ class TestLexisPL(unittest.TestCase):
 
     def test_L_INTENSIF(self):
         metric = "L_INTENSIF"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "W Biedronce jest dzisiaj hiperpromocja na gruszki!"
+        expected_debug = ["hiperpromocja"]
+        expected_out = 0.125
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -497,9 +497,9 @@ class TestLexisPL(unittest.TestCase):
 
     def test_L_VULG(self):
         metric = "L_VULG"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Kolejny chujowy dzień przed nami"
+        expected_debug = ["chujowy"]
+        expected_out = 0.2
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]

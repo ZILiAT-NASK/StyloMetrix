@@ -582,7 +582,7 @@ class IN_PRO_2PL(Metric):
         debug = [
             token.text
             for token in doc
-            if "PPER" in token.tag_.split(":")
+            if "PPER" in token.tag_.split(":")  # TODO czy tylko PPER czy też PRF?
             and str(token.morph.get("Person")) == "['2']"
             and str(token.morph.get("Number")) == "['Plur']"
         ]

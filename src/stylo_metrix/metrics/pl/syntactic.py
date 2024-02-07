@@ -351,38 +351,6 @@ class SY_QUOT(Metric):
         return ratio(result, len(doc)), debug
 
 
-class SY_SIMILE_NP(Metric):
-    category = Syntactic
-    name_en = "Similes (noun/pronoun)"
-    name_local = "Porównania (rzeczownik/zaimek)"
-
-    def count(doc):
-        result = 0
-        debug = []
-
-        for sent in doc.sents:
-            subj = [
-                token.text
-                for token in sent
-                if token.pos_ in ["NOUN", "PROPN", "PRON"] and token.dep_ == "nsubj"
-            ]
-
-            sim = [
-                token.text
-                for token in sent
-                if token.pos_ == "SCONJ"
-                and str(token.morph.get("ConjType")) == "['Cmpr']"
-            ]
-
-            obl = [token.text for token in sent if token.dep_ == "obl:cmpr"]
-
-            if subj and sim and obl:
-                debug.append((subj, sim, obl))
-                result = result + len(subj) + len(sim) + len(obl)
-
-        return ratio(result, len(doc)), debug
-
-
 class SY_SIMILE_ADJ(Metric):
     category = Syntactic
     name_en = "Similes (adjective)"

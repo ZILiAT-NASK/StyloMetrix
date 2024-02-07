@@ -14,14 +14,14 @@ from .data.dictionaries import (
 )
 
 
-class Lexis(Category):
+class Lexical(Category):
     lang = "pl"
-    name_en = "Lexis"
-    name_local = "Leksyka"
+    name_en = "Lexical"
+    name_local = "Leksykalne"
 
 
 class L_NAME(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Proper names"
     name_local = "Nazwy własne"
 
@@ -32,7 +32,7 @@ class L_NAME(Metric):
 
 
 class L_NAME_M(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Masculine proper nouns"
     name_local = "Nazwy własne w rodzaju męskim"
 
@@ -40,14 +40,14 @@ class L_NAME_M(Metric):
         debug = [
             token.text
             for token in doc
-            if token.pos_ == "PROPN" and str(token.morph.get("Gender")) == "['Masc']"
+            if token.pos_ == "PROPN" and "Gender=Masc" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
 
 class L_NAME_F(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Feminine proper nouns"
     name_local = "Nazwy własne w rodzaju żeńskim"
 
@@ -55,14 +55,14 @@ class L_NAME_F(Metric):
         debug = [
             token.text
             for token in doc
-            if token.pos_ == "PROPN" and str(token.morph.get("Gender")) == "['Fem']"
+            if token.pos_ == "PROPN" and "Gender=Fem" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
 
 class L_NAME_ENT(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Named entities"
     name_local = "Jednostki nazewnicze"
 
@@ -73,7 +73,7 @@ class L_NAME_ENT(Metric):
 
 
 class L_PLACEN_GEOG(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Place and geographical names"
     name_local = "Nazwy miejsc i nazwy geograficzne"
 
@@ -83,14 +83,14 @@ class L_PLACEN_GEOG(Metric):
             for token in doc
             if token.ent_type_ in ["PLACENAME", "GEOGNAME"]
             and token.pos_ == "PROPN"
-            and str(token.morph.get("Animacy")) != "['Hum']"
+            and "Animacy=Hum" not in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
 
 class L_PERSN(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Person names"
     name_local = "Nazwy osób"
 
@@ -101,7 +101,7 @@ class L_PERSN(Metric):
 
 
 class L_PERSN_M(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Masculine person names"
     name_local = "Nazwy osób w rodzaju męskim"
 
@@ -109,15 +109,14 @@ class L_PERSN_M(Metric):
         debug = [
             token.text
             for token in doc
-            if token.ent_type_ == "PERSNAME"
-            and str(token.morph.get("Gender")) == "['Masc']"
+            if token.ent_type_ == "PERSNAME" and "Gender=Masc" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
 
 class L_PERSN_F(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Feminine person names"
     name_local = "Nazwy osób w rodzaju żeńskim"
 
@@ -125,15 +124,14 @@ class L_PERSN_F(Metric):
         debug = [
             token.text
             for token in doc
-            if token.ent_type_ == "PERSNAME"
-            and str(token.morph.get("Gender")) == "['Fem']"
+            if token.ent_type_ == "PERSNAME" and "Gender=Fem" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
 
 class L_ORGN(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Organization names"
     name_local = "Nazwy organizacji"
 
@@ -144,7 +142,7 @@ class L_ORGN(Metric):
 
 
 class L_ETHN(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Ethnonyms and demonyms"
     name_local = "Etnonimy i demonimy"
 
@@ -153,14 +151,14 @@ class L_ETHN(Metric):
             token.text
             for token in doc
             if token.ent_type_ in ["GEOGNAME", "PLACENAME"]
-            and str(token.morph.get("Animacy")) == "['Hum']"
+            and "Animacy=Hum" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
 
 class L_GEOG_ADJ(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Adjectives derived from geographical names"
     name_local = "Przymiotniki wywodzące się od nazw geograficznych"
 
@@ -175,7 +173,7 @@ class L_GEOG_ADJ(Metric):
 
 
 class L_DATE(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Dates"
     name_local = "Daty"
 
@@ -186,7 +184,7 @@ class L_DATE(Metric):
 
 
 class L_VULG(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Vulgarisms"
     name_local = "Wulgaryzmy"
 
@@ -199,7 +197,7 @@ class L_VULG(Metric):
 
 
 class L_INTENSIF(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Degree modifiers of Greek origin"
     name_local = "Modyfikatory natężenia cechy pochodzenia greckiego"
 
@@ -220,7 +218,7 @@ class L_INTENSIF(Metric):
 
 
 class L_ERROR(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Common linguistic errors"
     name_local = "Częste błędy językowe"
 
@@ -254,7 +252,7 @@ class L_ERROR(Metric):
 
 
 class L_ADVPHR(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Adverbial phrases"
     name_local = "Frazy przysłówkowe"
 
@@ -288,9 +286,9 @@ class L_ADVPHR(Metric):
 
 
 class L_ADV_TEMP(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Adverbs of time"
-    name_local = "Przyslowki temporalne"
+    name_local = "Przysłówki temporalne"
 
     def count(doc):
         debug = [token.text for token in doc if token.text.lower() in adv_temp]
@@ -299,7 +297,7 @@ class L_ADV_TEMP(Metric):
 
 
 class L_ADV_DUR(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Adverbs of duration"
     name_local = "Przysłówki duratywne"
 
@@ -324,9 +322,9 @@ class L_ADV_DUR(Metric):
 
 
 class L_ADV_FREQ(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Adverbs of frequency"
-    name_local = "Przysłówki czestotliwosci"
+    name_local = "Przysłówki częstotliwości"
 
     def count(doc):
         words = [token.text.lower() for token in doc]
@@ -349,7 +347,7 @@ class L_ADV_FREQ(Metric):
 
 
 class L_SYL_G1(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "One-syllable words"
     name_local = "Wyrazy jednosylabowe"
 
@@ -360,7 +358,7 @@ class L_SYL_G1(Metric):
 
 
 class L_SYL_G2(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Two-syllables words"
     name_local = "Wyrazy dwusylabowe"
 
@@ -371,7 +369,7 @@ class L_SYL_G2(Metric):
 
 
 class L_SYL_G3(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Three-syllables words"
     name_local = "Wyrazy trójsylabowe"
 
@@ -382,7 +380,7 @@ class L_SYL_G3(Metric):
 
 
 class L_SYL_G4(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Words formed of 4 or more syllables"
     name_local = "Wyrazy o liczbie sylab większej niż 3"
 
@@ -397,7 +395,7 @@ class L_SYL_G4(Metric):
 
 
 class L_TTR_IA(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Type-token ratio for non-lemmatized tokens"
     name_local = "Type-token ratio dla wyrazów w odmianach"
 
@@ -408,7 +406,7 @@ class L_TTR_IA(Metric):
 
 
 class L_TTR_LA(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Type-token ratio for lemmatized tokens"
     name_local = "Type-token ratio dla wyrazów zlematyzowanych"
 
@@ -419,7 +417,7 @@ class L_TTR_LA(Metric):
 
 
 class L_CONT_A(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Incidence of content words"
     name_local = "Wyrazy samodzielne"
 
@@ -463,7 +461,7 @@ class L_CONT_A(Metric):
 
 
 class L_CONT_T(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Content words types"
     name_local = "Typy wyrazów samodzielnych"
 
@@ -507,7 +505,7 @@ class L_CONT_T(Metric):
 
 
 class L_CONT_L(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Content words lemma types"
     name_local = "Typy lemm wyrazów samodzielnych"
 
@@ -551,7 +549,7 @@ class L_CONT_L(Metric):
 
 
 class L_FUNC_A(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Incidence of function words"
     name_local = "Słowa funkcyjne"
 
@@ -569,7 +567,7 @@ class L_FUNC_A(Metric):
 
 
 class L_FUNC_T(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Function words types"
     name_local = "Typy wyrazow funkcyjnych"
 
@@ -587,7 +585,7 @@ class L_FUNC_T(Metric):
 
 
 class L_FUNC_L(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Function words lemma types"
     name_local = "Typy lemm wyrazow funkcyjnych"
 
@@ -605,7 +603,7 @@ class L_FUNC_L(Metric):
 
 
 class L_STOP(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Incidence of stop words"
     name_local = "Wyrazy ze stoplisty"
 
@@ -616,7 +614,7 @@ class L_STOP(Metric):
 
 
 class L_TCCT1(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Tokens covering 1% of most common types"
     name_local = "Wyrazy wchodzące w skład 1% najczęstszych typów"
 
@@ -633,7 +631,7 @@ class L_TCCT1(Metric):
 
 
 class L_TCCT5(Metric):
-    category = Lexis
+    category = Lexical
     name_en = "Tokens covering 5% of most common types"
     name_local = "Wyrazy wchodzące w skład 5% najczęstszych typów"
 

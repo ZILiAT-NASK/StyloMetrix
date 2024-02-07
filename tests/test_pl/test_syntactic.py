@@ -313,19 +313,6 @@ class TestSyntacticPL(unittest.TestCase):
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
-    def test_SY_SIMILE_NP(self):
-        metric = "SY_SIMILE_NP"
-        test_text = "x"
-        expected_debug = []  # TODO # MOIM ZDANIEM DO USUNIĘCIA
-        expected_out = 0
-
-        out, debug = self.sm.transform([test_text])
-        out = out[metric][0]
-        debug = debug[metric][0]
-
-        self.assertEqual(expected_out, out)
-        self.assertSequenceEqual(expected_debug, debug)
-
     def test_SY_S_IN(self):
         metric = "SY_S_IN"
         test_text = "Pójdziemy do kina?"

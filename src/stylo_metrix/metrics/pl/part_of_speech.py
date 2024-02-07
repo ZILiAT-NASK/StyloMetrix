@@ -2,14 +2,14 @@ from ...structures import Category, Metric
 from ...utils import ratio
 
 
-class PartOfSpeech(Category):
+class GrammaticalForms(Category):
     lang = "pl"
-    name_en = "Part_of_Speech"
+    name_en = "Grammatical_Forms"
     name_local = "Czesci_mowy"
 
 
 class G_N(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Nouns"
     name_local = "Rzeczowniki"
 
@@ -20,7 +20,7 @@ class G_N(Metric):
 
 
 class G_V(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Verbs"
     name_local = "Czasowniki"
 
@@ -28,15 +28,14 @@ class G_V(Metric):
         debug = [
             token.text
             for token in doc
-            if token.pos_ in ["VERB", "AUX"]
-            and str(token.morph.get("VerbType")) != "['Quasi']"
+            if token.pos_ in ["VERB", "AUX"] and "VerbType=Quasi" not in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
 
 class G_ADJ(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Adjectives"
     name_local = "Przymiotniki"
 
@@ -46,14 +45,14 @@ class G_ADJ(Metric):
             for token in doc
             if token.pos_ == "ADJ"
             and token.is_digit == False
-            and not str(token.morph.get("NumForm")) == "['Roman']"
+            and "NumForm=Roman" not in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
 
 class G_ADV(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Adverbs"
     name_local = "Przysłówki"
 
@@ -68,7 +67,7 @@ class G_ADV(Metric):
 
 
 class G_PRO(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Pronouns"
     name_local = "Zaimki"
 
@@ -79,7 +78,7 @@ class G_PRO(Metric):
 
 
 class G_PRO_PRS(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Personal pronouns"
     name_local = "Zaimki osobowe"
 
@@ -87,29 +86,26 @@ class G_PRO_PRS(Metric):
         debug = [
             token.text
             for token in doc
-            if str(token.morph.get("PronType")) == "['Prs']"
-            and str(token.morph.get("Reflex")) != "['Yes']"
-            and str(token.morph.get("Poss")) != "['Yes']"
+            if "PronType=Prs" in token.morph
+            and not any(tag in token.morph for tag in ["Reflex=Yes", "Poss=Yes"])
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
 
 class G_PRO_REL(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Relative pronouns"
     name_local = "Zaimki względne"
 
     def count(doc):
-        debug = [
-            token.text for token in doc if str(token.morph.get("PronType")) == "['Rel']"
-        ]
+        debug = [token.text for token in doc if "PronType=Rel" in token.morph]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
 
 class G_PRO_DEM(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Demonstrative pronouns"
     name_local = "Zaimki wskazujące"
 
@@ -117,67 +113,58 @@ class G_PRO_DEM(Metric):
         debug = [
             token.text
             for token in doc
-            if token.pos_ in ["PRON", "DET"]
-            and str(token.morph.get("PronType")) == "['Dem']"
+            if token.pos_ in ["PRON", "DET"] and "PronType=Dem" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
 
 class G_PRO_INT(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Interrogative pronouns"
     name_local = "Zaimki pytajne"
 
     def count(doc):
-        debug = [
-            token.text for token in doc if str(token.morph.get("PronType")) == "['Int']"
-        ]
+        debug = [token.text for token in doc if "PronType=Int" in token.morph]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
 
 class G_PRO_IND(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Indefinite pronouns"
     name_local = "Zaimki nieokreślone"
 
     def count(doc):
-        debug = [
-            token.text for token in doc if str(token.morph.get("PronType")) == "['Ind']"
-        ]
+        debug = [token.text for token in doc if "PronType=Neg" in token.morph]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
 
 class G_PRO_TOT(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Total pronouns"
     name_local = "Zaimki uogólniające"
 
     def count(doc):
-        debug = [
-            token.text for token in doc if str(token.morph.get("PronType")) == "['Tot']"
-        ]
+        debug = [token.text for token in doc if "PronType=Tot" in token.morph]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
 
 class G_PRO_NEG(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Negative pronouns"
     name_local = "Zaimki przeczące"
 
     def count(doc):
-        debug = [
-            token.text for token in doc if str(token.morph.get("PronType")) == "['Neg']"
-        ]
+        debug = [token.text for token in doc if "PronType=Neg" in token.morph]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
 
 class G_PRO_POS(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Possessive pronouns"
     name_local = "Zaimki dzierżawcze"
 
@@ -186,14 +173,14 @@ class G_PRO_POS(Metric):
         debug = [
             token.text
             for token in doc
-            if str(token.morph.get("Poss")) == "['Yes']" or token.text in list_pronouns
+            if "Poss=Yes" in token.morph or token.text in list_pronouns
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
 
 class G_NUM(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Numerals"
     name_local = "Liczebniki"
 
@@ -208,7 +195,7 @@ class G_NUM(Metric):
 
 
 class G_CNUM(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Collective numerals"
     name_local = "Liczebniki zbiorowe"
 
@@ -218,17 +205,17 @@ class G_CNUM(Metric):
             for token in doc
             if token.pos_ == "NUM"
             and [
-                str(token.morph.get("NumType")) == "['Sets']"
+                "NumType=Sets" in token.morph
                 or any("col" in tag_part for tag_part in token.tag_.split(":"))
             ]
-            and str(token.morph.get("NumForm")) != "['Digit']"
+            and "NumForm=Digit" not in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
 
 class G_PART(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Particles"
     name_local = "Partykuły"
 
@@ -236,15 +223,14 @@ class G_PART(Metric):
         debug = [
             token.text
             for token in doc
-            if "part" in token.tag_.split(":")
-            and str(token.morph.get("Reflex")) != "['Yes']"
+            if "part" in token.tag_.split(":") and "Reflex=Yes" not in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
 
 class G_ADP(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Adpositions"
     name_local = "Przyimki"
 
@@ -255,7 +241,7 @@ class G_ADP(Metric):
 
 
 class G_INTJ(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Interjections"
     name_local = "Wykrzykniki"
 
@@ -266,7 +252,7 @@ class G_INTJ(Metric):
 
 
 class G_SYM(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Symbols"
     name_local = "Symbole"
 
@@ -277,7 +263,7 @@ class G_SYM(Metric):
 
 
 class G_ABBR(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Abbreviations"
     name_local = "Skrótowce"
 
@@ -288,7 +274,7 @@ class G_ABBR(Metric):
 
 
 class G_CONJ(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Conjunctions"
     name_local = "Spójniki"
 
@@ -299,7 +285,7 @@ class G_CONJ(Metric):
 
 
 class G_CCONJ(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Coordinating conjunctions"
     name_local = "Łączniki zdan współrzędnie złożonych"
 
@@ -310,7 +296,7 @@ class G_CCONJ(Metric):
 
 
 class G_SCONJ(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Subordinating conjunctions"
     name_local = "Łączniki zdań podrzędnie złożonych"
 
@@ -321,7 +307,7 @@ class G_SCONJ(Metric):
 
 
 class G_OTHER(Metric):
-    category = PartOfSpeech
+    category = GrammaticalForms
     name_en = "Other parts of speech"
     name_local = "Inne części mowy"
 
@@ -329,40 +315,7 @@ class G_OTHER(Metric):
         debug = [
             token.text
             for token in doc
-            if token.pos_ == "X" and str(token.morph.get("Abbr")) != "['Yes']"
+            if token.pos_ == "X" and "Abbr=Yes" not in token.morph
         ]
         result = len(debug)
-        return ratio(result, len(doc)), debug
-
-
-class APOS_ADJ(Metric):
-    category = PartOfSpeech
-    name_en = "Descriptive apostrophe with an adjective"
-    name_local = "Apostrofa opisowa z przymiotnikiem"
-
-    def count(doc):
-        result = 0
-        dets = ["det", "amod"]
-        debug = []
-
-        for sent in doc.sents:
-            inn7w = [
-                token.text
-                for token in sent
-                if (
-                    token.pos_ in ["NOUN", "PROPN"]
-                    and str(token.morph.get("Case")) == "['Voc']"
-                )
-                or (token.pos_ in ["NOUN", "PROPN"] and token.dep_ == "vocative")
-            ]
-
-            pron = [
-                token.text
-                for token in sent
-                if token.dep_ in dets and token.head.text in inn7w
-            ]
-            if inn7w and pron:
-                debug.append((pron, inn7w))
-                result = result + len(inn7w) + len(pron)
-
         return ratio(result, len(doc)), debug
