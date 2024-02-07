@@ -236,8 +236,13 @@ class L_ERROR(Metric):
             entry = entry.lower()
             if " " in entry:
                 phrase_tokens = entry.split()
-                if entry in doc.text.lower():
-                    if all(token in doc.text.lower() for token in phrase_tokens):
+                text = doc.text.lower()
+                if (
+                    entry in text
+                    and text[text.find(entry) - 1] == " "
+                    and text[text.find(entry) + len(entry)] == " "
+                ):
+                    if all(token in text for token in phrase_tokens):
                         is_contained = any(phrase in debug for phrase in phrase_tokens)
                         if not is_contained:
                             is_partial_contained = any(
@@ -270,8 +275,13 @@ class L_ADVPHR(Metric):
             entry = entry.lower()
             if " " in entry:
                 phrase_tokens = entry.split()
-                if entry in doc.text.lower():
-                    if all(token in doc.text.lower() for token in phrase_tokens):
+                text = doc.text.lower()
+                if (
+                    entry in text
+                    and text[text.find(entry) - 1] == " "
+                    and text[text.find(entry) + len(entry)] == " "
+                ):
+                    if all(token in text for token in phrase_tokens):
                         is_contained = any(phrase in debug for phrase in phrase_tokens)
                         if not is_contained:
                             is_partial_contained = any(
@@ -313,7 +323,12 @@ class L_ADV_DUR(Metric):
             entry = entry.lower()
             if " " in entry:
                 phrase_tokens = entry.split()
-                if entry in doc.text.lower():
+                text = doc.text.lower()
+                if (
+                    entry in text
+                    and text[text.find(entry) - 1] == " "
+                    and text[text.find(entry) + len(entry)] == " "
+                ):
                     debug.append(" ".join(phrase_tokens))
                     total_matched_words += len(phrase_tokens)
             elif entry in words:
@@ -338,7 +353,12 @@ class L_ADV_FREQ(Metric):
             entry = entry.lower()
             if " " in entry:
                 phrase_tokens = entry.split()
-                if entry in doc.text.lower():
+                text = doc.text.lower()
+                if (
+                    entry in text
+                    and text[text.find(entry) - 1] == " "
+                    and text[text.find(entry) + len(entry)] == " "
+                ):
                     debug.append(" ".join(phrase_tokens))
                     total_matched_words += len(phrase_tokens)
             elif entry in words:
