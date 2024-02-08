@@ -1,3 +1,4 @@
+import re
 from collections import Counter
 
 from ...structures import Category, Metric
@@ -235,6 +236,8 @@ class L_ERROR(Metric):
             if " " in entry:
                 phrase_tokens = entry.split()
                 text = doc.text.lower()
+                text = re.sub("[!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~]", "", text)
+                text = " " + text + " "
                 if (
                     entry in text
                     and text[text.find(entry) - 1] == " "
@@ -274,6 +277,8 @@ class L_ADVPHR(Metric):
             if " " in entry:
                 phrase_tokens = entry.split()
                 text = doc.text.lower()
+                text = re.sub("[!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~]", "", text)
+                text = " " + text + " "
                 if (
                     entry in text
                     and text[text.find(entry) - 1] == " "
@@ -322,6 +327,8 @@ class L_ADV_DUR(Metric):
             if " " in entry:
                 phrase_tokens = entry.split()
                 text = doc.text.lower()
+                text = re.sub("[!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~]", "", text)
+                text = " " + text + " "
                 if (
                     entry in text
                     and text[text.find(entry) - 1] == " "
@@ -352,6 +359,8 @@ class L_ADV_FREQ(Metric):
             if " " in entry:
                 phrase_tokens = entry.split()
                 text = doc.text.lower()
+                text = re.sub("[!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~]", "", text)
+                text = " " + text + " "
                 if (
                     entry in text
                     and text[text.find(entry) - 1] == " "
