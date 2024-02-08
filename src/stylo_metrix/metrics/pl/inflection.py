@@ -21,7 +21,7 @@ class IN_ADJ_POS(Metric):
             for token in doc
             if token.pos_ == "ADJ"
             and token.is_digit == False
-            and not str(token.morph.get("NumForm")) == "['Roman']"
+            and "NumForm=Roman" not in token.morph
             and token.is_punct == False
             and "Degree=Pos" in token.morph
         ]
@@ -443,7 +443,7 @@ class IN_PRO_1S(Metric):
             for token in doc
             if token.morph.get("PronType")
             and all(tag in token.morph for tag in ["Number=Sing", "Person=1"])
-            and not "Number[psor]=Plur" in token.morph
+            and "Number[psor]=Plur" not in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -478,7 +478,7 @@ class IN_PRO_3S(Metric):
             for token in doc
             if token.morph.get("PronType")
             and all(tag in token.morph for tag in ["Number=Sing", "Person=3"])
-            and not "Number[psor]=Plur" in token.morph
+            and "Number[psor]=Plur" not in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -537,7 +537,7 @@ class IN_PRO_3P(Metric):
             for token in doc
             if token.morph.get("PronType")
             and all(tag in token.morph for tag in ["Number=Plur", "Person=3"])
-            and not "Number[psor]=Sing" in token.morph
+            and "Number[psor]=Sing" not in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -993,7 +993,7 @@ class IN_V_FUTC(Metric):
                 token.text
                 for token in sent
                 if token.dep_ == "aux"
-                and str(token.morph.get("Tense")) == "['Fut']"
+                and "Tense=Fut" in token.morph
                 and token.lemma_ == "być"
             ]
 
