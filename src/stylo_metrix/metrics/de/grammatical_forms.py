@@ -227,9 +227,7 @@ class G_PRO_DEM(Metric):
     name_local = "Demonstrativpronomen"
 
     def count(doc):
-        debug = [
-            token.text for token in doc if str(token.morph.get("PronType")) == "['Dem']"
-        ]
+        debug = [token.text for token in doc if "PronType=Dem" in token.morph]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -240,9 +238,7 @@ class G_PRO_IND(Metric):
     name_local = "Indefinitpronomen"
 
     def count(doc):
-        debug = [
-            token.text for token in doc if str(token.morph.get("PronType")) == "['Ind']"
-        ]
+        debug = [token.text for token in doc if "PronType=Ind" in token.morph]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -290,9 +286,7 @@ class G_PRO_INT(Metric):
     name_local = "Interrogativpronomen"
 
     def count(doc):
-        debug = [
-            token.text for token in doc if str(token.morph.get("PronType")) == "['Int']"
-        ]
+        debug = [token.text for token in doc if "PronType=Int" in token.morph]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -303,9 +297,7 @@ class G_PRO_REL(Metric):
     name_local = "Relativpronomen"
 
     def count(doc):
-        debug = [
-            token.text for token in doc if str(token.morph.get("PronType")) == "['Rel']"
-        ]
+        debug = [token.text for token in doc if "PronType=Rel" in token.morph]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -385,9 +377,7 @@ class G_ART_DEF(Metric):
     name_local = "Bestimmte Artikel"
 
     def count(doc):
-        debug = [
-            token.text for token in doc if str(token.morph.get("Definite")) == "['Def']"
-        ]
+        debug = [token.text for token in doc if "Definite=Def" in token.morph]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -398,9 +388,7 @@ class G_ART_IND(Metric):
     name_local = "Unbestimmte Artikel"
 
     def count(doc):
-        debug = [
-            token.text for token in doc if str(token.morph.get("Definite")) == "['Ind']"
-        ]
+        debug = [token.text for token in doc if "Definite=Ind" in token.morph]
         result = len(debug)
         return ratio(result, len(doc)), debug
 

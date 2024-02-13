@@ -190,7 +190,7 @@ class DESC_APOS_VERB(Metric):
             pron = [
                 token.text
                 for token in sent
-                if token.pos_ == "VERB" and str(token.morph.get("Person")) == "['2']"
+                if token.pos_ == "VERB" and "Person=2" in token.morph
             ]
             if inn7w and pron:
                 debug.append((inn7w, pron))

@@ -360,19 +360,6 @@ class TestPartsOfSpeechDE(unittest.TestCase):
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
-    def test_G_INTJ(self):
-        metric = "G_INTJ"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
-
-        out, debug = self.sm.transform([test_text])
-        out = out[metric][0]
-        debug = debug[metric][0]
-
-        self.assertEqual(expected_out, out)
-        self.assertSequenceEqual(expected_debug, debug)
-
     def test_G_PRO_REZ(self):
         metric = "G_PRO_REZ"
         test_text = "Sie streiten miteinander die ganze Nacht"

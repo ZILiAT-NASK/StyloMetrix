@@ -44,7 +44,7 @@ class SY_APPR(Metric):
 class SY_APPRART(Metric):
     category = Syntactic
     name_en = "Adpositions with fused articles"
-    name_local = "Praepositionen mit verschmolzenen Artikeln"
+    name_local = "Präpositionen mit verschmolzenen Artikeln"
 
     def count(doc):
         debug = [token.text for token in doc if "APPRART" in token.tag_.split(":")]
@@ -234,10 +234,8 @@ class SY_S_COND1(Metric):
             if any(token.text.lower() == "wenn" for token in sent):
                 if any(
                     token.pos_ in ["VERB", "AUX"]
-                    and str(token.morph.get("Tense")) == "['Pres']"
-                    and not any(
-                        str(token.morph.get("VerbForm")) == "['Part']" for token in sent
-                    )
+                    and "Tense=Pres" in token.morph
+                    and not any("VerbForm=Part" in token.morph for token in sent)
                     for token in sent
                 ):
                     cond_sentences.append(sent)
@@ -258,10 +256,8 @@ class SY_S_COND2(Metric):
             if any(token.text.lower() == "wenn" for token in sent):
                 if any(
                     token.pos_ in ["VERB", "AUX"]
-                    and str(token.morph.get("Mood")) == "['Sub']"
-                    and not any(
-                        str(token.morph.get("VerbForm")) == "['Part']" for token in sent
-                    )
+                    and "Mood=Sub" in token.morph
+                    and not any("VerbForm=Part" in token.morph for token in sent)
                     for token in sent
                 ):
                     cond_sentences.append(sent)
@@ -281,13 +277,10 @@ class SY_S_COND3(Metric):
         for sent in doc.sents:
             if any(token.text.lower() == "wenn" for token in sent):
                 if any(
-                    token.pos_ in ["VERB", "AUX"]
-                    and str(token.morph.get("Mood")) == "['Sub']"
+                    token.pos_ in ["VERB", "AUX"] and "Mood=Sub" in token.morph
                     for token in sent
                 ):
-                    if any(
-                        str(token.morph.get("VerbForm")) == "['Part']" for token in sent
-                    ):
+                    if any("VerbForm=Part" in token.morph for token in sent):
                         cond_sentences.append(sent)
 
         debug = [token.text for sent in cond_sentences for token in sent]

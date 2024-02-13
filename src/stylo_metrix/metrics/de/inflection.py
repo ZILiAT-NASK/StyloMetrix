@@ -577,7 +577,7 @@ class IN_PRO_2PL(Metric):
         debug = [
             token.text
             for token in doc
-            if "PPER" in token.tag_.split(":")  # TODO czy tylko PPER czy też PRF?
+            if "PPER" in token.tag_.split(":")
             and "Person=2" in token.morph
             and "Number=Plur" in token.morph
         ]
@@ -944,7 +944,7 @@ class IN_ART_IND_1NOM(Metric):
         debug = [
             token.text
             for token in doc
-            if "Definite=Ind" in token.morph and "Case=Nom" in token.moprh
+            if "Definite=Ind" in token.morph and "Case=Nom" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -959,7 +959,7 @@ class IN_ART_IND_2GEN(Metric):
         debug = [
             token.text
             for token in doc
-            if "Definite=Ind" in token.morph and "Case=Gen" in token.moprh
+            if "Definite=Ind" in token.morph and "Case=Gen" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -974,7 +974,7 @@ class IN_ART_IND_3DAT(Metric):
         debug = [
             token.text
             for token in doc
-            if "Definite=Ind" in token.morph and "Case=Dat" in token.moprh
+            if "Definite=Ind" in token.morph and "Case=Dat" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -989,7 +989,7 @@ class IN_ART_IND_4ACC(Metric):
         debug = [
             token.text
             for token in doc
-            if "Definite=Ind" in token.morph and "Case=Acc" in token.moprh
+            if "Definite=Ind" in token.morph and "Case=Acc" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -1178,23 +1178,6 @@ class IN_V_3PL(Metric):
         return ratio(result, len(doc)), debug
 
 
-class IN_V_PAST(Metric):
-    category = Inflection
-    name_en = "Verbs in past tense"
-    name_local = "Verben in der Vergangenheitsform"
-
-    def count(doc):
-        debug = [
-            token.text
-            for token in doc
-            if "Tense=Past" in token.morph
-            and "Mood=Sub" not in token.morph
-            or "VVPP" in token.tag_.split(":")
-        ]
-        result = len(debug)
-        return ratio(result, len(doc)), debug
-
-
 class IN_V_PP(Metric):
     category = Inflection
     name_en = "Participle Perfect Verbs"
@@ -1218,6 +1201,9 @@ class IN_V_PAST_IMP(Metric):
             if token.pos_ in ["AUX", "VERB"]
             and "Tense=Past" in token.morph
             and "Mood=Sub" not in token.morph
+            and not any(
+                child for child in token.children if "VerbForm=Part" in child.morph
+            )
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -1266,9 +1252,68 @@ class IN_V_PAST_IMP_MOD(Metric):
         debug = [
             token.text
             for token in doc
-            if "Tense=Past" in token.morph and "VMFIN" in token.tag_.split(":")
+            if "Tense=Past" in token.morph
+            and "VMFIN" in token.tag_.split(":")
+            and "Mood=Sub" not in token.morph
         ]
         result = len(debug)
+        return ratio(result, len(doc)), debug
+
+
+class IN_V_PERFEKT(Metric):
+    category = Inflection
+    name_en = "Present perfect tense verb forms"
+    name_local = "Verben im Perfekt"
+
+    def count(doc):
+        result = 0
+        debug = []
+
+        for sent in doc.sents:
+            aux_candidates = [
+                token
+                for token in sent
+                if token.text.lower()
+                in [
+                    "bin",
+                    "bist",
+                    "ist",
+                    "sind",
+                    "seid",
+                    "habe",
+                    "hast",
+                    "hat",
+                    "haben",
+                    "habt",
+                ]
+                and any(
+                    child for child in token.children if "VerbForm=Part" in child.morph
+                )
+            ]
+
+            partizip_candidates = [
+                token
+                for token in sent
+                if "VVPP" in token.tag_.split(":") and token.dep_ == "oc"
+            ]
+
+            aux = [token.text for token in aux_candidates]
+            partizip = [token.text for token in partizip_candidates]
+
+            for aux_token in aux_candidates:
+                partizip_token = None
+
+                for token in aux_token.children:
+                    if token in partizip_candidates and "werden" not in [
+                        child.lemma_ for child in token.children
+                    ]:
+                        partizip_token = token
+                        break
+
+            if aux and partizip:
+                debug.append((aux, partizip))
+                result += len(aux) + len(partizip)
+
         return ratio(result, len(doc)), debug
 
 
@@ -1287,15 +1332,17 @@ class IN_V_PLUSQUAM(Metric):
                 for token in sent
                 if token.dep_ == "ROOT"
                 and "Tense=Past" in token.morph
+                and "Mood=Sub" not in token.morph
                 and token.lemma_ in ["haben", "sein"]
+                and any(
+                    child for child in token.children if "VerbForm=Part" in child.morph
+                )
             ]
 
             partizip = [
                 token.text
                 for token in sent
-                if token.pos_ in ["VERB", "AUX"]
-                and "VerbForm=Past" in token.morph
-                and token.dep_ == "oc"
+                if "VerbForm=Part" in token.morph and token.dep_ == "oc"
             ]
 
             if aux and partizip:
@@ -1303,6 +1350,20 @@ class IN_V_PLUSQUAM(Metric):
                 result += len(aux) + len(partizip)
 
         return ratio(result, len(doc)), debug
+
+
+class IN_V_PAST(Metric):
+    category = Inflection
+    name_en = "Verbs in past tense"
+    name_local = "Vergangenheitszeitformen"
+
+    def count(doc):
+        result1, debug1 = IN_V_PAST_IMP.count(doc)
+        result2, debug2 = IN_V_PERFEKT.count(doc)
+        result3, debug3 = IN_V_PLUSQUAM.count(doc)
+        combined_result = result1 + result2 + result3
+        combined_debug = debug1 + debug2 + debug3
+        return combined_result, combined_debug
 
 
 class IN_V_SUB(Metric):
@@ -1319,7 +1380,7 @@ class IN_V_SUB(Metric):
 class IN_V_PRES_SUB(Metric):
     category = Inflection
     name_en = "Verb forms in the present subjunctive"
-    name_local = "Verbformen im Konjunktiv I"
+    name_local = "Verbformen im Konjunktiv Präsens"
 
     def count(doc):
         debug = [
@@ -1334,7 +1395,7 @@ class IN_V_PRES_SUB(Metric):
 class IN_V_PAST_SUB(Metric):
     category = Inflection
     name_en = "Verb forms in the past subjunctive"
-    name_local = "Verbformen im Konjunktiv II"
+    name_local = "Verbformen im Konjunktiv Imperfekt"
 
     def count(doc):
         debug = [
@@ -1343,6 +1404,40 @@ class IN_V_PAST_SUB(Metric):
             if "Mood=Sub" in token.morph and "Tense=Past" in token.morph
         ]
         result = len(debug)
+        return ratio(result, len(doc)), debug
+
+
+class IN_V_PERF_SUB(Metric):
+    category = Inflection
+    name_en = "Verb forms in the perfective subjunctive"
+    name_local = "Verbformen im Konjunktiv Perfekt"
+
+    def count(doc):
+        result = 0
+        debug = []
+
+        for sent in doc.sents:
+            aux = [
+                token.text
+                for token in sent
+                if "Mood=Sub" in token.morph
+                and "Tense=Pres" in token.morph
+                and any(
+                    child for child in token.children if "VerbForm=Part" in child.morph
+                )
+            ]
+
+            partizip = [
+                token.text
+                for token in sent
+                if token.pos_ in ["VERB", "AUX"]
+                and "VerbForm=Part" in token.morph
+                and token.dep_ == "oc"
+            ]
+            if aux and partizip:
+                debug.append(aux + partizip)
+                result += len(aux) + len(partizip)
+
         return ratio(result, len(doc)), debug
 
 
@@ -1357,7 +1452,7 @@ class IN_V_PAST_SUB_PLUSQ(Metric):
 
         for sent in doc.sents:
             aux = [
-                token.text
+                token
                 for token in sent
                 if token.text.lower()
                 in [
@@ -1372,23 +1467,44 @@ class IN_V_PAST_SUB_PLUSQ(Metric):
                     "wäret",
                     "wären",
                 ]
+                and any(
+                    child
+                    for child in token.children
+                    if "VerbForm=Part" in child.morph or "VerbForm=Inf" in child.morph
+                )
             ]
 
             partizip = [
                 token.text
                 for token in sent
-                if token.pos_ in ["VERB", "AUX"]
-                and "VerbForm=Past" in token.morph
-                and token.dep_ == "oc"
+                if "VerbForm=Part" in token.morph and token.dep_ == "oc"
             ]
-
-            inf = [token.text for token in sent if "VerbForm=Inf" in token.morph]
 
             mod = [
+                token
+                for token in sent
+                if token.text.lower()
+                in ["müssen", "dürfen", "können", "wollen", "mögen", "sollen"]
+                and any(
+                    child.text == token.text
+                    for aux_token in aux
+                    for child in aux_token.children
+                )
+            ]
+
+            inf = [
                 token.text
                 for token in sent
-                if token.pos_ == "AUX" and "VMFIN" in token.tag_.split(":")
+                if "VVINF" in token.tag_.split(":")
+                and any(
+                    child.text == token.text
+                    for mod_token in mod
+                    for child in mod_token.children
+                )
             ]
+
+            aux = [token.text for token in aux]
+            mod = [token.text for token in mod]
 
             if (aux and partizip) or (aux and inf and mod):
                 debug.append((aux + partizip + inf + mod))
@@ -1408,17 +1524,18 @@ class IN_V_KOND1(Metric):
 
         for sent in doc.sents:
             aux = [
-                token.text
+                token
                 for token in sent
                 if token.text.lower()
                 in ["würde", "würdest", "würden", "würdet", "würden"]
             ]
 
-            inf = [token.text for token in sent if "VerbForm=Inf" in token.morph]
+            for aux_token in aux:
+                for child in aux_token.children:
+                    if "VerbForm=Inf" in child.morph:
+                        debug.append((aux_token.text, child.text))
+                        result += len(aux_token.text) + len(child.text)
 
-        if aux and inf:
-            debug.append((aux + inf))
-            result += len(aux) + len(inf)
         return ratio(result, len(doc)), debug
 
 
@@ -1470,7 +1587,11 @@ class IN_V_FUT1(Metric):
             aux = [
                 token.text
                 for token in sent
-                if "Tense=Pres" in token.morph and token.lemma_ == "werden"
+                if "Tense=Pres" in token.morph
+                and token.text.lower() in ["werden", "werde", "wirst", "wird", "werdet"]
+                and not any(
+                    child for child in token.children if "VerbForm=Part" in child.morph
+                )
             ]
 
             inf = [
@@ -1501,19 +1622,27 @@ class IN_V_FUT2(Metric):
             aux = [
                 token.text
                 for token in sent
-                if "Tense=Pres" in token.morph and token.lemma_ == "werden"
+                if "Tense=Pres" in token.morph
+                and token.text.lower() in ["werden", "werde", "wirst", "wird", "werdet"]
+                and any(
+                    child
+                    for child in token.children
+                    if child.lemma_ in ["haben", "sein"]
+                )
             ]
 
             inf = [
                 token.text
                 for token in sent
                 if token.pos_ == "VERB"
-                and "VerbForm=Part" in token.morph
+                and "VerbForm=Inf" in token.morph
                 and token.dep_ in ["oc", "cj"]
             ]
 
             aux2 = [
-                token.text for token in sent if token.text.lower() in ["haben", "sein"]
+                token.text
+                for token in sent
+                if token.text.lower() in ["haben", "sein"] and token.dep_ == "oc"
             ]
 
             if aux and inf and aux2:
@@ -1521,6 +1650,19 @@ class IN_V_FUT2(Metric):
                 result += len(aux) + len(inf) + len(aux2)
 
         return ratio(result, len(doc)), debug
+
+
+class IN_V_FUT(Metric):
+    category = Inflection
+    name_en = "Verbs in future tense"
+    name_local = "Verbformen im Futur"
+
+    def count(doc):
+        result1, debug1 = IN_V_FUT1.count(doc)
+        result2, debug2 = IN_V_FUT2.count(doc)
+        combined_result = result1 + result2
+        combined_debug = debug1 + debug2
+        return combined_result, combined_debug
 
 
 class IN_V_PASS(Metric):
@@ -1533,11 +1675,16 @@ class IN_V_PASS(Metric):
         debug = []
 
         for sent in doc.sents:
-            aux = [
+            aux_pres = [
                 token.text
                 for token in sent
-                if any(tag in token.morph for tag in ["Tense=Pres", "Tense=Past"])
-                and token.lemma_ == "werden"
+                if "Tense=Pres" in token.morph and token.lemma_ == "werden"
+            ]
+
+            aux_past = [
+                token.text
+                for token in sent
+                if "Tense=Past" in token.morph and token.lemma_ == "werden"
             ]
 
             aux_perfekt = [
@@ -1556,7 +1703,7 @@ class IN_V_PASS(Metric):
                 token.text
                 for token in sent
                 if token.pos_ == "VERB"
-                and "VerbForm=Past" in token.morph
+                and "VerbForm=Part" in token.morph
                 and token.dep_ in ["oc", "cj"]
             ]
 
@@ -1564,7 +1711,7 @@ class IN_V_PASS(Metric):
 
             futur_ii = any(
                 any(
-                    "VerbForm=Past" in token.morph
+                    ("VerbForm=Part" in token.morph)
                     and (token.text.lower() in ["haben", "sein"])
                     for partizip_token in sent
                     if partizip_token.i == token.i - 1
@@ -1572,50 +1719,18 @@ class IN_V_PASS(Metric):
                 for token in sent
             )
 
-            if (
-                (aux and partizip and not futur_ii)
-                or (aux_perfekt and partizip and worden and not futur_ii)
-                or (aux_plusq and partizip and worden and not futur_ii)
-            ):
-                debug.append((aux + aux_perfekt + aux_plusq, partizip, worden))
-                result += (
-                    len(aux)
-                    + len(aux_perfekt)
-                    + len(aux_plusq)
-                    + len(partizip)
-                    + len(worden)
-                )
-
-        return ratio(result, len(doc)), debug
-
-
-class IN_V_SPASS(Metric):
-    category = Inflection
-    name_en = "Stative passive verb forms"
-    name_local = "Verbformen im Zustandspassiv"
-
-    def count(doc):
-        result = 0
-        debug = []
-
-        for sent in doc.sents:
-            aux = [
-                token.text
-                for token in sent
-                if "Tense=Pres" in token.morph and token.lemma_ == "sein"
-            ]
-
-            partizip = [
-                token.text
-                for token in sent
-                if token.pos_ == "VERB"
-                and "VerbForm=Part" in token.morph
-                and token.dep_ in ["oc", "pd"]
-            ]
-
-            if aux and partizip:
-                debug.append((aux, partizip))
-                result += len(aux) + len(partizip)
+            if aux_pres and partizip and not futur_ii:
+                debug.append((aux_pres, partizip))
+                result += len(aux_pres) + len(partizip)
+            elif aux_past and partizip and not futur_ii:
+                debug.append((aux_past, partizip))
+                result += len(aux_past) + len(partizip)
+            elif aux_perfekt and partizip and worden and not futur_ii:
+                debug.append((aux_perfekt, partizip, worden))
+                result += len(aux_perfekt) + len(partizip) + len(worden)
+            elif aux_plusq and partizip and worden and not futur_ii:
+                debug.append((aux_plusq, partizip, worden))
+                result += len(aux_plusq) + len(partizip) + len(worden)
 
         return ratio(result, len(doc)), debug
 
@@ -1630,25 +1745,76 @@ class IN_V_PASS_MOD(Metric):
         debug = []
 
         for sent in doc.sents:
+
             aux_perfekt = [
                 token.text
                 for token in sent
-                if token.lemma_ == "haben" and "Tense=Pres" in token.morph
+                if "Tense=Pres" in token.morph and token.lemma_ == "haben"
             ]
 
-            aux = [
+            aux_pres = [
                 token.text
                 for token in sent
-                if any(tag in token.morph for tag in ["Tense=Pres", "Tense=Past"])
+                if "Tense=Pres" in token.morph
                 and token.lemma_
                 in [
                     "müssen",
                     "mussen",
-                    "muss" "dürfen",
+                    "muss",
+                    "musste",
+                    "dürfen",
                     "sollen",
                     "wollen",
                     "möchten",
                     "können",
+                    "mögen",
+                ]
+                and not any(
+                    child
+                    for child in token.children
+                    if child.pos_ == "VERB" and "VerbForm=Inf" in child.morph
+                )
+            ]
+
+            aux_past = [
+                token.text
+                for token in sent
+                if "Tense=Past" in token.morph
+                and token.lemma_
+                in [
+                    "müssen",
+                    "mussen",
+                    "muss",
+                    "musste",
+                    "dürfen",
+                    "sollen",
+                    "wollen",
+                    "möchten",
+                    "können",
+                    "mögen",
+                ]
+                and not any(
+                    child
+                    for child in token.children
+                    if child.pos_ == "VERB" and "VerbForm=Inf" in child.morph
+                )
+            ]
+
+            aux_inf = [
+                token.text
+                for token in sent
+                if "VerbForm=Inf" in token.morph
+                and token.lemma_
+                in [
+                    "müssen",
+                    "dürfen",
+                    "mussen",
+                    "muss",
+                    "sollen",
+                    "wollen",
+                    "möchten",
+                    "können",
+                    "mögen",
                 ]
             ]
 
@@ -1660,12 +1826,21 @@ class IN_V_PASS_MOD(Metric):
                 and token.dep_ in ["oc", "cj"]
             ]
 
-            werden = [token.text for token in sent if token.text.lower() == "werden"]
+            werden = [
+                token.text
+                for token in sent
+                if token.text.lower() == "werden"
+                # and token.head.text in aux_pres
+            ]
 
-            if (aux and partizip and werden) or (
-                aux_perfekt and aux and partizip and werden
-            ):
-                debug.append((aux + aux_perfekt, partizip, werden))
-                result += len(aux) + len(aux_perfekt) + len(partizip) + len(werden)
+            if aux_pres and partizip and werden:
+                debug.append((aux_pres, partizip, werden))
+                result += len(aux_pres) + len(partizip) + len(werden)
+            elif aux_past and partizip and werden:
+                debug.append((aux_past, partizip, werden))
+                result += len(aux_past) + len(partizip) + len(werden)
+            elif aux_perfekt and aux_inf and partizip and werden:
+                debug.append((aux_perfekt, aux_inf, partizip, werden))
+                result += len(aux_perfekt) + len(aux_inf) + len(partizip) + len(werden)
 
         return ratio(result, len(doc)), debug

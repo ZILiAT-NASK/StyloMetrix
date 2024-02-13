@@ -124,8 +124,7 @@ class SY_S_VOC(Metric):
         inn7w = []
         for sent in doc.sents:
             if any(
-                token.pos_ in ["NOUN", "PROPN"]
-                and str(token.morph.get("Case")) == "['Voc']"
+                token.pos_ in ["NOUN", "PROPN"] and "Case=Voc" in token.morph
                 for token in sent
             ):
                 inn7w.append(sent)

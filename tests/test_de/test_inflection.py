@@ -492,9 +492,14 @@ class TestInflectionDE(unittest.TestCase):
 
     def test_IN_V_PAST(self):
         metric = "IN_V_PAST"
-        test_text = "Ein kleiner Mensch starb nur zum Schein, wollte ganz allein sein."
-        expected_debug = ["starb", "wollte"]  # TODO
-        expected_out = 0.15384615384615385
+        test_text = "Ich hatte so was überhaupt nicht erwartet, bevor er das mit uns mitteilte. Niemand wusste nichts davon. Wir haben eine andere Antwort erwartet"
+        expected_debug = [
+            "mitteilte",
+            "wusste",
+            (["haben"], ["erwartet"]),
+            (["hatte"], ["erwartet"]),
+        ]
+        expected_out = 0.23076923076923078
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -516,11 +521,42 @@ class TestInflectionDE(unittest.TestCase):
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
+    def test_IN_V_PERFEKT(self):
+        metric = "IN_V_PERFEKT"
+        test_text = "Für Sherlock Holmes ist sie immer nur DIE Frau. Ich habe kaum je gehört, daß er sie anders genannt hätte."
+        expected_debug = [("habe", "gehört")]
+        expected_out = 0.08695652173913043
+
+        out, debug = self.sm.transform([test_text])
+        out = out[metric][0]
+        debug = debug[metric][0]
+
+        self.assertEqual(expected_out, out)
+        self.assertSequenceEqual(expected_debug, debug)
+
     def test_IN_V_FUT1(self):
         metric = "IN_V_FUT1"
-        test_text = "Wie viele von unseren täglichen Handlungen von Gewohnheiten beeinflusst werden, lässt sich nur schwer schätzen, weil das individuell unterschiedlich ist."
-        expected_debug = [(["werden"], ["schätzen"])]  # TODO
-        expected_out = 0.08695652173913043
+        test_text = (
+            "Ich werde die ganze Nacht singen und tanzen, weil du schlafen wirst."
+        )
+        expected_debug = [(["werde", "wirst"], ["singen", "tanzen", "schlafen"])]
+        expected_out = 0.35714285714285715
+
+        out, debug = self.sm.transform([test_text])
+        out = out[metric][0]
+        debug = debug[metric][0]
+
+        self.assertEqual(expected_out, out)
+        self.assertSequenceEqual(expected_debug, debug)
+
+    def test_IN_V_FUT(self):
+        metric = "IN_V_FUT"
+        test_text = "Ich werde die ganze Nacht singen und tanzen. Du wirst so was nicht bei Freitag erledigt haben"
+        expected_debug = [
+            (["werde"], ["singen", "tanzen"]),
+            (["wirst"], ["erledigt"], ["haben"]),
+        ]
+        expected_out = 0.3333333333333333
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -532,20 +568,7 @@ class TestInflectionDE(unittest.TestCase):
     def test_IN_V_PASS(self):
         metric = "IN_V_PASS"
         test_text = "Wie viele von unseren täglichen Handlungen von Gewohnheiten beeinflusst werden, lässt sich nur schwer schätzen, weil das individuell unterschiedlich ist."
-        expected_debug = [(["werden", "ist"], ["beeinflusst"], [])]  # TODO
-        expected_out = 0.13043478260869565
-
-        out, debug = self.sm.transform([test_text])
-        out = out[metric][0]
-        debug = debug[metric][0]
-
-        self.assertEqual(expected_out, out)
-        self.assertSequenceEqual(expected_debug, debug)
-
-    def test_IN_V_SPASS(self):
-        metric = "IN_V_SPASS"
-        test_text = "Wie viele von unseren täglichen Handlungen von Gewohnheiten beeinflusst werden, lässt sich nur schwer schätzen, weil das individuell unterschiedlich ist."
-        expected_debug = [(["ist"], ["beeinflusst"])]  # TODO
+        expected_debug = [(["werden"], ["beeinflusst"])]
         expected_out = 0.08695652173913043
 
         out, debug = self.sm.transform([test_text])
@@ -661,9 +684,9 @@ class TestInflectionDE(unittest.TestCase):
 
     def test_IN_V_PAST_SUB(self):
         metric = "IN_V_PAST_SUB"
-        test_text = "Wissenschaftler:innen gehen sogar davon aus, dass wir ohne sie nicht lebensfähig wären."
-        expected_debug = ["wären"]  # TODO
-        expected_out = 0.0625
+        test_text = "Er sagte, er ginge mit mit ins Kino."
+        expected_debug = ["ginge"]
+        expected_out = 0.1
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -687,9 +710,11 @@ class TestInflectionDE(unittest.TestCase):
 
     def test_IN_V_PAST_IMP_MOD(self):
         metric = "IN_V_PAST_IMP_MOD"
-        test_text = "Denn unser Gehirn wäre maßlos überfordert, wenn es jede kleine Handlung bewusst steuern müsste."
-        expected_debug = ["müsste"]  # TODO
-        expected_out = 0.0625
+        test_text = (
+            "Ich wollte dich einladen, leider konnte ich dein Telefonnumer nicht finden"
+        )
+        expected_debug = ["wollte", "konnte"]
+        expected_out = 0.16666666666666666
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -700,9 +725,9 @@ class TestInflectionDE(unittest.TestCase):
 
     def test_IN_V_PAST_SUB_PLUSQ(self):
         metric = "IN_V_PAST_SUB_PLUSQ"
-        test_text = "Denn unser Gehirn wäre maßlos überfordert, wenn es jede kleine Handlung bewusst steuern müsste."
-        expected_debug = [["wäre", "steuern", "müsste"]]  # TODO
-        expected_out = 0.1875
+        test_text = "Sie hätte das Konzert besuchen dürfen, wenn sie ihre Hausaufgaben gemacht hätte."
+        expected_debug = [["hätte", "hätte", "gemacht", "besuchen", "dürfen"]]
+        expected_out = 0.35714285714285715
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -1072,9 +1097,9 @@ class TestInflectionDE(unittest.TestCase):
 
     def test_IN_V_FUT2(self):
         metric = "IN_V_FUT2"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Ich werde es bei Dienstag erledigt haben"
+        expected_debug = [(["werde"], ["erledigt"], ["haben"])]
+        expected_out = 0.42857142857142855
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -1085,9 +1110,9 @@ class TestInflectionDE(unittest.TestCase):
 
     def test_IN_V_KOND1(self):
         metric = "IN_V_KOND1"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Ich würde gerne ein Paar Bücher kaufen."
+        expected_debug = [("würde", "kaufen")]
+        expected_out = 0.25
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -1098,9 +1123,9 @@ class TestInflectionDE(unittest.TestCase):
 
     def test_IN_V_KOND2(self):
         metric = "IN_V_KOND2"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Ich würde ihn danach gefragt haben."
+        expected_debug = [["würde", "gefragt", "haben"]]
+        expected_out = 0.42857142857142855
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -1111,9 +1136,13 @@ class TestInflectionDE(unittest.TestCase):
 
     def test_IN_V_PASS_MOD(self):
         metric = "IN_V_PASS_MOD"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Der Professor muss befragt werden. Der Professor musste befragt werden. Der Professor hat befragt werden müssen"
+        expected_debug = [
+            (["muss"], ["befragt"], ["werden"]),
+            (["musste"], ["befragt"], ["werden"]),
+            (["müssen"], ["befragt"], ["werden"]),
+        ]
+        expected_out = 0.5
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -1124,9 +1153,9 @@ class TestInflectionDE(unittest.TestCase):
 
     def test_IN_V_PLUSQUAM(self):
         metric = "IN_V_PLUSQUAM"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Ich hatte ihn angerufen, bevor er nach Hause kam"
+        expected_debug = [(["hatte"], ["angerufen"])]
+        expected_out = 0.2
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -1137,9 +1166,9 @@ class TestInflectionDE(unittest.TestCase):
 
     def test_IN_V_PRES_SUB(self):
         metric = "IN_V_PRES_SUB"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Es lebe der Frieden!"
+        expected_debug = ["lebe"]
+        expected_out = 0.2
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]

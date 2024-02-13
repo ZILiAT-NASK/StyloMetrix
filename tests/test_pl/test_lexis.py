@@ -415,9 +415,9 @@ class TestLexisPL(unittest.TestCase):
 
     def test_L_ERROR(self):
         metric = "L_ERROR"
-        test_text = "Znudzona tym wszystkim Telimena proponuje spacer po lesie połączony z grzybobraniem."
-        expected_debug = ["a propo"]  # TODO
-        expected_out = 0.16666666666666666
+        test_text = "Znudzona tym wszystkim Telimena proponuje spacer po lesie napewno połączony z grzybobraniem."
+        expected_debug = ["napewno"]
+        expected_out = 0.07692307692307693
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]

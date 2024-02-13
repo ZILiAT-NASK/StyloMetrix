@@ -11,9 +11,9 @@ class TestGraphicalDE(unittest.TestCase):
 
     def test_GR_EMOT(self):
         metric = "GR_EMOT"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Das wäre sehr lustig :-)"
+        expected_debug = [":-)"]
+        expected_out = 0.2
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -24,9 +24,9 @@ class TestGraphicalDE(unittest.TestCase):
 
     def test_GR_HASH(self):
         metric = "GR_HASH"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Das wäre sehr lustig :-) #sowitzig"
+        expected_debug = ["#sowitzig"]
+        expected_out = 0.14285714285714285
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -37,9 +37,9 @@ class TestGraphicalDE(unittest.TestCase):
 
     def test_GR_LENNY(self):
         metric = "GR_LENNY"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Ich werde euch nicht mehr vertrauen ¯\\\\_(ツ)\\_"
+        expected_debug = ["¯\\\\_(ツ)\\_"]
+        expected_out = 0.125
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -50,9 +50,9 @@ class TestGraphicalDE(unittest.TestCase):
 
     def test_GR_LINK(self):
         metric = "GR_LINK"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Guck mal, was sie veröffentlicht haben --> https://www.welt.de"
+        expected_debug = ["https://www.welt.de"]
+        expected_out = 0.1
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -63,9 +63,9 @@ class TestGraphicalDE(unittest.TestCase):
 
     def test_GR_MENTION(self):
         metric = "GR_MENTION"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "@USERNAME, ich stimme überhaupt nicht zu!"
+        expected_debug = ["@USERNAME"]
+        expected_out = 0.125
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -76,9 +76,9 @@ class TestGraphicalDE(unittest.TestCase):
 
     def test_GR_UPPER(self):
         metric = "GR_UPPER"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "FIFA hat unsere Bundesliga schrecklicherweise betrogen."
+        expected_debug = ["FIFA"]
+        expected_out = 0.14285714285714285
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]

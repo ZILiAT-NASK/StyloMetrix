@@ -406,9 +406,9 @@ class TestSyntacticDE(unittest.TestCase):
 
     def test_SY_APPO(self):
         metric = "SY_APPO"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Unmerklich kommt man so der Theorie zuliebe zum Konstruieren von Tatsachen, statt es umgekehrt zu machen."
+        expected_debug = ["zuliebe"]
+        expected_out = 0.05555555555555555
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -419,9 +419,22 @@ class TestSyntacticDE(unittest.TestCase):
 
     def test_SY_S_COND2(self):
         metric = "SY_S_COND2"
-        test_text = "x"
-        expected_debug = []  # TODO
-        expected_out = 0
+        test_text = "Wenn ich genug Geld hätte, würde ich mir ein Auto kaufen"
+        expected_debug = [
+            "Wenn",
+            "ich",
+            "genug",
+            "Geld",
+            "hätte",
+            ",",
+            "würde",
+            "ich",
+            "mir",
+            "ein",
+            "Auto",
+            "kaufen",
+        ]
+        expected_out = 1.0
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]

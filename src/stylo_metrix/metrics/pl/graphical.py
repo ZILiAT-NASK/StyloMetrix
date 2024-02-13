@@ -22,7 +22,7 @@ class GR_UPPER(Metric):
             for i, token in enumerate(doc)
             if (not token.is_sent_start or len(token.text) > 1)
             and token.text.isupper()
-            and str(token.morph.get("NumForm")) != "['Roman']"
+            and "NumForm=Roman" not in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug

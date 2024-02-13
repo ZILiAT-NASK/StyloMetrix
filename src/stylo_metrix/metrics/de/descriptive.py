@@ -22,7 +22,7 @@ class DESC_PRON_VOC(Metric):
                 token.text
                 for token in sent
                 if token.text.lower() in ["du", "ihr"]
-                and str(token.morph.get("Poss")) != "['Yes']"
+                and "Poss=Yes" not in token.morph
                 and token.dep_ != "sb"
             ]
 
@@ -36,7 +36,7 @@ class DESC_PRON_VOC(Metric):
                 token.text
                 for token in sent
                 if token.pos_ in ["NOUN", "PROPN"]
-                and str(token.morph.get("Case")) == "['Nom']"
+                and "Case=Nom" in token.morph
                 and token.dep_ == "ROOT"
             ]
 
