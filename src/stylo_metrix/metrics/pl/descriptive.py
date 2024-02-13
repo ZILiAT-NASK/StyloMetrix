@@ -99,7 +99,7 @@ class DESC_ADJ(Metric):
         filtered = [filtered[i] for i in range(len(filtered)) if same_cases[i]]
         debug = sum(filtered, [])  # flat list
         result = len(debug)
-        return ratio(result, len(doc)), debug
+        return ratio(result, len(doc)), [token.text for token in debug]
 
 
 class DESC_ADV(Metric):

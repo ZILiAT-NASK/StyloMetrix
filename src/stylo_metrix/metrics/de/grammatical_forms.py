@@ -129,21 +129,6 @@ class G_ADP(Metric):
         return ratio(result, len(doc)), debug
 
 
-class G_INTJ(Metric):
-    category = GrammaticalForms
-    name_en = "Interjection"
-    name_local = "Interjektionen"
-
-    def count(doc):
-        debug = [
-            token.text
-            for token in doc
-            if token.pos_ == "INTJ" or "ITJ" in token.tag_.split(":")
-        ]
-        result = len(debug)
-        return ratio(result, len(doc)), debug
-
-
 class G_CONJ(Metric):
     category = GrammaticalForms
     name_en = "Conjunctions"

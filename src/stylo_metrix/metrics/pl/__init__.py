@@ -22,10 +22,10 @@ class PlLang(Lang):
 
 
 from .descriptive import *
+from .grammatical_forms import *
 from .graphical import *
 from .inflection import *
 from .lexis import *
-from .part_of_speech import *
 from .psycholinguistics import *
 from .punctuation import *
 from .syntactic import *

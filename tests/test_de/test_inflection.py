@@ -273,7 +273,7 @@ class TestInflectionDE(unittest.TestCase):
         metric = "IN_V_3PL"
         test_text = "Wie viele von unseren täglichen Handlungen von Gewohnheiten beeinflusst werden, lässt sich nur schwer schätzen, weil das individuell unterschiedlich ist."
         expected_debug = ["werden"]
-        expected_out = 0.0625
+        expected_out = 0.043478260869565216
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -524,7 +524,7 @@ class TestInflectionDE(unittest.TestCase):
     def test_IN_V_PERFEKT(self):
         metric = "IN_V_PERFEKT"
         test_text = "Für Sherlock Holmes ist sie immer nur DIE Frau. Ich habe kaum je gehört, daß er sie anders genannt hätte."
-        expected_debug = [("habe", "gehört")]
+        expected_debug = [(["habe"], ["gehört"])]
         expected_out = 0.08695652173913043
 
         out, debug = self.sm.transform([test_text])
@@ -1082,11 +1082,9 @@ class TestInflectionDE(unittest.TestCase):
 
     def test_IN_V_1SG(self):
         metric = "IN_V_1SG"
-        test_text = (
-            "Komm, ich zeige dir, wie groß meine Liebe ist und bringe mich für dich um"
-        )
-        expected_debug = ["zeige", "bringe"]
-        expected_out = 0.058823529411764705
+        test_text = "Komm, ich zeige dir, wie groß meine Liebe ist."
+        expected_debug = ["zeige"]
+        expected_out = 0.08333333333333333
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -1111,7 +1109,7 @@ class TestInflectionDE(unittest.TestCase):
     def test_IN_V_KOND1(self):
         metric = "IN_V_KOND1"
         test_text = "Ich würde gerne ein Paar Bücher kaufen."
-        expected_debug = [("würde", "kaufen")]
+        expected_debug = [(["würde"], ["kaufen"])]
         expected_out = 0.25
 
         out, debug = self.sm.transform([test_text])

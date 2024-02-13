@@ -1298,21 +1298,19 @@ class IN_V_PERFEKT(Metric):
             ]
 
             aux = [token.text for token in aux_candidates]
-            partizip = [token.text for token in partizip_candidates]
 
             for aux_token in aux_candidates:
-                partizip_token = None
+                partizip_tokens = []
 
                 for token in aux_token.children:
                     if token in partizip_candidates and "werden" not in [
                         child.lemma_ for child in token.children
                     ]:
-                        partizip_token = token
-                        break
+                        partizip_tokens.append(token.text)
 
-            if aux and partizip:
-                debug.append((aux, partizip))
-                result += len(aux) + len(partizip)
+            if aux and partizip_tokens:
+                debug.append((aux, partizip_tokens))
+                result += len(aux) + len(partizip_tokens)
 
         return ratio(result, len(doc)), debug
 
@@ -1530,12 +1528,17 @@ class IN_V_KOND1(Metric):
                 in ["würde", "würdest", "würden", "würdet", "würden"]
             ]
 
+            inf_children_list = []  # Use a list to store all occurrences
             for aux_token in aux:
-                for child in aux_token.children:
-                    if "VerbForm=Inf" in child.morph:
-                        debug.append((aux_token.text, child.text))
-                        result += len(aux_token.text) + len(child.text)
-
+                inf_children_list.extend(
+                    child.text
+                    for child in aux_token.children
+                    if "VerbForm=Inf" in child.morph
+                )
+            aux = [token.text for token in aux]
+            if aux and inf_children_list:
+                debug.append((aux, inf_children_list))
+                result += len(aux) + len(inf_children_list)
         return ratio(result, len(doc)), debug
 
 
@@ -1627,15 +1630,15 @@ class IN_V_FUT2(Metric):
                 and any(
                     child
                     for child in token.children
-                    if child.lemma_ in ["haben", "sein"]
+                    if child.text.lower() in ["haben", "sein"]
                 )
             ]
 
-            inf = [
+            partizip = [
                 token.text
                 for token in sent
                 if token.pos_ == "VERB"
-                and "VerbForm=Inf" in token.morph
+                and "VerbForm=Part" in token.morph
                 and token.dep_ in ["oc", "cj"]
             ]
 
@@ -1645,9 +1648,9 @@ class IN_V_FUT2(Metric):
                 if token.text.lower() in ["haben", "sein"] and token.dep_ == "oc"
             ]
 
-            if aux and inf and aux2:
-                debug.append((aux, inf, aux2))
-                result += len(aux) + len(inf) + len(aux2)
+            if aux and partizip and aux2:
+                debug.append((aux, partizip, aux2))
+                result += len(aux) + len(partizip) + len(aux2)
 
         return ratio(result, len(doc)), debug
 

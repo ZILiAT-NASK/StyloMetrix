@@ -458,8 +458,6 @@ class TestLexicalRU(unittest.TestCase):
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
         debug = debug[metric][0]
-        print(metric)
-        print(debug)
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)

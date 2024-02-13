@@ -819,7 +819,7 @@ class IN_V_PCON(Metric):
             for token in doc
             if all(
                 tag in token.morph
-                for tag in ["VerbForm=Conv", "Tense=Pres", "Aspect=Perf"]
+                for tag in ["VerbForm=Conv", "Tense=Pres", "Aspect=Imp"]
             )
         ]
         result = len(debug)
@@ -956,7 +956,7 @@ class IN_V_PAST(Metric):
         debug = [
             token.text
             for token in doc
-            if "Tense=Part" in token.morph
+            if "Tense=Past" in token.morph
             and not any(tag in token.morph for tag in ["VerbForm=Conv", "Mood=Cnd"])
         ]
         result = len(debug)

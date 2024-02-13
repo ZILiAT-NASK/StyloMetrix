@@ -27,11 +27,3 @@ def ratio(v1: int, v2: int):
 
 def incidence(doc, selection):
     return ratio(len(selection), len(doc))
-
-
-def log_incidence(n1: int, n2: int):
-    try:
-        result = math.log(n1) / math.log(n2)
-        return result
-    except ZeroDivisionError:
-        return 0.0

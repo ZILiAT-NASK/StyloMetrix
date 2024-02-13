@@ -3,7 +3,7 @@ import unittest
 
 import spacy
 
-from src.stylo_metrix.utils import incidence, log_incidence, ratio
+from src.stylo_metrix.utils import incidence, ratio
 
 
 class TestUtils(unittest.TestCase):
@@ -28,20 +28,6 @@ class TestUtils(unittest.TestCase):
         result = incidence(doc, selection)
 
         self.assertEqual(result, len(selection) / len(doc))
-
-    def test_log_incidence(self):
-        doc = 10
-        selection = 5
-        result = log_incidence(doc, selection)
-
-        self.assertEqual(result, math.log(selection) / math.log(doc))
-
-    def test_log_incidence_exception(self):
-        doc = list()
-        selection = list(range(0, 10, 2))
-        result = log_incidence(doc, selection)
-
-        self.assertEqual(result, math.log(len(selection)) / math.log(len(doc)))
 
 
 if __name__ == "__main__":

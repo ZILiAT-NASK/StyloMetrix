@@ -15,11 +15,13 @@ from .test_en.test_lexical_en import TestLexicalEN
 from .test_en.test_pos import TestPosEN
 from .test_en.test_syntax import TestSyntaxEN
 from .test_en.test_text_stat import TestTextStatEN
+from .test_other.test_new_pipe import TestSMComponent
+from .test_other.test_utils import TestUtils
 from .test_pl.test_descriptive import TestDescriptivePL
+from .test_pl.test_grammatical_forms import TestPartofSpeechPL
 from .test_pl.test_graphical import TestGraphicalPL
 from .test_pl.test_inflection import TestInflectionPL
 from .test_pl.test_lexis import TestLexisPL
-from .test_pl.test_part_of_speech import TestPartofSpeechPL
 from .test_pl.test_psycholinguistics import TestPsycholinguisticsPL
 from .test_pl.test_punctuation import TestPunctuationPL
 from .test_pl.test_syntactic import TestSyntacticPL
@@ -79,8 +81,15 @@ def suite():
         TestReadabilityUKR,
     ]
 
+    test_other = [TestUtils, TestSMComponent]
+
     test_list = (
-        test_list_en + test_list_de + test_list_pl + test_list_ru + test_list_ukr
+        test_list_en
+        + test_list_de
+        + test_list_pl
+        + test_list_ru
+        + test_list_ukr
+        + test_other
     )
 
     for test in test_list:

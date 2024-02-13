@@ -136,7 +136,7 @@ class G_PRO_IND(Metric):
     name_local = "Zaimki nieokreślone"
 
     def count(doc):
-        debug = [token.text for token in doc if "PronType=Neg" in token.morph]
+        debug = [token.text for token in doc if "PronType=Ind" in token.morph]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -236,6 +236,17 @@ class G_ADP(Metric):
 
     def count(doc):
         debug = [token.text for token in doc if token.pos_ == "ADP"]
+        result = len(debug)
+        return ratio(result, len(doc)), debug
+
+
+class G_INTJ(Metric):
+    category = GrammaticalForms
+    name_en = "Interjections"
+    name_local = "Wykrzykniki"
+
+    def count(doc):
+        debug = [token.text for token in doc if token.pos_ == "INTJ"]
         result = len(debug)
         return ratio(result, len(doc)), debug
 

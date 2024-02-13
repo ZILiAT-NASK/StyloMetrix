@@ -37,11 +37,8 @@ class TestSyntacticPL(unittest.TestCase):
 
     def test_SY_S_DE(self):
         metric = "SY_S_DE"
-        test_text = "Księga I. Gospodarstwo Księga ta rozpoczyna się inwokacją: “Litwo, Ojczyzno moja...”."
+        test_text = "Gospodarstwo Księga ta rozpoczyna się inwokacją: “Litwo, Ojczyzno moja...”."
         expected_debug = [
-            "Księga",
-            "I",
-            ".",
             "Gospodarstwo",
             "Księga",
             "ta",

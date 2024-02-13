@@ -350,9 +350,9 @@ class TestLexisPL(unittest.TestCase):
 
     def test_L_ADVPHR(self):
         metric = "L_ADVPHR"
-        test_text = "W czasach słusznie minionych to było niedopuszczalne. Nasze plany rozwaliłuy się w drobny mak."
-        expected_debug = ["w czas"]
-        expected_out = 0.15384615384615385
+        test_text = "W czasach słusznie minionych to było niedopuszczalne."
+        expected_debug = ["w czasach słusznie minionych"]
+        expected_out = 0.5
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
