@@ -41,8 +41,23 @@ jobs:
     #     flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
     #     # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
     #     flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with unittest
+    - name: Test pl
       run: |
-        python -m unittest tests/test_metric.py 
+        python -m unittest discover tests/test_pl 
+    - name: Test de
+      run: |
+        python -m unittest discover tests/test_de
+    - name: Test en
+      run: |
+        python -m unittest discover tests/test_en
+    - name: Test ru
+      run: |
+        python -m unittest discover tests/test_ru
+    - name: Test ukr
+      run: |
+        python -m unittest discover tests/test_ukr
+    - name: Test utils
+      run: |
+        python -m unittest discover tests/test_other
     strategy:
       fail-fast: false
