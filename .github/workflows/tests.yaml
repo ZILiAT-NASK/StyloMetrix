@@ -43,3 +43,5 @@ jobs:
     - name: Test with unittest
       run: |
         python -m unittest tests/test_metric.py 
+    strategy:
+      fail-fast: false
