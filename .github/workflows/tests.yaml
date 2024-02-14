@@ -33,6 +33,7 @@ jobs:
         python -m spacy download en_core_web_trf
         python -m spacy download ru_core_news_lg
         python -m spacy download uk_core_news_trf
+        python -m spacy download de_core_news_lg
         pip install -r requirements.txt
     # - name: Lint with flake8
     #   run: |
