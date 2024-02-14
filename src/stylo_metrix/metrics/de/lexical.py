@@ -31,7 +31,7 @@ class L_NAME_M(Metric):
         debug = [
             token.text
             for token in doc
-            if token.pos_ == "PROPN" and str(token.morph.get("Gender")) == "['Masc']"
+            if token.pos_ == "PROPN" and "Gender=Masc" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -46,7 +46,7 @@ class L_NAME_F(Metric):
         debug = [
             token.text
             for token in doc
-            if token.pos_ == "PROPN" and str(token.morph.get("Gender")) == "['Fem']"
+            if token.pos_ == "PROPN" and "Gender=Fem" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug

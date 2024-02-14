@@ -19,7 +19,7 @@ class IN_N_SG(Metric):
             token.text
             for token in doc
             if token.pos_ in ["NOUN", "PROPN"]
-            and str(token.morph.get("Number")) == "['Sing']"
+            and "Number=Sing" in token.morph
             and not any(char in numerals for char in token.text)
         ]
         result = len(debug)
@@ -35,8 +35,7 @@ class IN_N_PL(Metric):
         debug = [
             token.text
             for token in doc
-            if token.pos_ in ["NOUN", "PROPN"]
-            and str(token.morph.get("Number")) == "['Plur']"
+            if token.pos_ in ["NOUN", "PROPN"] and "Number=Plur" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -52,8 +51,8 @@ class IN_N_MS(Metric):
             token.text
             for token in doc
             if token.pos_ in ["NOUN", "PROPN"]
-            and str(token.morph.get("Gender")) == "['Masc']"
-            and str(token.morph.get("Number")) == "['Sing']"
+            and "Gender=Masc" in token.morph
+            and "Number=Sing" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -69,8 +68,8 @@ class IN_N_FS(Metric):
             token.text
             for token in doc
             if token.pos_ in ["NOUN", "PROPN"]
-            and str(token.morph.get("Gender")) == "['Fem']"
-            and str(token.morph.get("Number")) == "['Sing']"
+            and "Gender=Fem" in token.morph
+            and "Number=Sing" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -86,8 +85,8 @@ class IN_N_NS(Metric):
             token.text
             for token in doc
             if token.pos_ in ["NOUN", "PROPN"]
-            and str(token.morph.get("Gender")) == "['Neut']"
-            and str(token.morph.get("Number")) == "['Sing']"
+            and "Gender=Neut" in token.morph
+            and "Number=Sing" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -103,8 +102,8 @@ class IN_N_MP(Metric):
             token.text
             for token in doc
             if token.pos_ in ["NOUN", "PROPN"]
-            and str(token.morph.get("Gender")) == "['Masc']"
-            and str(token.morph.get("Number")) == "['Plur']"
+            and "Gender=Masc" in token.morph
+            and "Number=Plur" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -120,8 +119,8 @@ class IN_N_FP(Metric):
             token.text
             for token in doc
             if token.pos_ in ["NOUN", "PROPN"]
-            and str(token.morph.get("Gender")) == "['Fem']"
-            and str(token.morph.get("Number")) == "['Plur']"
+            and "Gender=Fem" in token.morph
+            and "Number=Plur" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -137,8 +136,8 @@ class IN_N_NP(Metric):
             token.text
             for token in doc
             if token.pos_ in ["NOUN", "PROPN"]
-            and str(token.morph.get("Gender")) == "['Neut']"
-            and str(token.morph.get("Number")) == "['Plur']"
+            and "Gender=Neut" in token.morph
+            and "Number=Plur" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -153,8 +152,7 @@ class IN_N_1NOM(Metric):
         debug = [
             token.text
             for token in doc
-            if token.pos_ in ["NOUN", "PROPN"]
-            and str(token.morph.get("Case")) == "['Nom']"
+            if token.pos_ in ["NOUN", "PROPN"] and "Case=Nom" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -169,8 +167,7 @@ class IN_N_2GEN(Metric):
         debug = [
             token.text
             for token in doc
-            if token.pos_ in ["NOUN", "PROPN"]
-            and str(token.morph.get("Case")) == "['Gen']"
+            if token.pos_ in ["NOUN", "PROPN"] and "Case=Gen" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -185,8 +182,7 @@ class IN_N_3DAT(Metric):
         debug = [
             token.text
             for token in doc
-            if token.pos_ in ["NOUN", "PROPN"]
-            and str(token.morph.get("Case")) == "['Dat']"
+            if token.pos_ in ["NOUN", "PROPN"] and "Case=Dat" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -201,8 +197,7 @@ class IN_N_4ACC(Metric):
         debug = [
             token.text
             for token in doc
-            if token.pos_ in ["NOUN", "PROPN"]
-            and str(token.morph.get("Case")) == "['Acc']"
+            if token.pos_ in ["NOUN", "PROPN"] and "Case=Acc" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -220,7 +215,7 @@ class IN_ADJ_POS(Metric):
             for token in doc
             if token.pos_ == "ADJ"
             and not any(char in numerals for char in token.text)
-            and str(token.morph.get("Degree")) == "['Pos']"
+            and "Degree=Pos" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -235,7 +230,7 @@ class IN_ADJ_CMP(Metric):
         debug = [
             token.text
             for token in doc
-            if token.pos_ in ["ADJ"] and str(token.morph.get("Degree")) == "['Cmp']"
+            if token.pos_ == "ADJ" and "Degree=Cmp" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -250,7 +245,7 @@ class IN_ADJ_SUP(Metric):
         debug = [
             token.text
             for token in doc
-            if token.pos_ in ["ADJ"] and str(token.morph.get("Degree")) == "['Sup']"
+            if token.pos_ == "ADJ" and "Degree=Sup" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -265,7 +260,7 @@ class IN_ADV_POS(Metric):
         debug = [
             token.text
             for token in doc
-            if token.pos_ in ["ADV"] and str(token.morph.get("Degree")) == "['Pos']"
+            if token.pos_ == "ADV" and "Degree=Pos" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -280,7 +275,7 @@ class IN_ADV_CMP(Metric):
         debug = [
             token.text
             for token in doc
-            if token.pos_ in ["ADV"] and str(token.morph.get("Degree")) == "['Cmp']"
+            if token.pos_ == "ADV" and "Degree=Cmp" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -295,7 +290,7 @@ class IN_ADV_SUP(Metric):
         debug = [
             token.text
             for token in doc
-            if token.pos_ in ["ADV"] and str(token.morph.get("Degree")) == "['Sup']"
+            if token.pos_ == "ADV" and "Degree=Sup" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -329,7 +324,7 @@ class IN_PRO_SG(Metric):
                     "PWAV",
                 ]
             )
-            and str(token.morph.get("Number")) == "['Sing']"
+            and "Number=Sing" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -363,7 +358,7 @@ class IN_PRO_PL(Metric):
                     "PWAV",
                 ]
             )
-            and str(token.morph.get("Number")) == "['Plur']"
+            and "Number=Plur" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -397,7 +392,7 @@ class IN_PRO_1NOM(Metric):
                     "PWAV",
                 ]
             )
-            and str(token.morph.get("Case")) == "['Nom']"
+            and "Case=Nom" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -431,7 +426,7 @@ class IN_PRO_2GEN(Metric):
                     "PWAV",
                 ]
             )
-            and str(token.morph.get("Case")) == "['Gen']"
+            and "Case=Gen" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -465,7 +460,7 @@ class IN_PRO_3DAT(Metric):
                     "PWAV",
                 ]
             )
-            and str(token.morph.get("Case")) == "['Dat']"
+            and "Case=Dat" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -499,7 +494,7 @@ class IN_PRO_4ACC(Metric):
                     "PWAV",
                 ]
             )
-            and str(token.morph.get("Case")) == "['Acc']"
+            and "Case=Acc" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -515,8 +510,8 @@ class IN_PRO_1SG(Metric):
             token.text
             for token in doc
             if "PPER" in token.tag_.split(":")
-            and str(token.morph.get("Person")) == "['1']"
-            and str(token.morph.get("Number")) == "['Sing']"
+            and "Person=1" in token.morph
+            and "Number=Sing" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -532,8 +527,8 @@ class IN_PRO_2SG(Metric):
             token.text
             for token in doc
             if "PPER" in token.tag_.split(":")
-            and str(token.morph.get("Person")) == "['2']"
-            and str(token.morph.get("Number")) == "['Sing']"
+            and "Person=2" in token.morph
+            and "Number=Sing" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -549,8 +544,8 @@ class IN_PRO_3SG(Metric):
             token.text
             for token in doc
             if "PPER" in token.tag_.split(":")
-            and str(token.morph.get("Person")) == "['3']"
-            and str(token.morph.get("Number")) == "['Sing']"
+            and "Person=3" in token.morph
+            and "Number=Sing" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -566,8 +561,8 @@ class IN_PRO_1PL(Metric):
             token.text
             for token in doc
             if "PPER" in token.tag_.split(":")
-            and str(token.morph.get("Person")) == "['1']"
-            and str(token.morph.get("Number")) == "['Plur']"
+            and "Person=1" in token.morph
+            and "Number=Plur" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -583,8 +578,8 @@ class IN_PRO_2PL(Metric):
             token.text
             for token in doc
             if "PPER" in token.tag_.split(":")
-            and str(token.morph.get("Person")) == "['2']"
-            and str(token.morph.get("Number")) == "['Plur']"
+            and "Person=2" in token.morph
+            and "Number=Plur" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -600,8 +595,8 @@ class IN_PRO_3PL(Metric):
             token.text
             for token in doc
             if "PPER" in token.tag_.split(":")
-            and str(token.morph.get("Person")) == "['3']"
-            and str(token.morph.get("Number")) == "['Plur']"
+            and "Person=3" in token.morph
+            and "Number=Plur" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -709,8 +704,7 @@ class IN_ART_SG(Metric):
         debug = [
             token.text
             for token in doc
-            if "ART" in token.tag_.split(":")
-            and str(token.morph.get("Number")) == "['Sing']"
+            if "ART" in token.tag_.split(":") and "Number=Sing" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -725,8 +719,7 @@ class IN_ART_PL(Metric):
         debug = [
             token.text
             for token in doc
-            if "ART" in token.tag_.split(":")
-            and str(token.morph.get("Number")) == "['Plur']"
+            if "ART" in token.tag_.split(":") and "Number=Plur" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -741,8 +734,7 @@ class IN_ART_DEF_SG(Metric):
         debug = [
             token.text
             for token in doc
-            if str(token.morph.get("Definite")) == "['Def']"
-            and str(token.morph.get("Number")) == "['Sing']"
+            if "Definite=Def" in token.morph and "Number=Sing" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -757,8 +749,7 @@ class IN_ART_DEF_PL(Metric):
         debug = [
             token.text
             for token in doc
-            if str(token.morph.get("Definite")) == "['Def']"
-            and str(token.morph.get("Number")) == "['Plur']"
+            if "Definite=Def" in token.morph and "Number=Plur" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -773,8 +764,7 @@ class IN_ART_IND_SG(Metric):
         debug = [
             token.text
             for token in doc
-            if str(token.morph.get("Definite")) == "['Ind']"
-            and str(token.morph.get("Number")) == "['Sing']"
+            if "Definite=Ind" in token.morph and "Number=Sing" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -789,8 +779,7 @@ class IN_ART_M(Metric):
         debug = [
             token.text
             for token in doc
-            if "ART" in token.tag_.split(":")
-            and str(token.morph.get("Gender")) == "['Masc']"
+            if "ART" in token.tag_.split(":") and "Gender=Masc" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -805,8 +794,7 @@ class IN_ART_F(Metric):
         debug = [
             token.text
             for token in doc
-            if "ART" in token.tag_.split(":")
-            and str(token.morph.get("Gender")) == "['Fem']"
+            if "ART" in token.tag_.split(":") and "Gender=Fem" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -821,8 +809,7 @@ class IN_ART_N(Metric):
         debug = [
             token.text
             for token in doc
-            if "ART" in token.tag_.split(":")
-            and str(token.morph.get("Gender")) == "['Neut']"
+            if "ART" in token.tag_.split(":") and "Gender=Neut" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -837,8 +824,7 @@ class IN_ART_1NOM(Metric):
         debug = [
             token.text
             for token in doc
-            if "ART" in token.tag_.split(":")
-            and str(token.morph.get("Case")) == "['Nom']"
+            if "ART" in token.tag_.split(":") and "Case=Nom" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -853,8 +839,7 @@ class IN_ART_2GEN(Metric):
         debug = [
             token.text
             for token in doc
-            if "ART" in token.tag_.split(":")
-            and str(token.morph.get("Case")) == "['Gen']"
+            if "ART" in token.tag_.split(":") and "Case=Gen" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -869,8 +854,7 @@ class IN_ART_3DAT(Metric):
         debug = [
             token.text
             for token in doc
-            if "ART" in token.tag_.split(":")
-            and str(token.morph.get("Case")) == "['Dat']"
+            if "ART" in token.tag_.split(":") and "Case=Dat" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -885,8 +869,7 @@ class IN_ART_4ACC(Metric):
         debug = [
             token.text
             for token in doc
-            if "ART" in token.tag_.split(":")
-            and str(token.morph.get("Case")) == "['Acc']"
+            if "ART" in token.tag_.split(":") and "Case=Acc" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -901,8 +884,7 @@ class IN_ART_DEF_1NOM(Metric):
         debug = [
             token.text
             for token in doc
-            if str(token.morph.get("Definite")) == "['Def']"
-            and str(token.morph.get("Case")) == "['Nom']"
+            if "Definite=Def" in token.morph and "Case=Nom" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -917,8 +899,7 @@ class IN_ART_DEF_2GEN(Metric):
         debug = [
             token.text
             for token in doc
-            if str(token.morph.get("Definite")) == "['Def']"
-            and str(token.morph.get("Case")) == "['Gen']"
+            if "Definite=Def" in token.morph and "Case=Gen" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -933,8 +914,7 @@ class IN_ART_DEF_3DAT(Metric):
         debug = [
             token.text
             for token in doc
-            if str(token.morph.get("Definite")) == "['Def']"
-            and str(token.morph.get("Case")) == "['Dat']"
+            if "Definite=Def" in token.morph and "Case=Dat" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -949,8 +929,7 @@ class IN_ART_DEF_4ACC(Metric):
         debug = [
             token.text
             for token in doc
-            if str(token.morph.get("Definite")) == "['Def']"
-            and str(token.morph.get("Case")) == "['Acc']"
+            if "Definite=Def" in token.morph and "Case=Acc" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -965,8 +944,7 @@ class IN_ART_IND_1NOM(Metric):
         debug = [
             token.text
             for token in doc
-            if str(token.morph.get("Definite")) == "['Ind']"
-            and str(token.morph.get("Case")) == "['Nom']"
+            if "Definite=Ind" in token.morph and "Case=Nom" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -981,8 +959,7 @@ class IN_ART_IND_2GEN(Metric):
         debug = [
             token.text
             for token in doc
-            if str(token.morph.get("Definite")) == "['Ind']"
-            and str(token.morph.get("Case")) == "['Gen']"
+            if "Definite=Ind" in token.morph and "Case=Gen" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -997,8 +974,7 @@ class IN_ART_IND_3DAT(Metric):
         debug = [
             token.text
             for token in doc
-            if str(token.morph.get("Definite")) == "['Ind']"
-            and str(token.morph.get("Case")) == "['Dat']"
+            if "Definite=Ind" in token.morph and "Case=Dat" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -1013,8 +989,7 @@ class IN_ART_IND_4ACC(Metric):
         debug = [
             token.text
             for token in doc
-            if str(token.morph.get("Definite")) == "['Ind']"
-            and str(token.morph.get("Case")) == "['Acc']"
+            if "Definite=Ind" in token.morph and "Case=Acc" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -1026,9 +1001,7 @@ class IN_V_FIN(Metric):
     name_local = "Finite Verben"
 
     def count(doc):
-        debug = [
-            token.text for token in doc if str(token.morph.get("VerbForm")) == "['Fin']"
-        ]
+        debug = [token.text for token in doc if "VerbForm=Fin" in token.morph]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -1076,9 +1049,7 @@ class IN_V_INF(Metric):
     name_local = "Infinite Verbformen"
 
     def count(doc):
-        debug = [
-            token.text for token in doc if str(token.morph.get("VerbForm")) == "['Inf']"
-        ]
+        debug = [token.text for token in doc if "VerbForm=Inf" in token.morph]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -1100,9 +1071,7 @@ class IN_V_PRES(Metric):
     name_local = "Verben im Präsens"
 
     def count(doc):
-        debug = [
-            token.text for token in doc if str(token.morph.get("Tense")) == "['Pres']"
-        ]
+        debug = [token.text for token in doc if "Tense=Pres" in token.morph]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -1117,8 +1086,8 @@ class IN_V_1SG(Metric):
             token.text
             for token in doc
             if token.pos_ in ["VERB", "AUX"]
-            and str(token.morph.get("Person")) == "['1']"
-            and str(token.morph.get("Number")) == "['Sing']"
+            and "Person=1" in token.morph
+            and "Number=Sing" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -1134,8 +1103,8 @@ class IN_V_2SG(Metric):
             token.text
             for token in doc
             if token.pos_ in ["VERB", "AUX"]
-            and str(token.morph.get("Person")) == "['2']"
-            and str(token.morph.get("Number")) == "['Sing']"
+            and "Person=2" in token.morph
+            and "Number=Sing" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -1151,8 +1120,8 @@ class IN_V_3SG(Metric):
             token.text
             for token in doc
             if token.pos_ in ["VERB", "AUX"]
-            and str(token.morph.get("Person")) == "['3']"
-            and str(token.morph.get("Number")) == "['Sing']"
+            and "Person=3" in token.morph
+            and "Number=Sing" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -1168,8 +1137,8 @@ class IN_V_1PL(Metric):
             token.text
             for token in doc
             if token.pos_ in ["VERB", "AUX"]
-            and str(token.morph.get("Person")) == "['1']"
-            and str(token.morph.get("Number")) == "['Plur']"
+            and "Person=1" in token.morph
+            and "Number=Plur" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -1185,8 +1154,8 @@ class IN_V_2PL(Metric):
             token.text
             for token in doc
             if token.pos_ in ["VERB", "AUX"]
-            and str(token.morph.get("Person")) == "['2']"
-            and str(token.morph.get("Number")) == "['Plur']"
+            and "Person=2" in token.morph
+            and "Number=Plur" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -1202,27 +1171,8 @@ class IN_V_3PL(Metric):
             token.text
             for token in doc
             if token.pos_ in ["VERB", "AUX"]
-            and str(token.morph.get("Person")) == "['3']"
-            and str(token.morph.get("Number")) == "['Plur']"
-        ]
-        result = len(debug)
-        return ratio(result, len(doc)), debug
-
-
-class IN_V_PAST(Metric):
-    category = Inflection
-    name_en = "Verbs in past tense"
-    name_local = "Verben in der Vergangenheitsform"
-
-    def count(doc):
-        debug = [
-            token.text
-            for token in doc
-            if (
-                str(token.morph.get("Tense")) == "['Past']"
-                and str(token.morph.get("Mood")) != "['Sub']"
-            )
-            or "VVPP" in token.tag_.split(":")
+            and "Person=3" in token.morph
+            and "Number=Plur" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -1249,8 +1199,11 @@ class IN_V_PAST_IMP(Metric):
             token.text
             for token in doc
             if token.pos_ in ["AUX", "VERB"]
-            and str(token.morph.get("Tense")) == "['Past']"
-            and str(token.morph.get("Mood")) != "['Sub']"
+            and "Tense=Past" in token.morph
+            and "Mood=Sub" not in token.morph
+            and not any(
+                child for child in token.children if "VerbForm=Part" in child.morph
+            )
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -1266,8 +1219,8 @@ class IN_V_PAST_IMP2(Metric):
             token.text
             for token in doc
             if token.pos_ == "VERB"
-            and str(token.morph.get("Tense")) == "['Past']"
-            and str(token.morph.get("Mood")) != "['Sub']"
+            and "Tense=Past" in token.morph
+            and "Mood=Sub" not in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -1283,8 +1236,8 @@ class IN_V_PAST_IMP_AUX(Metric):
             token.text
             for token in doc
             if token.pos_ == "AUX"
-            and str(token.morph.get("Mood")) != "['Sub']"
-            and str(token.morph.get("Tense")) == "['Past']"
+            and "Tense=Past" in token.morph
+            and "Mood=Sub" not in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -1299,10 +1252,66 @@ class IN_V_PAST_IMP_MOD(Metric):
         debug = [
             token.text
             for token in doc
-            if str(token.morph.get("Tense")) == "['Past']"
+            if "Tense=Past" in token.morph
             and "VMFIN" in token.tag_.split(":")
+            and "Mood=Sub" not in token.morph
         ]
         result = len(debug)
+        return ratio(result, len(doc)), debug
+
+
+class IN_V_PERFEKT(Metric):
+    category = Inflection
+    name_en = "Present perfect tense verb forms"
+    name_local = "Verben im Perfekt"
+
+    def count(doc):
+        result = 0
+        debug = []
+
+        for sent in doc.sents:
+            aux_candidates = [
+                token
+                for token in sent
+                if token.text.lower()
+                in [
+                    "bin",
+                    "bist",
+                    "ist",
+                    "sind",
+                    "seid",
+                    "habe",
+                    "hast",
+                    "hat",
+                    "haben",
+                    "habt",
+                ]
+                and any(
+                    child for child in token.children if "VerbForm=Part" in child.morph
+                )
+            ]
+
+            partizip_candidates = [
+                token
+                for token in sent
+                if "VVPP" in token.tag_.split(":") and token.dep_ == "oc"
+            ]
+
+            aux = [token.text for token in aux_candidates]
+
+            for aux_token in aux_candidates:
+                partizip_tokens = []
+
+                for token in aux_token.children:
+                    if token in partizip_candidates and "werden" not in [
+                        child.lemma_ for child in token.children
+                    ]:
+                        partizip_tokens.append(token.text)
+
+            if aux and partizip_tokens:
+                debug.append((aux, partizip_tokens))
+                result += len(aux) + len(partizip_tokens)
+
         return ratio(result, len(doc)), debug
 
 
@@ -1320,16 +1329,18 @@ class IN_V_PLUSQUAM(Metric):
                 token.text
                 for token in sent
                 if token.dep_ == "ROOT"
-                and str(token.morph.get("Tense")) == "['Past']"
+                and "Tense=Past" in token.morph
+                and "Mood=Sub" not in token.morph
                 and token.lemma_ in ["haben", "sein"]
+                and any(
+                    child for child in token.children if "VerbForm=Part" in child.morph
+                )
             ]
 
             partizip = [
                 token.text
                 for token in sent
-                if token.pos_ in ["VERB", "AUX"]
-                and str(token.morph.get("VerbForm")) == "['Part']"
-                and token.dep_ == "oc"
+                if "VerbForm=Part" in token.morph and token.dep_ == "oc"
             ]
 
             if aux and partizip:
@@ -1339,15 +1350,27 @@ class IN_V_PLUSQUAM(Metric):
         return ratio(result, len(doc)), debug
 
 
+class IN_V_PAST(Metric):
+    category = Inflection
+    name_en = "Verbs in past tense"
+    name_local = "Vergangenheitszeitformen"
+
+    def count(doc):
+        result1, debug1 = IN_V_PAST_IMP.count(doc)
+        result2, debug2 = IN_V_PERFEKT.count(doc)
+        result3, debug3 = IN_V_PLUSQUAM.count(doc)
+        combined_result = result1 + result2 + result3
+        combined_debug = debug1 + debug2 + debug3
+        return combined_result, combined_debug
+
+
 class IN_V_SUB(Metric):
     category = Inflection
     name_en = "Verb forms in the subjunctive"
     name_local = "Verbformen im Konjunktiv"
 
     def count(doc):
-        debug = [
-            token.text for token in doc if str(token.morph.get("Mood")) == "['Sub']"
-        ]
+        debug = [token.text for token in doc if "Mood=Sub" in token.morph]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -1355,14 +1378,13 @@ class IN_V_SUB(Metric):
 class IN_V_PRES_SUB(Metric):
     category = Inflection
     name_en = "Verb forms in the present subjunctive"
-    name_local = "Verbformen im Konjunktiv I"
+    name_local = "Verbformen im Konjunktiv Präsens"
 
     def count(doc):
         debug = [
             token.text
             for token in doc
-            if str(token.morph.get("Mood")) == "['Sub']"
-            and str(token.morph.get("Tense")) == "['Pres']"
+            if "Mood=Sub" in token.morph and "Tense=Pres" in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -1371,16 +1393,49 @@ class IN_V_PRES_SUB(Metric):
 class IN_V_PAST_SUB(Metric):
     category = Inflection
     name_en = "Verb forms in the past subjunctive"
-    name_local = "Verbformen im Konjunktiv II"
+    name_local = "Verbformen im Konjunktiv Imperfekt"
 
     def count(doc):
         debug = [
             token.text
             for token in doc
-            if str(token.morph.get("Mood")) == "['Sub']"
-            and str(token.morph.get("Tense")) == "['Past']"
+            if "Mood=Sub" in token.morph and "Tense=Past" in token.morph
         ]
         result = len(debug)
+        return ratio(result, len(doc)), debug
+
+
+class IN_V_PERF_SUB(Metric):
+    category = Inflection
+    name_en = "Verb forms in the perfective subjunctive"
+    name_local = "Verbformen im Konjunktiv Perfekt"
+
+    def count(doc):
+        result = 0
+        debug = []
+
+        for sent in doc.sents:
+            aux = [
+                token.text
+                for token in sent
+                if "Mood=Sub" in token.morph
+                and "Tense=Pres" in token.morph
+                and any(
+                    child for child in token.children if "VerbForm=Part" in child.morph
+                )
+            ]
+
+            partizip = [
+                token.text
+                for token in sent
+                if token.pos_ in ["VERB", "AUX"]
+                and "VerbForm=Part" in token.morph
+                and token.dep_ == "oc"
+            ]
+            if aux and partizip:
+                debug.append(aux + partizip)
+                result += len(aux) + len(partizip)
+
         return ratio(result, len(doc)), debug
 
 
@@ -1395,7 +1450,7 @@ class IN_V_PAST_SUB_PLUSQ(Metric):
 
         for sent in doc.sents:
             aux = [
-                token.text
+                token
                 for token in sent
                 if token.text.lower()
                 in [
@@ -1410,27 +1465,44 @@ class IN_V_PAST_SUB_PLUSQ(Metric):
                     "wäret",
                     "wären",
                 ]
+                and any(
+                    child
+                    for child in token.children
+                    if "VerbForm=Part" in child.morph or "VerbForm=Inf" in child.morph
+                )
             ]
 
             partizip = [
                 token.text
                 for token in sent
-                if token.pos_ in ["VERB", "AUX"]
-                and str(token.morph.get("VerbForm")) == "['Part']"
-                and token.dep_ == "oc"
+                if "VerbForm=Part" in token.morph and token.dep_ == "oc"
+            ]
+
+            mod = [
+                token
+                for token in sent
+                if token.text.lower()
+                in ["müssen", "dürfen", "können", "wollen", "mögen", "sollen"]
+                and any(
+                    child.text == token.text
+                    for aux_token in aux
+                    for child in aux_token.children
+                )
             ]
 
             inf = [
                 token.text
                 for token in sent
-                if str(token.morph.get("VerbForm")) == "['Inf']"
+                if "VVINF" in token.tag_.split(":")
+                and any(
+                    child.text == token.text
+                    for mod_token in mod
+                    for child in mod_token.children
+                )
             ]
 
-            mod = [
-                token.text
-                for token in sent
-                if token.pos_ == "AUX" and "VMFIN" in token.tag_.split(":")
-            ]
+            aux = [token.text for token in aux]
+            mod = [token.text for token in mod]
 
             if (aux and partizip) or (aux and inf and mod):
                 debug.append((aux + partizip + inf + mod))
@@ -1450,21 +1522,23 @@ class IN_V_KOND1(Metric):
 
         for sent in doc.sents:
             aux = [
-                token.text
+                token
                 for token in sent
                 if token.text.lower()
                 in ["würde", "würdest", "würden", "würdet", "würden"]
             ]
 
-            inf = [
-                token.text
-                for token in sent
-                if str(token.morph.get("VerbForm")) == "['Inf']"
-            ]
-
-        if aux and inf:
-            debug.append((aux + inf))
-            result += len(aux) + len(inf)
+            inf_children_list = []  # Use a list to store all occurrences
+            for aux_token in aux:
+                inf_children_list.extend(
+                    child.text
+                    for child in aux_token.children
+                    if "VerbForm=Inf" in child.morph
+                )
+            aux = [token.text for token in aux]
+            if aux and inf_children_list:
+                debug.append((aux, inf_children_list))
+                result += len(aux) + len(inf_children_list)
         return ratio(result, len(doc)), debug
 
 
@@ -1489,7 +1563,7 @@ class IN_V_KOND2(Metric):
                 token.text
                 for token in sent
                 if token.pos_ in ["VERB", "AUX"]
-                and str(token.morph.get("VerbForm")) == "['Part']"
+                and "VerbForm=Part" in token.morph
                 and token.dep_ == "oc"
             ]
 
@@ -1516,15 +1590,18 @@ class IN_V_FUT1(Metric):
             aux = [
                 token.text
                 for token in sent
-                if str(token.morph.get("Tense")) == "['Pres']"
-                and token.lemma_ == "werden"
+                if "Tense=Pres" in token.morph
+                and token.text.lower() in ["werden", "werde", "wirst", "wird", "werdet"]
+                and not any(
+                    child for child in token.children if "VerbForm=Part" in child.morph
+                )
             ]
 
             inf = [
                 token.text
                 for token in sent
                 if token.pos_ == "VERB"
-                and str(token.morph.get("VerbForm")) == "['Inf']"
+                and "VerbForm=Inf" in token.morph
                 and token.dep_ in ["oc", "cj"]
             ]
 
@@ -1548,27 +1625,47 @@ class IN_V_FUT2(Metric):
             aux = [
                 token.text
                 for token in sent
-                if str(token.morph.get("Tense")) == "['Pres']"
-                and token.lemma_ == "werden"
+                if "Tense=Pres" in token.morph
+                and token.text.lower() in ["werden", "werde", "wirst", "wird", "werdet"]
+                and any(
+                    child
+                    for child in token.children
+                    if child.text.lower() in ["haben", "sein"]
+                )
             ]
 
-            inf = [
+            partizip = [
                 token.text
                 for token in sent
                 if token.pos_ == "VERB"
-                and str(token.morph.get("VerbForm")) == "['Part']"
+                and "VerbForm=Part" in token.morph
                 and token.dep_ in ["oc", "cj"]
             ]
 
             aux2 = [
-                token.text for token in sent if token.text.lower() in ["haben", "sein"]
+                token.text
+                for token in sent
+                if token.text.lower() in ["haben", "sein"] and token.dep_ == "oc"
             ]
 
-            if aux and inf and aux2:
-                debug.append((aux, inf, aux2))
-                result += len(aux) + len(inf) + len(aux2)
+            if aux and partizip and aux2:
+                debug.append((aux, partizip, aux2))
+                result += len(aux) + len(partizip) + len(aux2)
 
         return ratio(result, len(doc)), debug
+
+
+class IN_V_FUT(Metric):
+    category = Inflection
+    name_en = "Verbs in future tense"
+    name_local = "Verbformen im Futur"
+
+    def count(doc):
+        result1, debug1 = IN_V_FUT1.count(doc)
+        result2, debug2 = IN_V_FUT2.count(doc)
+        combined_result = result1 + result2
+        combined_debug = debug1 + debug2
+        return combined_result, combined_debug
 
 
 class IN_V_PASS(Metric):
@@ -1581,32 +1678,35 @@ class IN_V_PASS(Metric):
         debug = []
 
         for sent in doc.sents:
-            aux = [
+            aux_pres = [
                 token.text
                 for token in sent
-                if str(token.morph.get("Tense")) in ["['Past']", "['Pres']"]
-                and token.lemma_ == "werden"
+                if "Tense=Pres" in token.morph and token.lemma_ == "werden"
+            ]
+
+            aux_past = [
+                token.text
+                for token in sent
+                if "Tense=Past" in token.morph and token.lemma_ == "werden"
             ]
 
             aux_perfekt = [
                 token.text
                 for token in sent
-                if str(token.morph.get("Tense")) == "['Pres']"
-                and token.lemma_ == "sein"
+                if "Tense=Pres" in token.morph and token.lemma_ == "sein"
             ]
 
             aux_plusq = [
                 token.text
                 for token in sent
-                if str(token.morph.get("Tense")) == "['Past']"
-                and token.lemma_ == "sein"
+                if "Tense=Past" in token.morph and token.lemma_ == "sein"
             ]
 
             partizip = [
                 token.text
                 for token in sent
                 if token.pos_ == "VERB"
-                and str(token.morph.get("VerbForm")) == "['Part']"
+                and "VerbForm=Part" in token.morph
                 and token.dep_ in ["oc", "cj"]
             ]
 
@@ -1614,7 +1714,7 @@ class IN_V_PASS(Metric):
 
             futur_ii = any(
                 any(
-                    (str(partizip_token.morph.get("VerbForm")) == "['Part']")
+                    ("VerbForm=Part" in token.morph)
                     and (token.text.lower() in ["haben", "sein"])
                     for partizip_token in sent
                     if partizip_token.i == token.i - 1
@@ -1622,51 +1722,18 @@ class IN_V_PASS(Metric):
                 for token in sent
             )
 
-            if (
-                (aux and partizip and not futur_ii)
-                or (aux_perfekt and partizip and worden and not futur_ii)
-                or (aux_plusq and partizip and worden and not futur_ii)
-            ):
-                debug.append((aux + aux_perfekt + aux_plusq, partizip, worden))
-                result += (
-                    len(aux)
-                    + len(aux_perfekt)
-                    + len(aux_plusq)
-                    + len(partizip)
-                    + len(worden)
-                )
-
-        return ratio(result, len(doc)), debug
-
-
-class IN_V_SPASS(Metric):
-    category = Inflection
-    name_en = "Stative passive verb forms"
-    name_local = "Verbformen im Zustandspassiv"
-
-    def count(doc):
-        result = 0
-        debug = []
-
-        for sent in doc.sents:
-            aux = [
-                token.text
-                for token in sent
-                if str(token.morph.get("Tense")) == "['Pres']"
-                and token.lemma_ == "sein"
-            ]
-
-            partizip = [
-                token.text
-                for token in sent
-                if token.pos_ == "VERB"
-                and str(token.morph.get("VerbForm")) == "['Part']"
-                and token.dep_ in ["oc", "pd"]
-            ]
-
-            if aux and partizip:
-                debug.append((aux, partizip))
-                result += len(aux) + len(partizip)
+            if aux_pres and partizip and not futur_ii:
+                debug.append((aux_pres, partizip))
+                result += len(aux_pres) + len(partizip)
+            elif aux_past and partizip and not futur_ii:
+                debug.append((aux_past, partizip))
+                result += len(aux_past) + len(partizip)
+            elif aux_perfekt and partizip and worden and not futur_ii:
+                debug.append((aux_perfekt, partizip, worden))
+                result += len(aux_perfekt) + len(partizip) + len(worden)
+            elif aux_plusq and partizip and worden and not futur_ii:
+                debug.append((aux_plusq, partizip, worden))
+                result += len(aux_plusq) + len(partizip) + len(worden)
 
         return ratio(result, len(doc)), debug
 
@@ -1681,26 +1748,76 @@ class IN_V_PASS_MOD(Metric):
         debug = []
 
         for sent in doc.sents:
+
             aux_perfekt = [
                 token.text
                 for token in sent
-                if token.lemma_ == "haben"
-                and str(token.morph.get("Tense")) == "['Pres']"
+                if "Tense=Pres" in token.morph and token.lemma_ == "haben"
             ]
 
-            aux = [
+            aux_pres = [
                 token.text
                 for token in sent
-                if str(token.morph.get("Tense")) in ["['Pres']", "['Past']"]
+                if "Tense=Pres" in token.morph
                 and token.lemma_
                 in [
                     "müssen",
                     "mussen",
-                    "muss" "dürfen",
+                    "muss",
+                    "musste",
+                    "dürfen",
                     "sollen",
                     "wollen",
                     "möchten",
                     "können",
+                    "mögen",
+                ]
+                and not any(
+                    child
+                    for child in token.children
+                    if child.pos_ == "VERB" and "VerbForm=Inf" in child.morph
+                )
+            ]
+
+            aux_past = [
+                token.text
+                for token in sent
+                if "Tense=Past" in token.morph
+                and token.lemma_
+                in [
+                    "müssen",
+                    "mussen",
+                    "muss",
+                    "musste",
+                    "dürfen",
+                    "sollen",
+                    "wollen",
+                    "möchten",
+                    "können",
+                    "mögen",
+                ]
+                and not any(
+                    child
+                    for child in token.children
+                    if child.pos_ == "VERB" and "VerbForm=Inf" in child.morph
+                )
+            ]
+
+            aux_inf = [
+                token.text
+                for token in sent
+                if "VerbForm=Inf" in token.morph
+                and token.lemma_
+                in [
+                    "müssen",
+                    "dürfen",
+                    "mussen",
+                    "muss",
+                    "sollen",
+                    "wollen",
+                    "möchten",
+                    "können",
+                    "mögen",
                 ]
             ]
 
@@ -1708,16 +1825,25 @@ class IN_V_PASS_MOD(Metric):
                 token.text
                 for token in sent
                 if token.pos_ == "VERB"
-                and str(token.morph.get("VerbForm")) == "['Part']"
+                and "VerbForm=Part" in token.morph
                 and token.dep_ in ["oc", "cj"]
             ]
 
-            werden = [token.text for token in sent if token.text.lower() == "werden"]
+            werden = [
+                token.text
+                for token in sent
+                if token.text.lower() == "werden"
+                # and token.head.text in aux_pres
+            ]
 
-            if (aux and partizip and werden) or (
-                aux_perfekt and aux and partizip and werden
-            ):
-                debug.append((aux + aux_perfekt, partizip, werden))
-                result += len(aux) + len(aux_perfekt) + len(partizip) + len(werden)
+            if aux_pres and partizip and werden:
+                debug.append((aux_pres, partizip, werden))
+                result += len(aux_pres) + len(partizip) + len(werden)
+            elif aux_past and partizip and werden:
+                debug.append((aux_past, partizip, werden))
+                result += len(aux_past) + len(partizip) + len(werden)
+            elif aux_perfekt and aux_inf and partizip and werden:
+                debug.append((aux_perfekt, aux_inf, partizip, werden))
+                result += len(aux_perfekt) + len(aux_inf) + len(partizip) + len(werden)
 
         return ratio(result, len(doc)), debug

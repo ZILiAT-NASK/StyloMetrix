@@ -113,8 +113,6 @@ class TestHurtlexEN(unittest.TestCase):
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
         debug = debug[metric][0]
-        print(debug)
-        print(expected_debug)
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)

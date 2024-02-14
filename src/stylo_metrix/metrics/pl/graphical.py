@@ -22,7 +22,7 @@ class GR_UPPER(Metric):
             for i, token in enumerate(doc)
             if (not token.is_sent_start or len(token.text) > 1)
             and token.text.isupper()
-            and str(token.morph.get("NumForm")) != "['Roman']"
+            and "NumForm=Roman" not in token.morph
         ]
         result = len(debug)
         return ratio(result, len(doc)), debug
@@ -45,11 +45,8 @@ class GR_EMOT(Metric):
     name_local = "Emotikony"
 
     def count(doc):
-        found_emoticons = [
-            token.text if token.text in emoticons else token.text_with_ws.strip()
-            for token in doc
-        ]
-        debug = [token for token in found_emoticons if token in emoticons]
+        emoticons_pattern = "|".join(map(re.escape, emoticons))
+        debug = re.findall(emoticons_pattern, doc.text)
         result = len(debug)
         return ratio(result, len(doc)), debug
 

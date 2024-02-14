@@ -17,7 +17,7 @@
 import itertools
 
 from ...structures import Category, Metric
-from ...utils import ratio, start_end_quote
+from ...utils import ratio
 
 
 class Syntactic(Category):
@@ -35,7 +35,7 @@ class SY_QUESTION(Metric):
         sentences = [sent.text.split() for sent in doc.sents if sent.text.endswith("?")]
         debug = list(itertools.chain.from_iterable(sentences))
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -48,7 +48,7 @@ class SY_NARRATIVE(Metric):
         sents = [sent.text.split() for sent in doc.sents if sent.text.endswith(".")]
         debug = list(itertools.chain.from_iterable(sents))
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -99,7 +99,7 @@ class SY_NEGATIVE_QUESTIONS(Metric):
         debug = list(itertools.chain(*general_question))
         debug = list(itertools.chain(*debug))
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -136,7 +136,7 @@ class SY_SPECIAL_QUESTIONS(Metric):
         nested = list(itertools.chain(*root))
         debug = list(itertools.chain(*nested))
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -172,7 +172,7 @@ class SY_TAG_QUESTIONS(Metric):
         ]
         debug = list(itertools.chain(*tag_question))
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -223,7 +223,7 @@ class SY_GENERAL_QUESTIONS(Metric):
         debug = list(itertools.chain(*general_question))
         debug = set(itertools.chain(*debug))
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -241,7 +241,7 @@ class SY_EXCLAMATION(Metric):
         ]
         debug = set(itertools.chain.from_iterable(sent))
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -258,7 +258,7 @@ class SY_IMPERATIVE(Metric):
         ]
         debug = set(itertools.chain.from_iterable(sentence_tokens))
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -275,7 +275,7 @@ class SY_SUBORD_SENT(Metric):
         ]
         debug = [*itertools.chain(*subord_sentences)]
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -291,7 +291,7 @@ class SY_SUBORD_SENT_PUNCT(Metric):
         debug = itertools.chain(*sub_sent_punct)
         debug = [tkn.text for tkn in debug if tkn.pos_ in "PUNCT"]
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -308,7 +308,7 @@ class SY_COORD_SENT(Metric):
         ]
         debug = [*itertools.chain(*coord_sentences)]
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -324,7 +324,7 @@ class SY_COORD_SENT_PUNCT(Metric):
         debug = itertools.chain(*coord_sent_punct)
         debug = [tkn.text for tkn in debug if tkn.pos_ in "PUNCT"]
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -345,26 +345,8 @@ class SY_SIMPLE_SENT(Metric):
         ]
         debug = [*itertools.chain(*simple_sent)]
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
-
-
-class SY_DIRECT_SPEECH(Metric):
-    category = Syntactic
-    name_en = "Words in direct speech"
-    name_local = name_en
-
-    def count(doc):
-        start, end = start_end_quote(doc)
-        if start != None and end != None:
-            span = doc[start:end]
-            debug = [token.text for token in span]
-            result = ratio(len(debug), len(doc.text.split()))
-            
-            return result, debug
-        else:
-            result = ratio(len(doc), 0)
-            return result, {}
 
 
 class SY_INVERSE_PATTERNS(Metric):
@@ -416,7 +398,7 @@ class SY_INVERSE_PATTERNS(Metric):
         patterns = pattern_1 + pattern_2 + pattern_3 + pattern_4 + pattern_5
         debug = [*itertools.chain(*patterns)]
         result = len(debug) / len(doc.text.split())
-        
+
         return result, debug
 
 
@@ -447,7 +429,7 @@ class FOS_SIMILE(Metric):
         tokens = prep_tokens + as_as
         debug = list(itertools.chain(*tokens))
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -474,7 +456,7 @@ class FOS_FRONTING(Metric):
 
         debug = list(itertools.chain(*debug))
         result = len(debug) / len(doc.text.split())
-        
+
         return result, debug
 
 
@@ -500,7 +482,7 @@ class PS_SYNTACTIC_IRRITATION(Metric):
 
         debug = list(itertools.chain(*sents))
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
 
 
@@ -533,5 +515,23 @@ class SY_INTENSIFIER(Metric):
                     sents.append(list(itertools.chain(sent.text.split())))
         debug = list(itertools.chain(*sents))
         result = ratio(len(debug), len(doc.text.split()))
-        
+
         return result, debug
+
+
+class SY_QUOT(Metric):
+    category = Syntactic
+    name_en = "Words in quotation marks"
+    name_local = "Słowa w cudzysłowie"
+
+    def count(doc):
+        quote_positions = [i for i, token in enumerate(doc) if token.text in ['"', "'"]]
+        if len(quote_positions) % 2 != 0:
+            quote_positions.pop()
+        debug = [
+            token.text
+            for i in range(0, len(quote_positions), 2)
+            for token in doc[quote_positions[i] + 1 : quote_positions[i + 1]]
+        ]
+        result = len(debug)
+        return ratio(result, len(doc)), debug

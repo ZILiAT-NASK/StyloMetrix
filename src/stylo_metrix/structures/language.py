@@ -31,6 +31,7 @@ class LangMeta(type):
 
 class Lang(metaclass=LangMeta):
     _all_languages = dict()
+
     def __init_subclass__(cls):
         cls.id = Lang._get_new_id()
         cls._categories = list()
@@ -41,7 +42,7 @@ class Lang(metaclass=LangMeta):
 
     def _get_new_id():
         if Lang._all_languages:
-            return max(Lang._all_languages)+1
+            return max(Lang._all_languages) + 1
         else:
             return 0
 
@@ -52,9 +53,9 @@ class Lang(metaclass=LangMeta):
                 language = subcls
                 break
         if language is None:
-            raise Exception(f'There is no language with definition {definition}.')
+            raise Exception(f"There is no language with definition {definition}.")
         return language
-    
+
     def get_all_languages():
         return Lang._all_languages
 
@@ -90,10 +91,10 @@ class Lang(metaclass=LangMeta):
     @classmethod
     def to_json(cls):
         json_dict = {
-            'id': cls.id,
-            'definitions': cls.definitions,
-            'spacy_model': cls.spacy_model,
-            'categories': [category.to_json() for category in cls._categories]
+            "id": cls.id,
+            "definitions": cls.definitions,
+            "spacy_model": cls.spacy_model,
+            "categories": [category.to_json() for category in cls._categories],
         }
 
-        return json.dumps(json_dict)
+        return json_dict

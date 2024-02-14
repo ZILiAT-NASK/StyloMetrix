@@ -17,7 +17,7 @@ from ...structures import Lang
 
 
 class UkrLang(Lang):
-    definitions = ["ukrainian", "ukraiński", "ukr"]
+    definitions = ["ukrainian", "ukraiński", "ukr", "uk"]
     spacy_model = "uk_core_news_trf"
 
 

@@ -19,7 +19,7 @@ class SY_FMWE(Metric):
 
     def count(doc):
         flat = [[token.head, token] for token in doc if "flat" in token.dep_]
-        debug = [token for i in flat for token in i]
+        debug = [token.text for i in flat for token in i]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -31,7 +31,7 @@ class SY_APPM(Metric):
 
     def count(doc):
         flat = [[token.head, token] for token in doc if "appos" in token.dep_]
-        debug = [token for i in flat for token in i]
+        debug = [token.text for i in flat for token in i]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -45,7 +45,7 @@ class SY_S_DE(Metric):
         decl = set(
             [sent for sent in doc.sents for token in sent if token.text in ["."]]
         )
-        debug = [token for i in decl for token in i]
+        debug = [token.text for i in decl for token in i]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -57,7 +57,7 @@ class SY_S_EX(Metric):
 
     def count(doc):
         exl = set([sent for sent in doc.sents for token in sent if token.text == "!"])
-        debug = [token for i in exl for token in i]
+        debug = [token.text for i in exl for token in i]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -69,7 +69,7 @@ class SY_S_IN(Metric):
 
     def count(doc):
         quest = set([sent for sent in doc.sents for token in sent if token.text == "?"])
-        debug = [token for i in quest for token in i]
+        debug = [token.text for i in quest for token in i]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -89,7 +89,7 @@ class SY_S_NEG(Metric):
                 token.dep_ == "advmod:neg" and token.pos_ == "PART" for token in sent
             ):
                 neg_sentences.append(sent)
-        debug = [token for sent in neg_sentences for token in sent]
+        debug = [token.text for sent in neg_sentences for token in sent]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -124,12 +124,11 @@ class SY_S_VOC(Metric):
         inn7w = []
         for sent in doc.sents:
             if any(
-                token.pos_ in ["NOUN", "PROPN"]
-                and str(token.morph.get("Case")) == "['Voc']"
+                token.pos_ in ["NOUN", "PROPN"] and "Case=Voc" in token.morph
                 for token in sent
             ):
                 inn7w.append(sent)
-        debug = [token for sent in inn7w for token in sent]
+        debug = [token.text for sent in inn7w for token in sent]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -150,13 +149,13 @@ class SY_S_NOM(Metric):
                     if token.pos_ == "AUX"
                 )
                 and not any(
-                    token
+                    token.text
                     for token in sent
                     if token.pos_ in ["VERB", "AUX"] and token.pos_ != "AUX"
                 )
             ]
         )
-        debug = [token for i in nom for token in i]
+        debug = [token.text for i in nom for token in i]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -171,11 +170,13 @@ class SY_S_INF(Metric):
             [
                 sent
                 for sent in doc.sents
-                if not any(token for token in sent if "VerbForm=Fin" in token.morph)
-                and any(token for token in sent if "VerbForm=Inf" in token.morph)
+                if not any(
+                    token.text for token in sent if "VerbForm=Fin" in token.morph
+                )
+                and any(token.text for token in sent if "VerbForm=Inf" in token.morph)
             ]
         )
-        debug = [token for i in inf for token in i]
+        debug = [token.text for i in inf for token in i]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -224,7 +225,9 @@ class SY_MOD(Metric):
             subtrees_list = sum(subtrees, [])
             if mod not in subtrees_list:
                 mods_not_part_of_subtree.append(mod)
-        debug = [[el for el in list(head.subtree)] for head in mods_not_part_of_subtree]
+        debug = [
+            [el.text for el in list(head.subtree)] for head in mods_not_part_of_subtree
+        ]
         sum_subtrees = sum(debug, [])
         result = ratio(len(sum_subtrees), len(doc))
         return result, debug
@@ -245,7 +248,8 @@ class SY_NPHR(Metric):
             if noun not in subtrees_list:
                 nouns_not_part_of_subtree.append(noun)
         debug = [
-            [word for word in list(noun.subtree)] for noun in nouns_not_part_of_subtree
+            [word.text for word in list(noun.subtree)]
+            for noun in nouns_not_part_of_subtree
         ]
         sum_subtrees = sum(debug, [])
         result = ratio(len(sum_subtrees), len(doc))
@@ -259,7 +263,7 @@ class SY_INV_OBJ(Metric):
 
     def count(doc):
         nlp = SY_INV_OBJ.get_nlp()
-        result = []
+        debug = []
         counter = 0
         matcher = DependencyMatcher(nlp.vocab)
         pattern = [  # anchor token: root
@@ -290,14 +294,13 @@ class SY_INV_OBJ(Metric):
             match_id, token_ids = matches[i]
             match = []
             for l in doc[token_ids[1]].lefts:
-                match.append(l)
+                match.append(l.text)
             for n in range((token_ids[0] + 1) - token_ids[1]):
-                match.append(doc[token_ids[1] + n])
-            result.append(match)
+                match.append(doc[token_ids[1] + n].text)
+            debug.append(match)
 
-        counter = sum([len(listElem) for listElem in result])
+        counter = sum([len(listElem) for listElem in debug])
 
-        debug = {"FOUND": result}
         return ratio(counter, len(doc)), debug
 
 
@@ -307,15 +310,15 @@ class SY_INV_EPI(Metric):
     name_local = "Inwersja epitetu"
 
     def count(doc):
-        result = [
+        debug = [
             token.text
             for token in doc
             if token.pos_ == "ADJ"
             and token.head.pos_ == "NOUN"
             and token in token.head.rights
         ]
-        debug = {"FOUND": result}
-        return ratio(len(result), len(doc)), debug
+
+        return ratio(len(debug), len(doc)), debug
 
 
 class SY_INIT(Metric):
@@ -331,7 +334,7 @@ class SY_INIT(Metric):
 
 class SY_QUOT(Metric):
     category = Syntactic
-    name_en = "Number of words in quotation marks"
+    name_en = "Words in quotation marks"
     name_local = "Słowa w cudzysłowie"
 
     def count(doc):
@@ -339,43 +342,11 @@ class SY_QUOT(Metric):
         if len(quote_positions) % 2 != 0:
             quote_positions.pop()
         debug = [
-            token
+            token.text
             for i in range(0, len(quote_positions), 2)
             for token in doc[quote_positions[i] + 1 : quote_positions[i + 1]]
         ]
         result = len(debug)
-        return ratio(result, len(doc)), debug
-
-
-class SY_SIMILE_NP(Metric):
-    category = Syntactic
-    name_en = "Similes (noun/pronoun)"
-    name_local = "Porównania (rzeczownik/zaimek)"
-
-    def count(doc):
-        result = 0
-        debug = []
-
-        for sent in doc.sents:
-            subj = [
-                token.text
-                for token in sent
-                if token.pos_ in ["NOUN", "PROPN", "PRON"] and token.dep_ == "nsubj"
-            ]
-
-            sim = [
-                token.text
-                for token in sent
-                if token.pos_ == "SCONJ"
-                and str(token.morph.get("ConjType")) == "['Cmpr']"
-            ]
-
-            obl = [token.text for token in sent if token.dep_ == "obl:cmpr"]
-
-            if subj and sim and obl:
-                debug.append((subj, sim, obl))
-                result = result + len(subj) + len(sim) + len(obl)
-
         return ratio(result, len(doc)), debug
 
 

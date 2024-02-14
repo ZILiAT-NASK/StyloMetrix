@@ -19,30 +19,13 @@ import itertools
 from spacy.matcher import Matcher
 
 from ...structures import Category, Metric
-from ...utils import incidence, ratio, start_end_quote
+from ...utils import ratio
 
 
 class Syntactic(Category):
     lang = "ru"
     name_en = "Syntactic"
     name_local = name_en
-
-
-class SY_DIRECT_SPEECH(Metric):
-    category = Syntactic
-    name_en = "Number of words in direct speech"
-    name_local = name_en
-
-    def count(doc):
-        start, end = start_end_quote(doc)
-        if (start and end) != None:
-            span = doc[start:end]
-            span_words = [token for token in span if token.is_alpha]
-            result = incidence(doc, span_words)
-            return result, {"Direct Speech": span_words}
-        else:
-            result = ratio(len(doc), 0)
-            return result, {}
 
 
 class SY_NARRATIVE(Metric):
@@ -118,7 +101,7 @@ class SY_NON_FINITE(Metric):
 
 class SY_QUOTATIONS(Metric):
     category = Syntactic
-    name_en = "Number of words in sentences with quotation marks"
+    name_en = "Words in sentences with quotation marks"
     name_local = name_en
 
     def count(doc):

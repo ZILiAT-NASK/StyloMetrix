@@ -44,7 +44,7 @@ class SY_APPR(Metric):
 class SY_APPRART(Metric):
     category = Syntactic
     name_en = "Adpositions with fused articles"
-    name_local = "Praepositionen mit verschmolzenen Artikeln"
+    name_local = "Präpositionen mit verschmolzenen Artikeln"
 
     def count(doc):
         debug = [token.text for token in doc if "APPRART" in token.tag_.split(":")]
@@ -94,7 +94,7 @@ class SY_S_DE(Metric):
         decl = set(
             [sent for sent in doc.sents for token in sent if token.text in ["."]]
         )
-        debug = [token for i in decl for token in i]
+        debug = [token.text for i in decl for token in i]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -106,7 +106,7 @@ class SY_S_EX(Metric):
 
     def count(doc):
         exl = set([sent for sent in doc.sents for token in sent if token.text == "!"])
-        debug = [token for i in exl for token in i]
+        debug = [token.text for i in exl for token in i]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -118,7 +118,7 @@ class SY_S_INT(Metric):
 
     def count(doc):
         quest = set([sent for sent in doc.sents for token in sent if token.text == "?"])
-        debug = [token for i in quest for token in i]
+        debug = [token.text for i in quest for token in i]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -133,7 +133,7 @@ class SY_S_NEG(Metric):
         for sent in doc.sents:
             if any("PTKNEG" in token.tag_.split(":") for token in sent):
                 neg_sentences.append(sent)
-        debug = [token for sent in neg_sentences for token in sent]
+        debug = [token.text for sent in neg_sentences for token in sent]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -148,11 +148,13 @@ class SY_S_INF(Metric):
             [
                 sent
                 for sent in doc.sents
-                if not any(token for token in sent if "VerbForm=Fin" in token.morph)
-                and any(token for token in sent if "VerbForm=Inf" in token.morph)
+                if not any(
+                    token.text for token in sent if "VerbForm=Fin" in token.morph
+                )
+                and any(token.text for token in sent if "VerbForm=Inf" in token.morph)
             ]
         )
-        debug = [token for i in inf for token in i]
+        debug = [token.text for i in inf for token in i]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -171,7 +173,7 @@ class SY_S_MAN(Metric):
                 if (token.text.lower() == "man" and token.dep_ == "sb")
             ]
         )
-        debug = [token for i in man for token in i]
+        debug = [token.text for i in man for token in i]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -186,7 +188,7 @@ class SY_S_SUB(Metric):
         for sent in doc.sents:
             if any("KOUS" in token.tag_.split(":") for token in sent):
                 sub_sentences.append(sent)
-        debug = [token for sent in sub_sentences for token in sent]
+        debug = [token.text for sent in sub_sentences for token in sent]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -201,7 +203,7 @@ class SY_S_SUB_ZU(Metric):
         for sent in doc.sents:
             if any("KOUI" in token.tag_.split(":") for token in sent):
                 sub_sentences.append(sent)
-        debug = [token for sent in sub_sentences for token in sent]
+        debug = [token.text for sent in sub_sentences for token in sent]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -216,7 +218,7 @@ class SY_S_KOKOM(Metric):
         for sent in doc.sents:
             if any("KOKOM" in token.tag_.split(":") for token in sent):
                 comp_sentences.append(sent)
-        debug = [token for sent in comp_sentences for token in sent]
+        debug = [token.text for sent in comp_sentences for token in sent]
         result = len(debug)
         return ratio(result, len(doc)), debug
 
@@ -232,10 +234,8 @@ class SY_S_COND1(Metric):
             if any(token.text.lower() == "wenn" for token in sent):
                 if any(
                     token.pos_ in ["VERB", "AUX"]
-                    and str(token.morph.get("Tense")) == "['Pres']"
-                    and not any(
-                        str(token.morph.get("VerbForm")) == "['Part']" for token in sent
-                    )
+                    and "Tense=Pres" in token.morph
+                    and not any("VerbForm=Part" in token.morph for token in sent)
                     for token in sent
                 ):
                     cond_sentences.append(sent)
@@ -256,10 +256,8 @@ class SY_S_COND2(Metric):
             if any(token.text.lower() == "wenn" for token in sent):
                 if any(
                     token.pos_ in ["VERB", "AUX"]
-                    and str(token.morph.get("Mood")) == "['Sub']"
-                    and not any(
-                        str(token.morph.get("VerbForm")) == "['Part']" for token in sent
-                    )
+                    and "Mood=Sub" in token.morph
+                    and not any("VerbForm=Part" in token.morph for token in sent)
                     for token in sent
                 ):
                     cond_sentences.append(sent)
@@ -279,13 +277,10 @@ class SY_S_COND3(Metric):
         for sent in doc.sents:
             if any(token.text.lower() == "wenn" for token in sent):
                 if any(
-                    token.pos_ in ["VERB", "AUX"]
-                    and str(token.morph.get("Mood")) == "['Sub']"
+                    token.pos_ in ["VERB", "AUX"] and "Mood=Sub" in token.morph
                     for token in sent
                 ):
-                    if any(
-                        str(token.morph.get("VerbForm")) == "['Part']" for token in sent
-                    ):
+                    if any("VerbForm=Part" in token.morph for token in sent):
                         cond_sentences.append(sent)
 
         debug = [token.text for sent in cond_sentences for token in sent]
@@ -303,7 +298,7 @@ class SY_QUOT(Metric):
         if len(quote_positions) % 2 != 0:
             quote_positions.pop()
         debug = [
-            token
+            token.text
             for i in range(0, len(quote_positions), 2)
             for token in doc[quote_positions[i] + 1 : quote_positions[i + 1]]
         ]
