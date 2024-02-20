@@ -16,14 +16,14 @@ from .data.dictionaries import (
 )
 
 
-class Psycholingwistyka(Category):
+class Psycholinguistics(Category):
     lang = "pl"
     name_en = "Psycholinguistics"
     name_local = "Psycholingwistyka"
 
 
 class PS_M_POSa(Metric):
-    category = Psycholingwistyka
+    category = Psycholinguistics
     name_en = "Words having more than mean positivity"
     name_local = "Wyrazy posiadające więcej niż średnią pozytywność (POSITIVITY)"
 
@@ -34,7 +34,7 @@ class PS_M_POSa(Metric):
 
 
 class PS_M_POSb(Metric):
-    category = Psycholingwistyka
+    category = Psycholinguistics
     name_en = "Words having less than mean positivity"
     name_local = "Wyrazy posiadające mniej niż średnią pozytywność (POSITIVITY)"
 
@@ -45,7 +45,7 @@ class PS_M_POSb(Metric):
 
 
 class PS_M_NEGa(Metric):
-    category = Psycholingwistyka
+    category = Psycholinguistics
     name_en = "Words having more than mean negativity"
     name_local = "Wyrazy posiadające więcej niż średnią negatywność (NEGATIVITY)"
 
@@ -56,7 +56,7 @@ class PS_M_NEGa(Metric):
 
 
 class PS_M_NEGb(Metric):
-    category = Psycholingwistyka
+    category = Psycholinguistics
     name_en = "Words having less than mean negativity"
     name_local = "Wyrazy posiadające mniej niż średnią negatywność (NEGATIVITY)"
 
@@ -67,7 +67,7 @@ class PS_M_NEGb(Metric):
 
 
 class PS_M_REFa(Metric):
-    category = Psycholingwistyka
+    category = Psycholinguistics
     name_en = "Words having more than mean reflectiveness"
     name_local = "Wyrazy posiadające więcej niż średnią refleksyjność (REFLECTIVENESS)"
 
@@ -78,7 +78,7 @@ class PS_M_REFa(Metric):
 
 
 class PS_M_REFb(Metric):
-    category = Psycholingwistyka
+    category = Psycholinguistics
     name_en = "Words having less than mean reflectiveness"
     name_local = "Wyrazy posiadające mniej niż średnią refleksyjność (REFLECTIVENESS)"
 
@@ -89,7 +89,7 @@ class PS_M_REFb(Metric):
 
 
 class PS_M_AUTa(Metric):
-    category = Psycholingwistyka
+    category = Psycholinguistics
     name_en = "Words having more than mean automaticity"
     name_local = "Wyrazy posiadające więcej niż średnią automatyczność (AUTOMATICITY)"
 
@@ -100,7 +100,7 @@ class PS_M_AUTa(Metric):
 
 
 class PS_M_AUTb(Metric):
-    category = Psycholingwistyka
+    category = Psycholinguistics
     name_en = "Words having less than mean automaticity"
     name_local = "Wyrazy posiadające mniej niż średnią automatyczność (AUTOMATICITY)"
 
@@ -111,7 +111,7 @@ class PS_M_AUTb(Metric):
 
 
 class PS_M_AROa(Metric):
-    category = Psycholingwistyka
+    category = Psycholinguistics
     name_en = "Words having more than mean arousal"
     name_local = "Wyrazy posiadające więcej niż średnie pobudzenie (arousal)"
 
@@ -122,7 +122,7 @@ class PS_M_AROa(Metric):
 
 
 class PS_M_AROb(Metric):
-    category = Psycholingwistyka
+    category = Psycholinguistics
     name_en = "Words having less than mean arousal"
     name_local = "Wyrazy posiadające mniej niż średnie pobudzenie (arousal)"
 
@@ -133,7 +133,7 @@ class PS_M_AROb(Metric):
 
 
 class PS_M_SIGa(Metric):
-    category = Psycholingwistyka
+    category = Psycholinguistics
     name_en = "Words having more than mean significance"
     name_local = "Wyrazy posiadające więcej niż średnie znaczenie (significance)"
 
@@ -144,7 +144,7 @@ class PS_M_SIGa(Metric):
 
 
 class PS_M_SIGb(Metric):
-    category = Psycholingwistyka
+    category = Psycholinguistics
     name_en = "Words having less than mean significance"
     name_local = "Wyrazy posiadające mniej niż średnie znaczenie (significance)"
 

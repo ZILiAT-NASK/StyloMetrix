@@ -25,39 +25,5 @@ def ratio(v1: int, v2: int):
         return 0
 
 
-def select(doc, attr_dict):
-    selection = [
-        token
-        for token in doc
-        if all(
-            [
-                getattr(getattr(token, "_"), attr) == value
-                for attr, value in attr_dict.items()
-            ]
-        )
-    ]
-    return selection
-
-
 def incidence(doc, selection):
     return ratio(len(selection), len(doc))
-
-
-def log_incidence(n1: int, n2: int):
-    try:
-        result = math.log(n1) / math.log(n2)
-        return result
-    except ZeroDivisionError:
-        return 0.0
-
-
-def start_end_quote(doc):
-    start = None
-    end = None
-    for token in doc:
-        if ("PunctSide=Ini" and "PunctType=Quot") in token.morph:
-            start = token.i + 1
-    for token in reversed(doc):
-        if ("PunctSide=Fin" and "PunctType=Quot") in token.morph:
-            end = token.i - 1
-    return start, end

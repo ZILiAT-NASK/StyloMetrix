@@ -14,7 +14,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-from .pl import PlLang
+from .de import DeLang
 from .en import EnLang
-from .ukr import UkrLang
+from .pl import PlLang
 from .ru import RuLang
+from .ukr import UkrLang

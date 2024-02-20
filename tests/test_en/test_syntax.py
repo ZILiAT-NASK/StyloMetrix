@@ -36,7 +36,7 @@ class TestSyntaxEN(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -65,7 +65,7 @@ class TestSyntaxEN(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -89,7 +89,7 @@ class TestSyntaxEN(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -118,7 +118,7 @@ class TestSyntaxEN(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -147,7 +147,7 @@ class TestSyntaxEN(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -170,7 +170,7 @@ class TestSyntaxEN(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         # self.assertSequenceEqual(expected_debug, debug)
@@ -194,7 +194,7 @@ class TestSyntaxEN(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         # self.assertSequenceEqual(expected_debug, debug)
@@ -208,7 +208,7 @@ class TestSyntaxEN(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         # self.assertSequenceEqual(expected_debug, debug)
@@ -242,7 +242,7 @@ class TestSyntaxEN(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -256,7 +256,7 @@ class TestSyntaxEN(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -294,7 +294,7 @@ class TestSyntaxEN(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -308,7 +308,7 @@ class TestSyntaxEN(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -337,7 +337,7 @@ class TestSyntaxEN(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -360,13 +360,13 @@ class TestSyntaxEN(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
-    def test_FOS_SIMILE(self):
-        metric = "FOS_SIMILE"
+    def test_SY_SIMILE(self):
+        metric = "SY_SIMILE"
         test_text = (
             "She was as beautiful as ever. He looks like his father. We don't like him."
         )
@@ -388,13 +388,13 @@ class TestSyntaxEN(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
-    def test_FOS_FRONTING(self):
-        metric = "FOS_FRONTING"
+    def test_SY_FRONTING(self):
+        metric = "SY_FRONTING"
         test_text = "In June came ponderous heat and mornings like eggshells, pale and smooth. Powerful you have become Dooku, the dark side I sense in you."
 
         expected_debug = [
@@ -427,13 +427,13 @@ class TestSyntaxEN(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
-    def test_PS_SYNTACTIC_IRRITATION(self):
-        metric = "PS_SYNTACTIC_IRRITATION"
+    def test_SY_IRRITATION(self):
+        metric = "SY_IRRITATION"
         test_text = "She is constantly being late. He was always losing his keys. She kept doing this all the time. I was every time annoying her about this."
 
         expected_debug = [
@@ -453,7 +453,7 @@ class TestSyntaxEN(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
@@ -479,7 +479,7 @@ class TestSyntaxEN(unittest.TestCase):
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
-        debug = [token for token in debug[metric][0]["TOKENS"]]
+        debug = debug[metric][0]
 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)

@@ -55,7 +55,7 @@ class PUNCT_BI_VERB(Metric):
         matcher.add("punct_bi_verb", pattern)
         matches = matcher(doc)
         debug = [
-            token
+            token.text
             for match in matches
             for _, start, end in [match]
             for token in doc[start:end]

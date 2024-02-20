@@ -15,15 +15,17 @@
 
 from ...structures import Lang
 
-class PlLang(Lang):
-    definitions = ['polish', 'polski', 'pl', 'pol']
-    spacy_model = 'pl_nask'
 
-from .new_descriptive import *
-from .new_graphical import *
-from .new_inflection import *
-from .new_lexis import *
-from .new_part_of_speech import *
-from .new_psycholinguistics import *
-from .new_punctuation import *
-from .new_syntactic import *
+class PlLang(Lang):
+    definitions = ["polish", "polski", "pl", "pol"]
+    spacy_model = "pl_nask"
+
+
+from .grammatical_forms import *
+from .inflection import *
+from .syntactic import *
+from .punctuation import *
+from .lexis import *
+from .psycholinguistics import *
+from .descriptive import *
+from .graphical import *

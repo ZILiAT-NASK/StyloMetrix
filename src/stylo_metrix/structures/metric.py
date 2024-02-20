@@ -15,6 +15,7 @@
 
 import json
 
+
 class MetricMeta(type):
     def __str__(cls) -> str:
         return cls.code
@@ -31,7 +32,7 @@ class MetricMeta(type):
 
 class Metric(metaclass=MetricMeta):
     _all_metrics = dict()
-    
+
     def __init_subclass__(cls):
         cls.id = Metric._get_new_id()
         cls.code = cls.__name__
@@ -43,13 +44,13 @@ class Metric(metaclass=MetricMeta):
 
     def _get_new_id():
         if Metric._all_metrics:
-            return max(Metric._all_metrics)+1
+            return max(Metric._all_metrics) + 1
         else:
             return 0
 
     @classmethod
     def details(cls):
-        return f'{cls.category}  |  {cls}  |  {cls.name_en}'
+        return f"{cls.category}  |  {cls}  |  {cls.name_en}  |  {cls.name_local}"
 
     @classmethod
     def set_category(cls, category):
@@ -86,14 +87,14 @@ class Metric(metaclass=MetricMeta):
     @classmethod
     def to_json(cls):
         json_dict = {
-            'id': cls.id,
-            'code': cls.code,
-            'name_en': cls.name_en,
-            'name_local': cls.name_local
+            "id": cls.id,
+            "code": cls.code,
+            "name_en": cls.name_en,
+            "name_local": cls.name_local,
         }
 
-        return json.dumps(json_dict)
-    
+        return json_dict
+
     @classmethod
     def set_nlp(cls, nlp):
         cls._nlp = nlp

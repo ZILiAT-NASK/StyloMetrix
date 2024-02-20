@@ -5,9 +5,9 @@ name: Tests
 
 on:
   push:
-    branches: [ "v0.1.0" ]
+    branches: [ "v0.1.0", "v0.1.8" ]
   pull_request:
-    branches: [ "v0.1.0" ]
+    branches: [ "v0.1.0", "v0.1.8" ]
 
 permissions:
   contents: read
@@ -16,6 +16,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
     - uses: actions/checkout@v3
@@ -32,6 +33,7 @@ jobs:
         python -m spacy download en_core_web_trf
         python -m spacy download ru_core_news_lg
         python -m spacy download uk_core_news_trf
+        python -m spacy download de_core_news_lg
         pip install -r requirements.txt
     # - name: Lint with flake8
     #   run: |
@@ -39,6 +41,23 @@ jobs:
     #     flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
     #     # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
     #     flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with unittest
+    - name: Test pl
       run: |
-        python -m unittest tests/test_metric.py 
+        python -m unittest discover tests/test_pl 
+    - name: Test de
+      run: |
+        python -m unittest discover tests/test_de
+    - name: Test en
+      run: |
+        python -m unittest discover tests/test_en
+    - name: Test ru
+      run: |
+        python -m unittest discover tests/test_ru
+    - name: Test ukr
+      run: |
+        python -m unittest discover tests/test_ukr
+    - name: Test utils
+      run: |
+        python -m unittest discover tests/test_other
+    strategy:
+      fail-fast: false

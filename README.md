@@ -7,13 +7,11 @@
 Zakład Inżynierii Lingwistycznej i Analizy Tekstu, NASK PIB 
 
 ## 📌 Quick
-💡 Stylometry tool in beta version for **Polish**, **English** and **Ukrainian** language, distributed as a **Python package**
+💡 Stylometry tool in beta version for **English**, **German**, **Polish**, **Russian** and **Ukrainian** language, distributed as a **Python package**
 
-💡 [Tutorial notebook](examples/Tutorial_pl.ipynb)
+💡 [Tutorial notebook](examples/Tutorial.ipynb)
 
-💡 List of built-in metrics for [Polish](resources/metrics_list_pl.md), [English](resources/metrics_list_en.md)
-
-💡 [Helper functions and extensions](resources/helpers_list.md)
+💡 List of built-in metrics for [Polish](resources/metrics_list_pl.md), [English](resources/metrics_list_en.md), [German](resources/metrics_list_de.md), [Ukrainian](resources/metrics_list_ukr.md), [Russian](resources/metrics_list_ru.md)
 
 ## 🔖 Citation
 Please cite [this article](https://arxiv.org/pdf/2309.12810.pdf) when referring to StyloMetrix: 
@@ -39,16 +37,20 @@ A StyloMetrix vector can be used as:
 
 The tool offers **customization of vectors** by selecting from built-in metrics or **creating new metrics** according to user's needs. We provide a user-friendly interface to support these tasks. See instructions below! ⬇
 
-Currently StyloMetrix is available for **Polish**, **English** and **Ukrainian** language! 
+Currently StyloMetrix is available for **English**, **German**, **Polish**, **Russian**  and **Ukrainian** language. 
 
 ## 📢 Release
 Our most recent release is:
 
 `v0.1.0`
 - Changing the structure of StyloMetrix
-- Works mutch faster!
+- Works much faster!
 - New metrics and categories in Polish and English language
+- German language in beta version
+- Russian language in beta version
 - Ukrainian language in beta version
+
+Please notice that support for **Russian** and **Ukrainian** languages will no longer be available.
 
 <details>
 <summary><b>Previous releases</b> ⌛</summary>
@@ -62,7 +64,7 @@ Our most recent release is:
 
 `v0.0.3`
 - Add StyloMetrix structure
-- Add [tutorial](examples/Quick%20Tutorial.ipynb)
+- Add [tutorial](examples/Tutorial.ipynb)
 - Add 6 built-in metrics categories for **Polish beta**: `Grammatical Forms`, `Inflection`, `Lexical`, `Psycholinguistic`, `Syntactic`, `Word Formation`
 - Specify license & citation
 
@@ -74,9 +76,6 @@ Our most recent release is:
 Install `spacy` according to [spaCy install instructions](https://spacy.io/usage) 
 
 ### 2. Install model
-▶ **For English**:
-
-Install `en_core_web_trf` from [spaCy install instructions](https://spacy.io/usage)
 
 ▶ **For Polish**:
 
@@ -86,6 +85,14 @@ Install `en_core_web_trf` from [spaCy install instructions](https://spacy.io/usa
 ```bash
 python -m pip install <PATH_TO_MODEL/pl_nask-0.0.7.tar.gz> 
 ```
+▶ **For other languages**:
+
+- For English install `en_core_web_trf` from [spaCy install instructions](https://spacy.io/usage)
+- For German install `de_core_news_lg` from [spaCy install instructions](https://spacy.io/usage)
+- For Russian install `ru_core_news_lg` from [spaCy install instructions](https://spacy.io/usage)
+- For Ukrainian install `uk_core_web_trf` from [spaCy install instructions](https://spacy.io/usage)
+
+
 ### 3. Install StyloMetrix
 ```bash
 pip install stylo_metrix
@@ -108,18 +115,20 @@ print(metrics)
 ```
 3. Your results is now in `metrics` object.
 
-That's it! Find out about more usages and customization options in [notebook tutorial](examples/Quick%20Tutorial.ipynb).
+That's it! Find out about more usages and customization options in [notebook tutorial](examples/Tutorial.ipynb).
 
 ## 📈 Metrics
-We have put care into creating a set of powerful built-in metrics. See the list below ⬇. However, since flexibility is strength, we provide an esy way to create new metrics.
+We have put care into creating a set of powerful built-in metrics. See the list below ⬇. However, since flexibility is strength, we provide an easy way to create new metrics.
 
 **Polish** [(see full list)](resources/metrics_list_pl.md)
 
 **English** [(see full list)](resources/metrics_list_en.md)
 
+**German** [(see full list)](resources/metrics_list_de.md)
+
+**Russian** [(see full list)](resources/metrics_list_ru.md)
+
 **Ukrainian** [(see full list)](resources/metrics_list_ukr.md)
-
-
 
 
 
