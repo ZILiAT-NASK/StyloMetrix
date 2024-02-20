@@ -1,8 +1,7 @@
 # StyloMetrix UKR
-Metrics list for Ukrainian language in version `v0.1.7`
+Metrics list for Ukrainian language in version `v0.1.8`
 
 Copyright (C) 2024  NASK PIB
-
 
 Id | Category | Code | Name | Local Name
 |---|---|---|---|---|

@@ -1,10 +1,9 @@
 # StyloMetrix RU
-Metrics list for Polish language in version `v0.1.7`
+Metrics list for Russian language in version `v0.1.8`
 
 Copyright (C) 2024  NASK PIB
 
-
-Id | Category | Code | Name | Local name
+Id | Category | Code | Name | Local Name
 |---|---|---|---|---|
 0  |  Lexical  |  L_TYPE_TOKEN_RATIO_LEMMAS  |  Type-token ratio for words lemmas  |  Type-token ratio for words lemmas
 1  |  Lexical  |  L_CONT_A  |  Incidence of Content words  |  Incidence of Content words

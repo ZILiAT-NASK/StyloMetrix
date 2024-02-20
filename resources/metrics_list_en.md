@@ -1,9 +1,9 @@
 # StyloMetrix EN
-Metrics list for English language in version `v0.1.7`
+Metrics list for English language in version `v0.1.8`
 
 Copyright (C) 2024  NASK PIB
 
-Id | Category | Code | Name | Local name
+Id | Category | Code | Name | Local Name
 |---|---|---|---|---|
 0  |  PartOfSpeech  |  POS_VERB  |  Verbs  |  Verbs
 1  |  PartOfSpeech  |  POS_NOUN  |  Nouns  |  Nouns
