@@ -37,8 +37,8 @@ class TestTextStatEN(unittest.TestCase):
         lang = "en"
         cls.sm = StyloMetrix(lang, debug=True)
 
-    def test_SENT_ST_WRDSPERSENT(self):
-        metric = "SENT_ST_WRDSPERSENT"
+    def test_ST_SENT_WRDSPERSENT(self):
+        metric = "ST_SENT_WRDSPERSENT"
         test_text = TEXT_TEST
         expected_debug = {}
         expected_out = 0.9080590238365494
@@ -50,8 +50,8 @@ class TestTextStatEN(unittest.TestCase):
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
-    def test_SENT_ST_DIFFERENCE(self):
-        metric = "SENT_ST_DIFFERENCE"
+    def test_ST_SENT_DIFFERENCE(self):
+        metric = "ST_SENT_DIFFERENCE"
         test_text = TEXT_TEST
         expected_debug = {}
         expected_out = 0.10767160161507403
@@ -89,8 +89,8 @@ class TestTextStatEN(unittest.TestCase):
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
-    def test_SENT_D_VP(self):
-        metric = "SENT_D_VP"
+    def test_ST_SENT_D_VP(self):
+        metric = "ST_SENT_D_VP"
         test_text = TEXT_TEST
         expected_debug = {}
         expected_out = 0.7935655751359041
@@ -102,8 +102,8 @@ class TestTextStatEN(unittest.TestCase):
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
-    def test_SENT_D_NP(self):
-        metric = "SENT_D_NP"
+    def test_ST_SENT_D_NP(self):
+        metric = "ST_SENT_D_NP"
         test_text = TEXT_TEST
         expected_debug = {}
         expected_out = 0.3172088049810066
@@ -115,8 +115,8 @@ class TestTextStatEN(unittest.TestCase):
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
-    def test_SENT_D_PP(self):
-        metric = "SENT_D_PP"
+    def test_ST_SENT_D_PP(self):
+        metric = "ST_SENT_D_PP"
         test_text = TEXT_TEST
         expected_debug = {}
         expected_out = 0.16747947517445322
@@ -128,8 +128,8 @@ class TestTextStatEN(unittest.TestCase):
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
-    def test_SENT_D_ADJP(self):
-        metric = "SENT_D_ADJP"
+    def test_ST_SENT_D_ADJP(self):
+        metric = "ST_SENT_D_ADJP"
         test_text = TEXT_TEST
         expected_debug = {}
         expected_out = 0.0  # TODO: Find example where expected_out > 0.0
@@ -141,8 +141,8 @@ class TestTextStatEN(unittest.TestCase):
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
-    def test_SENT_D_ADVP(self):
-        metric = "SENT_D_ADVP"
+    def test_ST_SENT_D_ADVP(self):
+        metric = "ST_SENT_D_ADVP"
         test_text = TEXT_TEST
         expected_debug = {}
         expected_out = 0.04839827359652514

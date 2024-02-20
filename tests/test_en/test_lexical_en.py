@@ -9,8 +9,8 @@ class TestLexicalEN(unittest.TestCase):
         lang = "en"
         cls.sm = StyloMetrix(lang, debug=True)
 
-    def test_L_TYPE_TOKEN_RATIO_LEMMAS(self):
-        metric = "L_TYPE_TOKEN_RATIO_LEMMAS"
+    def test_ST_TYPE_TOKEN_RATIO_LEMMAS(self):
+        metric = "ST_TYPE_TOKEN_RATIO_LEMMAS"
         test_text = """Text in the present passive is written when the subject of the sentence isn't the doer of the action, but the receiver. For example, "The cake is baked by John" is a present passive sentence, because the cake is not baking itself, but John is baking it."""
 
         expected_debug = [
@@ -50,8 +50,8 @@ class TestLexicalEN(unittest.TestCase):
         self.assertEqual(expected_out, out)
         # self.assertSequenceEqual(expected_debug, debug)
 
-    def test_HERDAN_TTR(self):
-        metric = "HERDAN_TTR"
+    def test_ST_HERDAN_TTR(self):
+        metric = "ST_HERDAN_TTR"
         test_text = """Text in the present passive is written when the subject of the sentence isn't the doer of the action, but the receiver. For example, "The cake is baked by John" is a present passive sentence, because the cake is not baking itself, but John is baking it.
 To form the present passive, we use the verb to be in the present tense and the past participle of the main verb."""
 
@@ -65,8 +65,8 @@ To form the present passive, we use the verb to be in the present tense and the 
         self.assertEqual(expected_out, out)
         self.assertSequenceEqual(expected_debug, debug)
 
-    def test_MASS_TTR(self):
-        metric = "MASS_TTR"
+    def test_ST_MASS_TTR(self):
+        metric = "ST_MASS_TTR"
         test_text = """Text in the present passive is written when the subject of the sentence isn't the doer of the action, but the receiver. For example, "The cake is baked by John" is a present passive sentence, because the cake is not baking itself, but John is baking it.
 To form the present passive, we use the verb to be in the present tense and the past participle of the main verb."""
 
@@ -146,9 +146,9 @@ To form the present passive, we use the verb to be in the present tense and the 
 
     def test_L_CONT_A(self):
         metric = "L_CONT_A"
-        test_text = (
-            test_text
-        ) = "Text in the present passive is written when the subject of the sentence isn't the doer of the action, but the receiver. For example, The cake is baked by John is a present passive sentence, because the cake is not baking itself, but John is baking it."
+        test_text = test_text = (
+            "Text in the present passive is written when the subject of the sentence isn't the doer of the action, but the receiver. For example, The cake is baked by John is a present passive sentence, because the cake is not baking itself, but John is baking it."
+        )
 
         expected_debug = [
             "Text",

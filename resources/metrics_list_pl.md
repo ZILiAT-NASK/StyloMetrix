@@ -145,18 +145,18 @@ Id | Category | Code | Name | Local Name
 136  |  Lexical  |  L_STOP  |  Incidence of stop words  |  Wyrazy ze stoplisty
 137  |  Lexical  |  L_TCCT1  |  Tokens covering 1% of most common types  |  Wyrazy wchodzące w skład 1% najczęstszych typów
 138  |  Lexical  |  L_TCCT5  |  Tokens covering 5% of most common types  |  Wyrazy wchodzące w skład 5% najczęstszych typów
-139  |  Psycholingwistyka  |  PS_M_POSa  |  Words having more than mean positivity  |  Wyrazy posiadające więcej niż średnią pozytywność (POSITIVITY)
-140  |  Psycholingwistyka  |  PS_M_POSb  |  Words having less than mean positivity  |  Wyrazy posiadające mniej niż średnią pozytywność (POSITIVITY)
-141  |  Psycholingwistyka  |  PS_M_NEGa  |  Words having more than mean negativity  |  Wyrazy posiadające więcej niż średnią negatywność (NEGATIVITY)
-142  |  Psycholingwistyka  |  PS_M_NEGb  |  Words having less than mean negativity  |  Wyrazy posiadające mniej niż średnią negatywność (NEGATIVITY)
-143  |  Psycholingwistyka  |  PS_M_REFa  |  Words having more than mean reflectiveness  |  Wyrazy posiadające więcej niż średnią refleksyjność (REFLECTIVENESS)
-144  |  Psycholingwistyka  |  PS_M_REFb  |  Words having less than mean reflectiveness  |  Wyrazy posiadające mniej niż średnią refleksyjność (REFLECTIVENESS)
-145  |  Psycholingwistyka  |  PS_M_AUTa  |  Words having more than mean automaticity  |  Wyrazy posiadające więcej niż średnią automatyczność (AUTOMATICITY)
-146  |  Psycholingwistyka  |  PS_M_AUTb  |  Words having less than mean automaticity  |  Wyrazy posiadające mniej niż średnią automatyczność (AUTOMATICITY)
-147  |  Psycholingwistyka  |  PS_M_AROa  |  Words having more than mean arousal  |  Wyrazy posiadające więcej niż średnie pobudzenie (arousal)
-148  |  Psycholingwistyka  |  PS_M_AROb  |  Words having less than mean arousal  |  Wyrazy posiadające mniej niż średnie pobudzenie (arousal)
-149  |  Psycholingwistyka  |  PS_M_SIGa  |  Words having more than mean significance  |  Wyrazy posiadające więcej niż średnie znaczenie (significance)
-150  |  Psycholingwistyka  |  PS_M_SIGb  |  Words having less than mean significance  |  Wyrazy posiadające mniej niż średnie znaczenie (significance)
+139  |  Psycholinguistics  |  PS_M_POSa  |  Words having more than mean positivity  |  Wyrazy posiadające więcej niż średnią pozytywność (POSITIVITY)
+140  |  Psycholinguistics  |  PS_M_POSb  |  Words having less than mean positivity  |  Wyrazy posiadające mniej niż średnią pozytywność (POSITIVITY)
+141  |  Psycholinguistics  |  PS_M_NEGa  |  Words having more than mean negativity  |  Wyrazy posiadające więcej niż średnią negatywność (NEGATIVITY)
+142  |  Psycholinguistics  |  PS_M_NEGb  |  Words having less than mean negativity  |  Wyrazy posiadające mniej niż średnią negatywność (NEGATIVITY)
+143  |  Psycholinguistics  |  PS_M_REFa  |  Words having more than mean reflectiveness  |  Wyrazy posiadające więcej niż średnią refleksyjność (REFLECTIVENESS)
+144  |  Psycholinguistics  |  PS_M_REFb  |  Words having less than mean reflectiveness  |  Wyrazy posiadające mniej niż średnią refleksyjność (REFLECTIVENESS)
+145  |  Psycholinguistics  |  PS_M_AUTa  |  Words having more than mean automaticity  |  Wyrazy posiadające więcej niż średnią automatyczność (AUTOMATICITY)
+146  |  Psycholinguistics  |  PS_M_AUTb  |  Words having less than mean automaticity  |  Wyrazy posiadające mniej niż średnią automatyczność (AUTOMATICITY)
+147  |  Psycholinguistics  |  PS_M_AROa  |  Words having more than mean arousal  |  Wyrazy posiadające więcej niż średnie pobudzenie (arousal)
+148  |  Psycholinguistics  |  PS_M_AROb  |  Words having less than mean arousal  |  Wyrazy posiadające mniej niż średnie pobudzenie (arousal)
+149  |  Psycholinguistics  |  PS_M_SIGa  |  Words having more than mean significance  |  Wyrazy posiadające więcej niż średnie znaczenie (significance)
+150  |  Psycholinguistics  |  PS_M_SIGb  |  Words having less than mean significance  |  Wyrazy posiadające mniej niż średnie znaczenie (significance)
 151  |  Punctuation  |  PUNCT_TOTAL  |  Total punctuation  |  Interpunkcja
 152  |  Punctuation  |  PUNCT_BI_NOUN  |  Punctuation following a noun  |  Interpunkcja po rzeczowniku
 153  |  Punctuation  |  PUNCT_BI_VERB  |  Punctuation following a verb  |  Interpunkcja po czasowniku

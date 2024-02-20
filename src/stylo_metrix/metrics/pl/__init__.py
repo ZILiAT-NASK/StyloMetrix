@@ -21,11 +21,11 @@ class PlLang(Lang):
     spacy_model = "pl_nask"
 
 
-from .descriptive import *
 from .grammatical_forms import *
-from .graphical import *
 from .inflection import *
+from .syntactic import *
+from .punctuation import *
 from .lexis import *
 from .psycholinguistics import *
-from .punctuation import *
-from .syntactic import *
+from .descriptive import *
+from .graphical import *

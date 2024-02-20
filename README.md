@@ -118,7 +118,7 @@ print(metrics)
 That's it! Find out about more usages and customization options in [notebook tutorial](examples/Tutorial.ipynb).
 
 ## 📈 Metrics
-We have put care into creating a set of powerful built-in metrics. See the list below ⬇. However, since flexibility is strength, we provide an esy way to create new metrics.
+We have put care into creating a set of powerful built-in metrics. See the list below ⬇. However, since flexibility is strength, we provide an easy way to create new metrics.
 
 **Polish** [(see full list)](resources/metrics_list_pl.md)
 
