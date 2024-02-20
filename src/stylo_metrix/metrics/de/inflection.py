@@ -1046,7 +1046,7 @@ class IN_V_AUX_MOD_FIN(Metric):
 class IN_V_INF(Metric):
     category = Inflection
     name_en = "Infinitive verbs"
-    name_local = "Infinite Verbformen"
+    name_local = "Infinitive Verbformen"
 
     def count(doc):
         debug = [token.text for token in doc if "VerbForm=Inf" in token.morph]

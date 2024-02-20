@@ -7,7 +7,7 @@
 Zakład Inżynierii Lingwistycznej i Analizy Tekstu, NASK PIB 
 
 ## 📌 Quick
-💡 Stylometry tool in beta version for **Polish**, **English** and **Ukrainian** language, distributed as a **Python package**
+💡 Stylometry tool in beta version for **English**, **German**, **Polish**, **Russian** and **Ukrainian** language, distributed as a **Python package**
 
 💡 [Tutorial notebook](examples/Tutorial.ipynb)
 
@@ -37,7 +37,7 @@ A StyloMetrix vector can be used as:
 
 The tool offers **customization of vectors** by selecting from built-in metrics or **creating new metrics** according to user's needs. We provide a user-friendly interface to support these tasks. See instructions below! ⬇
 
-Currently StyloMetrix is available for **Polish**, **English** and **Ukrainian** language! 
+Currently StyloMetrix is available for **English**, **German**, **Polish**, **Russian**  and **Ukrainian** language. 
 
 ## 📢 Release
 Our most recent release is:
@@ -49,6 +49,8 @@ Our most recent release is:
 - German language in beta version
 - Russian language in beta version
 - Ukrainian language in beta version
+
+Please notice that support for **Russian** and **Ukrainian** languages will no longer be available.
 
 <details>
 <summary><b>Previous releases</b> ⌛</summary>

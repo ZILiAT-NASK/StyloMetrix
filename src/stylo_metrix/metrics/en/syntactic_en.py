@@ -402,7 +402,7 @@ class SY_INVERSE_PATTERNS(Metric):
         return result, debug
 
 
-class FOS_SIMILE(Metric):
+class SY_SIMILE(Metric):
     category = Syntactic
     name_en = "Simile"
     name_local = name_en
@@ -433,7 +433,7 @@ class FOS_SIMILE(Metric):
         return result, debug
 
 
-class FOS_FRONTING(Metric):
+class SY_FRONTING(Metric):
     category = Syntactic
     name_en = "Fronting"
     name_local = name_en
@@ -460,7 +460,7 @@ class FOS_FRONTING(Metric):
         return result, debug
 
 
-class PS_SYNTACTIC_IRRITATION(Metric):
+class SY_IRRITATION(Metric):
     category = Syntactic
     name_en = "Incidents of continuous tenses as irritation markers"
     name_local = name_en

@@ -27,7 +27,7 @@ class Statistics(Category):
     name_local = name_en
 
 
-class L_TYPE_TOKEN_RATIO_LEMMAS(Metric):
+class ST_TYPE_TOKEN_RATIO_LEMMAS(Metric):
     category = Statistics
     name_en = "Type-token ratio for words lemmas"
     name_local = name_en
@@ -38,7 +38,7 @@ class L_TYPE_TOKEN_RATIO_LEMMAS(Metric):
         return result, {}
 
 
-class HERDAN_TTR(Metric):
+class ST_HERDAN_TTR(Metric):
     category = Statistics
     name_en = "Herdan's TTR"
     name_local = name_en
@@ -58,7 +58,7 @@ class HERDAN_TTR(Metric):
             return 0.0, {}
 
 
-class MASS_TTR(Metric):
+class ST_MASS_TTR(Metric):
     category = Statistics
     name_en = "Mass TTR"
     name_local = name_en
@@ -83,7 +83,7 @@ class MASS_TTR(Metric):
             return 0.0, {}
 
 
-class SENT_ST_WRDSPERSENT(Metric):
+class ST_SENT_WRDSPERSENT(Metric):
     category = Statistics
     name_en = "Difference between the number of words and the number of sentences"
     name_local = name_en
@@ -107,7 +107,7 @@ The algorithme of counting statistical metrics is the following:
 """
 
 
-class SENT_ST_DIFFERENCE(Metric):
+class ST_SENT_DIFFERENCE(Metric):
     category = Statistics
     name_en = "Symmetric difference between nodes in sentences per doc"
     name_local = name_en
@@ -166,7 +166,7 @@ class ST_REPETITIONS_SENT(Metric):
         return result, {}
 
 
-class SENT_D_VP(Metric):
+class ST_SENT_D_VP(Metric):
     category = Statistics
     name_en = "Statistics between VPs"
     name_local = name_en
@@ -189,7 +189,7 @@ class SENT_D_VP(Metric):
         return result, {}
 
 
-class SENT_D_NP(Metric):
+class ST_SENT_D_NP(Metric):
     category = Statistics
     name_en = "Statistics between NPs"
     name_local = name_en
@@ -212,7 +212,7 @@ class SENT_D_NP(Metric):
         return result, {}
 
 
-class SENT_D_PP(Metric):
+class ST_SENT_D_PP(Metric):
     category = Statistics
     name_en = "Statistics between PPs"
     name_local = name_en
@@ -240,7 +240,7 @@ class SENT_D_PP(Metric):
         return result, {}
 
 
-class SENT_D_ADJP(Metric):
+class ST_SENT_D_ADJP(Metric):
     category = Statistics
     name_en = "Statistics between ADJPs"
     name_local = name_en
@@ -268,7 +268,7 @@ class SENT_D_ADJP(Metric):
         return result, {}
 
 
-class SENT_D_ADVP(Metric):
+class ST_SENT_D_ADVP(Metric):
     category = Statistics
     name_en = "Statistics between ADVPs"
     name_local = name_en

@@ -735,7 +735,8 @@ class IN_V_MOD(Metric):
         debug = [
             token.text
             for token in doc
-            if token.lemma_ in ["chcieć", "musieć", "móc", "umieć", "potrafić"]
+            if token.lemma_
+            in ["chcieć", "musieć", "móc", "umieć", "potrafić", "powinien"]
             or "VerbType=Mod" in token.morph
         ]
         result = len(debug)
