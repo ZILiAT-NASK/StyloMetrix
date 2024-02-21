@@ -27,6 +27,7 @@ jobs:
         sed -i "s/{{VERSION_PLACEHOLDER}}/${{ steps.tag.outputs.TAG_NAME }}/g" setup.cfg
     - name: Build a binary wheel
       run: >-
+        pip install build
         python -m build
     - name: Publish distribution 📦 to PyPI
       uses: pypa/gh-action-pypi-publish@master
