@@ -215,22 +215,21 @@ class SY_MOD(Metric):
         mod_tags = ["amod", "nmod", "nmod:arg", "acl", "appos", "det", "det:poss"]
         nouns = [token for token in doc if token.pos_ in ["NOUN", "PROPN"]]
         children_mods = [
-            [ch for ch in list(noun.children) if ch.dep_ in mod_tags] for noun in nouns
+            [ch for ch in noun.children if ch.dep_ in mod_tags] for noun in nouns
         ]
-        mods_heads = sum(children_mods, [])
-        mods_not_part_of_subtree = []
-        for mod in mods_heads:
-            list_without_current = [m for m in mods_heads if m is not mod]
-            subtrees = [list(mod.subtree) for mod in list_without_current]
-            subtrees_list = sum(subtrees, [])
-            if mod not in subtrees_list:
-                mods_not_part_of_subtree.append(mod)
-        debug = [
-            [el.text for el in list(head.subtree)] for head in mods_not_part_of_subtree
+        children_mods = sum(children_mods, [])
+        mods_extra = [
+            [
+                item
+                for item in list(ch.children)
+                if item.dep_ in ["conj", "advmod", "advmod:neg", "case", "obj"]
+            ]
+            for ch in children_mods
         ]
-        sum_subtrees = sum(debug, [])
-        result = ratio(len(sum_subtrees), len(doc))
-        return result, debug
+        mods_extra = sum(mods_extra, [])
+        debug = [token.text for token in doc if token in children_mods + mods_extra]
+        result = len(debug)
+        return ratio(result, len(doc)), debug
 
 
 class SY_NPHR(Metric):
@@ -239,20 +238,53 @@ class SY_NPHR(Metric):
     name_local = "Wyrazy we frazach nominalnych"
 
     def count(doc):
-        nouns = [token for token in doc if token.pos_ in ["NOUN", "PROPN"]]
-        nouns_not_part_of_subtree = []
-        for noun in nouns:
-            list_without_current = [n for n in nouns if n is not noun]
-            subtrees = [list(noun.subtree) for noun in list_without_current]
-            subtrees_list = sum(subtrees, [])
-            if noun not in subtrees_list:
-                nouns_not_part_of_subtree.append(noun)
-        debug = [
-            [word.text for word in list(noun.subtree)]
-            for noun in nouns_not_part_of_subtree
+
+        mod_tags = [
+            "amod",
+            "nmod",
+            "nmod:arg",
+            "acl",
+            "appos",
+            "det",
+            "det:poss",
+            "conj",
         ]
-        sum_subtrees = sum(debug, [])
-        result = ratio(len(sum_subtrees), len(doc))
+        nouns = [token for token in doc if token.pos_ in ["NOUN", "PROPN"]]
+        children_mods = [
+            [ch for ch in noun.children if ch.dep_ in mod_tags] for noun in nouns
+        ]
+        children_mods = sum(children_mods, [])
+        mods_extra = [
+            [
+                item
+                for item in list(ch.children)
+                if item.dep_ in ["conj", "advmod", "advmod:neg", "case", "obj"]
+            ]
+            for ch in children_mods
+        ]
+        mods_extra = sum(mods_extra, [])
+        extra_heads = [mod.head for mod in mods_extra]
+        debug = []
+        for mod in children_mods:
+            current_item = [mod.head]
+            if mod.head in sum(debug, []):
+                idx = [mod.head in item for item in debug].index(True)
+                current_item = debug[idx]
+                debug.pop(idx)
+
+            if mod in extra_heads:
+                current_extra = [mod_ for mod_ in mods_extra if mod_.head == mod]
+                ccon = [
+                    [item for item in token.children if item.dep_ == "cc"]
+                    for token in current_extra
+                ]
+                ccon = sum(ccon, [])
+                debug.append(current_item + [mod] + ccon + current_extra)
+            else:
+                debug.append(current_item + [mod])
+
+        sum_debug = sum(debug, [])
+        result = ratio(len(sum_debug), len(doc))
         return result, debug
 
 
