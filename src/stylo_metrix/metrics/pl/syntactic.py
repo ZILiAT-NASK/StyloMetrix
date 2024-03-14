@@ -285,7 +285,7 @@ class SY_NPHR(Metric):
 
         sum_debug = sum(debug, [])
         result = ratio(len(sum_debug), len(doc))
-        return result, debug
+        return result, [[item.text for item in list_] for list_ in debug]
 
 
 class SY_INV_OBJ(Metric):

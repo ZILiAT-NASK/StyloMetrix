@@ -141,13 +141,17 @@ class TestSyntacticPL(unittest.TestCase):
 
     def test_SY_MOD(self):
         metric = "SY_MOD"
-        test_text = "Księga I. Gospodarstwo Księga ta rozpoczyna się inwokacją: “Litwo, Ojczyzno moja...”."
+        test_text = "Panno święta, co bronisz pięknej i sławnej Częstochowy i świecisz w zabytkowej i starej bramie wiekuistej światłości."
         expected_debug = [
-            ["Gospodarstwo"],
-            ["ta"],
-            ["“", "Litwo", ",", "Ojczyzno", "moja", ".", ".", ".", "”"],
+            "święta",
+            "pięknej",
+            "sławnej",
+            "zabytkowej",
+            "starej",
+            "wiekuistej",
+            "światłości",
         ]
-        expected_out = 0.55
+        expected_out = 0.3684210526315789
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
@@ -158,25 +162,13 @@ class TestSyntacticPL(unittest.TestCase):
 
     def test_SY_NPHR(self):
         metric = "SY_NPHR"
-        test_text = "Księga I. Gospodarstwo Księga ta rozpoczyna się inwokacją: “Litwo, Ojczyzno moja...”."
+        test_text = "Panno święta, co bronisz pięknej i sławnej Częstochowy i świecisz w zabytkowej i starej bramie wiekuistej światłości."
         expected_debug = [
-            ["Księga", "I", ".", "Gospodarstwo"],
-            ["Księga", "ta"],
-            [
-                "inwokacją",
-                ":",
-                "“",
-                "Litwo",
-                ",",
-                "Ojczyzno",
-                "moja",
-                ".",
-                ".",
-                ".",
-                "”",
-            ],
+            ["Panno", "święta"],
+            ["Częstochowy", "pięknej", "i", "sławnej"],
+            ["bramie", "zabytkowej", "i", "starej", "światłości", "wiekuistej"],
         ]
-        expected_out = 0.85
+        expected_out = 0.631578947368421
 
         out, debug = self.sm.transform([test_text])
         out = out[metric][0]
