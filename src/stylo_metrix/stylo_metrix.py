@@ -63,6 +63,7 @@ class StyloMetrix(BaseEstimator, TransformerMixin):
         super().__init__()
         self._debug = debug
         self._customization = nlp_customization
+        self._save_path = save_path
         self._save_step = save_step
         self.output_name = output_name
         self.debug_name = debug_name
@@ -119,12 +120,15 @@ class StyloMetrix(BaseEstimator, TransformerMixin):
             values.append(values_content)
             debugs.append(debugs_content)
 
-            if self._save_path and self._save_step and (i % (self._save_step - 1) == 0):
+            if self._save_path and self._save_step and (i % (self._save_step) == 0):
                 values_temp = pd.DataFrame(values, columns=columns + m_columns)
                 debugs_temp = pd.DataFrame(debugs, columns=columns + m_columns)
 
                 self._save(values_temp, self.output_name + f"{self._file_number}_temp")
-                self._save(debugs_temp, self.debug_name + f"{self._file_number}_temp")
+                if self._debug:
+                    self._save(
+                        debugs_temp, self.debug_name + f"{self._file_number}_temp"
+                    )
         columns = columns + m_columns
 
         values = pd.DataFrame(values, columns=columns)
@@ -225,5 +229,9 @@ class StyloMetrix(BaseEstimator, TransformerMixin):
             elif metric in metrics_df["metric_name"].values:
                 defined_metrics += metrics_df.loc[
                     metrics_df["metric_name"] == metric, "metric"
+                ].tolist()
+            elif metric in metrics_df["metric"].values:
+                defined_metrics += metrics_df.loc[
+                    metrics_df["metric"] == metric, "metric"
                 ].tolist()
         return MetricGroup(metrics=defined_metrics)
