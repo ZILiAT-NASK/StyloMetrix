@@ -141,7 +141,7 @@ class StyloMetrix(BaseEstimator, TransformerMixin):
             return values, debugs
         else:
             if self._save_path:
-                self._save(values)
+                self._save(values, self.output_name + f"{self._file_number}")
             return values
 
     def _save(self, value, base_name):

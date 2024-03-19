@@ -49,6 +49,8 @@ Our most recent release is:
 - German language in beta version
 - Russian language in beta version
 - Ukrainian language in beta version
+- Possibility to define metrics to use / categories of metrics as list of strings containing names.
+- Possibility to save intermediate steps so even if something crashes, you still have some of work saved.
 
 Please notice that support for **Russian** and **Ukrainian** languages will no longer be available.
 
@@ -116,6 +118,8 @@ print(metrics)
 3. Your results is now in `metrics` object.
 
 That's it! Find out about more usages and customization options in [notebook tutorial](examples/Tutorial.ipynb).
+
+Find out about using StyloMetrix in classification or in clustering in [example notebook](examples/Classification_with_StyloMetrix_English.ipynb)
 
 ## 📈 Metrics
 We have put care into creating a set of powerful built-in metrics. See the list below ⬇. However, since flexibility is strength, we provide an easy way to create new metrics.
