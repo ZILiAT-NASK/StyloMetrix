@@ -11,6 +11,8 @@ Zakład Inżynierii Lingwistycznej i Analizy Tekstu, NASK PIB
 
 💡 [Tutorial notebook](examples/Tutorial.ipynb)
 
+💡 [Notebook with example usage for classification and clustering with StyloMetrix](examples/Classification_with_StyloMetrix_English.ipynb)
+
 💡 List of built-in metrics for [Polish](resources/metrics_list_pl.md), [English](resources/metrics_list_en.md), [German](resources/metrics_list_de.md), [Ukrainian](resources/metrics_list_ukr.md), [Russian](resources/metrics_list_ru.md)
 
 ## 🔖 Citation
