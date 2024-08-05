@@ -148,6 +148,8 @@ We have put care into creating a set of powerful built-in metrics. See the list 
 ## 📪 Contact
 Zakład Inżynierii Lingwistycznej i Analizy Tekstu, Naukowa i Akademicka Sieć Komputerowa – Państwowy Instytut Badawczy 
 
-**Inez Okulska** inez.okulska@nask.pl | ziliat@nask.pl
+**Anna Kołos** anna.kołos@nask.pl 
+**Agnieszka Karlińska** agnieszka.karlinska@nask.pl
+ziliat@nask.pl
 
 Copyright (C) 2024  NASK PIB
